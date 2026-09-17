@@ -1,0 +1,174 @@
+{
+  "sets": [
+    {
+      "seed": 1901,
+      "iteration": 1,
+      "pooled_variance": [
+        0.00010581109175583319,
+        0.00039059490326922533
+      ],
+      "grouped_variance": [
+        0.00013608365199387046,
+        0.000487665125747964
+      ],
+      "identical_replica_winners": 6,
+      "pooled_half_winner_agreement": false,
+      "pooled_leave_replica_out_delta": 0.003363799481246645,
+      "grouped_half_winner_agreement": false,
+      "grouped_leave_replica_out_delta": 0.003363799481246645
+    },
+    {
+      "seed": 1901,
+      "iteration": 6,
+      "pooled_variance": [
+        7.291234102755992e-05,
+        0.0002777591576514576
+      ],
+      "grouped_variance": [
+        0.00014128237137242067,
+        0.0003244155794057321
+      ],
+      "identical_replica_winners": 6,
+      "pooled_half_winner_agreement": false,
+      "pooled_leave_replica_out_delta": 0.00140665882777386,
+      "grouped_half_winner_agreement": false,
+      "grouped_leave_replica_out_delta": 0.00140665882777386
+    },
+    {
+      "seed": 1901,
+      "iteration": 12,
+      "pooled_variance": [
+        0.00022096000969919286,
+        0.00019507810593737146
+      ],
+      "grouped_variance": [
+        0.0003039532768716327,
+        0.00023875842106302797
+      ],
+      "identical_replica_winners": 4,
+      "pooled_half_winner_agreement": false,
+      "pooled_leave_replica_out_delta": 0.0011159335554312476,
+      "grouped_half_winner_agreement": false,
+      "grouped_leave_replica_out_delta": 0.005989784319657222
+    },
+    {
+      "seed": 2718,
+      "iteration": 1,
+      "pooled_variance": [
+        0.0005367089447441475,
+        0.00012143583226405953
+      ],
+      "grouped_variance": [
+        0.0004312818425617871,
+        5.472707732137439e-05
+      ],
+      "identical_replica_winners": 6,
+      "pooled_half_winner_agreement": false,
+      "pooled_leave_replica_out_delta": 0.0042539715872682475,
+      "grouped_half_winner_agreement": false,
+      "grouped_leave_replica_out_delta": 0.0042539715872682475
+    },
+    {
+      "seed": 2718,
+      "iteration": 6,
+      "pooled_variance": [
+        0.0005822261989840771,
+        0.0004180057279084666
+      ],
+      "grouped_variance": [
+        0.0004984829444507414,
+        0.0003236278980207728
+      ],
+      "identical_replica_winners": 6,
+      "pooled_half_winner_agreement": false,
+      "pooled_leave_replica_out_delta": -0.0014749006021501012,
+      "grouped_half_winner_agreement": false,
+      "grouped_leave_replica_out_delta": -0.0014749006021501012
+    },
+    {
+      "seed": 2718,
+      "iteration": 12,
+      "pooled_variance": [
+        0.00020931869867961642,
+        0.00019680628415497695
+      ],
+      "grouped_variance": [
+        0.0003275098080815261,
+        0.0003154055070354937
+      ],
+      "identical_replica_winners": 5,
+      "pooled_half_winner_agreement": true,
+      "pooled_leave_replica_out_delta": -0.008642741051391529,
+      "grouped_half_winner_agreement": true,
+      "grouped_leave_replica_out_delta": -0.006126153156356676
+    },
+    {
+      "seed": 3141,
+      "iteration": 1,
+      "pooled_variance": [
+        0.000399342196664397,
+        1.3960027674687168e-05
+      ],
+      "grouped_variance": [
+        0.0004892575972945791,
+        3.959199002218739e-05
+      ],
+      "identical_replica_winners": 6,
+      "pooled_half_winner_agreement": false,
+      "pooled_leave_replica_out_delta": 0.002245506369232149,
+      "grouped_half_winner_agreement": false,
+      "grouped_leave_replica_out_delta": 0.002245506369232149
+    },
+    {
+      "seed": 3141,
+      "iteration": 6,
+      "pooled_variance": [
+        0.0009231419985953268,
+        0.0005679294307104472
+      ],
+      "grouped_variance": [
+        0.001042835058380998,
+        0.000682454618207862
+      ],
+      "identical_replica_winners": 4,
+      "pooled_half_winner_agreement": false,
+      "pooled_leave_replica_out_delta": -0.0036629178409947095,
+      "grouped_half_winner_agreement": false,
+      "grouped_leave_replica_out_delta": -0.007798720164575043
+    },
+    {
+      "seed": 3141,
+      "iteration": 12,
+      "pooled_variance": [
+        0.000300085800776577,
+        6.680907883009305e-05
+      ],
+      "grouped_variance": [
+        0.0002927768560445516,
+        7.559247609452222e-05
+      ],
+      "identical_replica_winners": 6,
+      "pooled_half_winner_agreement": true,
+      "pooled_leave_replica_out_delta": 0.00024010747946440016,
+      "grouped_half_winner_agreement": true,
+      "grouped_leave_replica_out_delta": 0.00024010747946440016
+    }
+  ],
+  "paired_comparisons": 18,
+  "pooled_lower_variance_comparisons": 13,
+  "mean_pooled_variance": 0.0003110492127404174,
+  "mean_grouped_variance": 0.0003447612277761691,
+  "ratio_of_mean_variances": 0.9022163389624581,
+  "pooled_vs_old_singleP4_variance_ratio": 0.3390456630932289,
+  "identical_replica_winners": 49,
+  "total_replica_winners": 54,
+  "half_winner_agreement": {
+    "pooled": 2,
+    "grouped": 2
+  },
+  "leave_replica_out_delta": {
+    "pooled": -0.00012828691045775438,
+    "grouped": 0.00023333934906230033
+  },
+  "note": "Equal trajectory budget only for pooled12 vsmean3x4. OldsingleP4 is3x cheaper/different RNG, descriptive scaling reference.6replicates per set; correlated candidate sets, no formal significance. Leave-replica-out decisions evaluated on pooled costs of other5replicas, not independent-video validation."
+}
