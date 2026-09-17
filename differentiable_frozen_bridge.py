@@ -96,3 +96,29 @@ def fixed_path(bridge,h,events,destinations,theta):
         y=bridge.execute(h,q,r)+theta
         out.append(y);h=torch.cat([h[:,1:],y[:,None]],1);q=r
     return torch.stack(out,1),logp
+
+
+def sampled_path(bridge,h,steps,theta,seed,trace=False):
+    """Match unchecked NumPy rollout, including continuing q/hidden after failure.
+
+    Sampling is detached; returned logp retains routing-state derivatives.
+    Hard failure decisions are not differentiable. This is not a proof of an
+    unbiased gradient across parameter-dependent failure boundaries.
+    """
+    from feedback_distribution_pilot import sample
+    q,hidden=bridge.initialize(h);rng=np.random.default_rng(seed)
+    dead=torch.zeros(len(h),dtype=torch.bool);logp=torch.zeros(len(h),dtype=h.dtype)
+    out=[];failures=[];records=[];i=torch.arange(len(h))
+    for _ in range(steps):
+        pe,T,hidden=bridge.read(h,q,hidden)
+        e=torch.tensor(sample(pe.detach().numpy(),rng.random(len(h))))
+        r=torch.tensor(sample(T[i,e].detach().numpy(),rng.random(len(h))))
+        logp=logp+torch.log(pe[i,e])+torch.log(T[i,e,r])
+        candidate=bridge.execute(h,q,r)+theta
+        dead=dead|(~torch.isfinite(candidate)).any(1)|((candidate-h[:,-1]).abs()>np.pi).any(1)
+        y=torch.where(dead[:,None],h[:,-1],candidate)
+        h=torch.cat([h[:,1:],y[:,None]],1);q=r
+        out.append(y);failures.append(dead)
+        if trace:records.append(dict(event=e.clone(),q=q.clone(),hidden=hidden.clone(),history=h.clone()))
+    return dict(prediction=torch.stack(out,1),failed=torch.stack(failures,1),logp=logp,
+                history=h,q=q,hidden=hidden,trace=records)

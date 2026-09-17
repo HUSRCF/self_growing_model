@@ -4,6 +4,8 @@
 
 ## 已授权的研究扩展
 
+可微桥接正常采样长路径审计：TRAINhold24/P8/300，固定新seed291017/291018，NumPy相同uniform抽样，比较正常轨迹、事件/q、失败掩码和hidden。严格复现原unchecked基线失败后位置固定但history滑动、q/hidden继续更新的行为，不误用积分writer全状态冻结语义。原atol1e-7门槛失败须如实记录，追踪累计漂移及评分差，不事后放宽门槛；不训练/DEV/TEST。
+
 真实F/GRU可微桥接审计：CPU float64冻结权重，移植summary特征、polynomial/MLP F、分区与GRU读/初始化。TRAIN10prefix各4历史共40，比较特征、全部64(q,r)候选、初始q/hidden及读概率；10步固定动作路径前向核对，连续两参数每步角偏置的路径损失与路径logprob梯度对有限差分。仅审计不训练，不称已处理硬失败守卫/所有非光滑边界；不DEV/TEST。
 
 完整混合梯度小例验证：2步/2事件/2q、含连续历史和递归hidden的冻结路由头，2维连续writer参数，穷举16路径及P3的4096联合粒子组合。U-energy精确期望梯度对照“路径导数+detach优势×路径logprob”的期望梯度、无基线及留一粒子基线、有限差分；另展示仅路径/仅score遗漏。参数取3个预定点，不训练真实模型、不读DEV/TEST。基线仅减score项且detach，整个路径对后续路由概率的依赖不得detach。

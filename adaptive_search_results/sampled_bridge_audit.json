@@ -1,0 +1,48 @@
+{
+  "results": [
+    {
+      "seed": 291017,
+      "max_abs_error": 9.483684948463633e-07,
+      "original_atol_1e_7_pass": false,
+      "count_above_1e_7": 242,
+      "action_mismatches": {
+        "event": 0,
+        "q": 0
+      },
+      "max_hidden_error": 3.742385360161471e-06,
+      "horizon_max_errors": {
+        "50": 5.184119800105691e-11,
+        "100": 4.4360604078974575e-10,
+        "300": 9.483684948463633e-07
+      },
+      "failed": 0,
+      "objective": 0.42463095024365655,
+      "bridge_objective": 0.42463095053636984,
+      "objective_delta": 2.92713298044589e-10
+    },
+    {
+      "seed": 291018,
+      "max_abs_error": 9.652716528307792e-07,
+      "original_atol_1e_7_pass": false,
+      "count_above_1e_7": 473,
+      "action_mismatches": {
+        "event": 0,
+        "q": 0
+      },
+      "max_hidden_error": 6.216750039755858e-06,
+      "horizon_max_errors": {
+        "50": 6.792788553866558e-11,
+        "100": 5.0024482334265485e-09,
+        "300": 9.652716528307792e-07
+      },
+      "failed": 0,
+      "objective": 0.43325594488229374,
+      "bridge_objective": 0.43325594750352714,
+      "objective_delta": 2.6212333970043744e-09
+    }
+  ],
+  "windows": 24,
+  "particles": 8,
+  "steps": 300,
+  "note": "TRAIN-prefix hold only; no fitting/DEV/TEST. Same NumPy uniforms, detached categorical draws. Original 1e-7 gate preserved as reported Boolean, not loosened after failure; traced actions diagnose drift. Synthetic tests cover continuing history/q/hidden after hard failure. Hard-boundary gradients unresolved."
+}
