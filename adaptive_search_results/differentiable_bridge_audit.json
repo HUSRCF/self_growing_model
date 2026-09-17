@@ -1,0 +1,42 @@
+{
+  "histories": 40,
+  "max_abs_errors": {
+    "continuous_features": 1.7763568394002505e-14,
+    "mlp_features": 6.522560269672795e-16,
+    "initial_hidden": 2.0650148258027912e-14,
+    "event": 5.440092820663267e-15,
+    "transition": 5.10702591327572e-15,
+    "read_hidden": 1.9012569296705806e-14,
+    "all_64_edges": 5.684341886080802e-14,
+    "ten_step_positions": 5.684341886080801e-13,
+    "ten_step_logprob": 1.0862422072932532e-12
+  },
+  "gradients": {
+    "path_loss": {
+      "autograd": [
+        -0.0410787457159517,
+        0.0470104545471976
+      ],
+      "finite_difference": [
+        -0.0410787419154895,
+        0.04701045347080659
+      ]
+    },
+    "path_logprob": {
+      "autograd": [
+        -46.4240450220251,
+        59.188503656077614
+      ],
+      "finite_difference": [
+        -46.424041553194684,
+        59.18849923070013
+      ]
+    }
+  },
+  "source_hashes": {
+    "/home/husrcf/Code/self_growing/v20_rnn_mixture/models/frozen_dynamics.json": "9ef425d170aba7883346e2e6c8314d0fc49beebdebe666a46981bb4ee47e9ab1",
+    "/home/husrcf/Code/self_growing/v20_rnn_mixture/models/gru_1901.npz": "ec772740c6814338a4eb68feff57c9a9bf7a3e83eb27999c61e2f3ae60dce17a"
+  },
+  "sources_unchanged": true,
+  "note": "CPUfloat64 frozenbridge,TRAIN10prefix40histories/all64edges,10step4normalNumPy fixedpaths. Forward tolerances not bitwise equivalence. No training/samplingpolicy replacement/DEV/TEST. Fixed-path derivatives checked away from guards; hard failure behavior and long sampled trajectories not yet ported/audited."
+}
