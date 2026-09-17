@@ -1,0 +1,62 @@
+{
+  "base_field_equality": {
+    "version": true,
+    "observer": true,
+    "stride": true,
+    "dt": true,
+    "warmup": true,
+    "partition": true,
+    "stencil": true,
+    "rules": true,
+    "local_rule": true
+  },
+  "source_sha256": {
+    "v20_complete/reference/q_old_mlp_poly_blend0.5.json": "3b12216f0470d2b2f109aba9ccf31ad7744460e64310af9a18eb19ff0218d738",
+    "v20_rnn_mixture/models/frozen_dynamics.json": "9ef425d170aba7883346e2e6c8314d0fc49beebdebe666a46981bb4ee47e9ab1",
+    "v20_complete/v19_models/old_weak_L8_o3_initialized_block.json": "2f8a11a92023fa189272db466081d8ab67327279c3b7c5429f6f3d797fde4fa9",
+    "v20_complete/v19_models/old_weak_learned_init_L8.json": "191e7ba5bf218352e10e9d1ab1537aae122b2bbb1fdd8728d379fe6ef2dae96f"
+  },
+  "sources_unchanged": true,
+  "histories": 208,
+  "initializer_feature_dimension": 137,
+  "legacy_initializer_dimension": 137,
+  "maximum_initializer_difference": 0.0,
+  "maximum_writer_difference": 0.0,
+  "maximum_next_velocity_difference": 0.0,
+  "event_read_unchanged": true,
+  "destination_effect": {
+    "current": {
+      "mean_destination_span_rad": 0.0023713647619244688,
+      "nonidentical_destination_histories": 208,
+      "event_conditional_mean_angle_variance": 7.10912654405959e-08
+    },
+    "legacy_local": {
+      "mean_destination_span_rad": 0.0004625551163028335,
+      "nonidentical_destination_histories": 208,
+      "event_conditional_mean_angle_variance": 3.0934049932449284e-09,
+      "event_conditional_mean_velocity_variance": 1.0670824162417456e-08
+    },
+    "legacy_shared": {
+      "mean_destination_span_rad": 0.0,
+      "nonidentical_destination_histories": 0,
+      "event_conditional_mean_angle_variance": 4.557501121409221e-28,
+      "event_conditional_mean_velocity_variance": 7.892870821057134e-34
+    }
+  },
+  "training_scope": {
+    "stored_weak_rows": 57925,
+    "full_train_weak_rows": 57925,
+    "all_train_prefix_weak_rows": 28674,
+    "fit10_prefix_weak_rows": 22003,
+    "stored_initializer_rows": 57977,
+    "full_train_initializer_rows": 57977
+  },
+  "units": {
+    "n": 57925,
+    "integral_rmse": 9.21866171633608e-05,
+    "centered_velocity_training_only": true,
+    "dt": 0.01,
+    "units": "radians_per_sample"
+  },
+  "note": "Compatibility audit only, no fitting/predictive DEV/TEST evaluation. Histories all TRAIN prefixes; fullTRAIN lengths used only for lineage counts. Legacy saved sample counts match all13fullTRAIN, not current10fitprefix protocol. Existing old-q partition/base identical; old class API needs bridge. Current GRU read untouched; event-conditional mean variation is not full mutual information/long-horizon necessity proof. Shared local_fraction0 removes immediate destination dependence. Do not deploy legacy weights as newly validated prefix-trained model."
+}
