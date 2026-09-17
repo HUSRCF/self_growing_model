@@ -57,11 +57,12 @@ class AdaptiveBeam:
                  check_weight=0.08, contradiction_weight=0.35,
                  widen_on_empty=False, soft_check=False, value_model=None, value_weight=1.,
                  min_stop_support=1, search_interval=1, uncertainty_gap=0., rule_cache_size=0,
-                 depth_invariant_temperature=False, shared_writer=False, boundary_repair=False, policy_adapter=None, commit_probe=False):
+                 depth_invariant_temperature=False, shared_writer=False, boundary_repair=False, policy_adapter=None, commit_probe=False, fast_probe=False):
         self.base = Dynamics()
         self.shared_writer = None
         self.boundary_repair = boundary_repair
         self.commit_probe = commit_probe
+        self.fast_probe = fast_probe
         if shared_writer:
             from shared_candidate_writer import SharedCandidateWriter
             self.shared_writer = SharedCandidateWriter(self.base)
@@ -165,7 +166,9 @@ class AdaptiveBeam:
             if len(self._rule_cache)>self.rule_cache_size:self._rule_cache.popitem(last=False)
         return value
 
-    def _expand(self, node, full=False):
+    def _expand(self, node, full=False, viability_only=False):
+        # Viability mode returns a singleton q witness (or []), not Nodes.
+        # Keep exactly the same batched F/checker inputs and cache behavior.
         self.audit['expansions'] += 1
         pe, trans, read_hidden = self._read(node)
         pairs = [(int(e), int(r)) for e in self._top(pe, len(pe) if full else self.event_top)
@@ -198,10 +201,12 @@ class AdaptiveBeam:
         if not keep.any():
             self.audit['empty_full' if full else 'empty_narrow'] += 1
             if self.widen_on_empty and not full:
-                expanded = self._expand(node, full=True)
+                expanded = self._expand(node, full=True, viability_only=viability_only)
                 self.audit['rescued'] += int(bool(expanded))
                 return expanded
             return []
+        if viability_only:
+            return [int(rs[np.flatnonzero(keep)[0]])]
         nh_all = np.concatenate([histories[:, 1:, :], ys[:, None, :]], axis=1)
         diagnosed = self.base.state_from_history(nh_all)[0]
         out = []
@@ -301,12 +306,13 @@ class AdaptiveBeam:
                 chosen = int(np.nanargmax(vals))
             if not self.commit_probe or depth_done>1:break
             self.audit['viability_probes']+=1
-            children=self._expand(roots[chosen])
+            probe_kwargs={'viability_only':True} if self.fast_probe else {}
+            children=self._expand(roots[chosen],**probe_kwargs)
             if not children:
                 self.audit['viability_full_probes']+=1
-                children=self._expand(roots[chosen],full=True)
+                children=self._expand(roots[chosen],full=True,**probe_kwargs)
             if children:
-                witness_q=int(children[0].q)
+                witness_q=int(children[0] if self.fast_probe else children[0].q)
                 break
             # No e-specific commit state: equal root q has the same future.
             # Remove those roots locally, without changing parent GRU memory.
@@ -395,7 +401,8 @@ def make_searcher(args):
                             rule_cache_size=args.rule_cache_size,
                             depth_invariant_temperature=args.depth_invariant_temperature,
                             shared_writer=args.shared_writer,boundary_repair=args.boundary_repair,
-                            policy_adapter=getattr(args,'policy_adapter',None),commit_probe=getattr(args,'commit_probe',False))
+                            policy_adapter=getattr(args,'policy_adapter',None),commit_probe=getattr(args,'commit_probe',False),
+                            fast_probe=getattr(args,'fast_probe',False))
 
 
 def run_window(task):
@@ -471,6 +478,7 @@ def main():
     ap.add_argument('--boundary-repair',action='store_true')
     ap.add_argument('--policy-adapter')
     ap.add_argument('--commit-probe',action='store_true')
+    ap.add_argument('--fast-probe',action='store_true',help='Skip unused child diagnostics and scoring in commit probes')
     ap.add_argument('--seed',type=int,default=1729)
     ap.add_argument('--min-depth',type=int,default=2)
     ap.add_argument('--max-depth',type=int,default=4)

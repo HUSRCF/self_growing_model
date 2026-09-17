@@ -1,4 +1,5 @@
 import unittest
+from types import SimpleNamespace
 from dataclasses import replace
 import numpy as np
 from adaptive_search_prototype import AdaptiveBeam,Node
@@ -54,6 +55,30 @@ class CommitProbeTests(unittest.TestCase):
         node,info=s.search(self.h,0,self.hidden,np.random.default_rng(1),allow_lookahead=True)
         self.assertIsNotNone(node);self.assertEqual(s.audit['viability_probes'],0)
         self.assertTrue(info['viability_checked'])
+
+    def test_fast_witness_matches_first_child_without_diagnosis(self):
+        for soft in [False,True]:
+            s=AdaptiveBeam(soft_check=soft)
+            s._read=lambda node:(np.array([.6,.4]),np.array([[.9,.1],[.1,.9]]),self.hidden)
+            s._execute_candidates=lambda *args:np.zeros((4,2))
+            s.checker=SimpleNamespace(reject=lambda *args:(np.array([True,False,False,False]),np.array([np.inf,0.,0.,0.])))
+            s.base.state_from_history=lambda h:(np.zeros(len(h),dtype=int),None)
+            node=self.root(0,1)
+            expected=s._expand(node)[0].q
+            def forbidden(*args):raise AssertionError('unused q diagnosis executed')
+            s.base.state_from_history=forbidden
+            self.assertEqual(s._expand(node,viability_only=True),[expected])
+
+    def test_fast_probe_empty_and_widening_preserve_witness_type(self):
+        s=AdaptiveBeam(event_top=1,next_top=1,widen_on_empty=True)
+        s._read=lambda node:(np.array([.6,.4]),np.array([[.9,.1],[.1,.9]]),self.hidden)
+        s._execute_candidates=lambda h,q,rs:np.zeros((len(rs),2))
+        s.checker=SimpleNamespace(reject=lambda left,middle,y,q:(np.arange(len(y))==0,np.zeros(len(y))))
+        s.base.state_from_history=lambda *args: (_ for _ in ()).throw(AssertionError('diagnosis'))
+        self.assertEqual(s._expand(self.root(0,1),viability_only=True),[1])
+        self.assertEqual(s.audit['rescued'],1)
+        s._execute_candidates=lambda h,q,rs:np.full((len(rs),2),np.nan)
+        self.assertEqual(s._expand(self.root(0,1),viability_only=True),[])
 
 
 if __name__=='__main__':unittest.main()

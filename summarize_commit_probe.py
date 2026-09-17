@@ -11,6 +11,8 @@ def main():
     modes=['sparse','probe','full']
     cache_paths=[root/f'adapted_probe_cache_model{m}.json' for m in [0,1901,2718,3141]]
     if all(p.exists() and len(json.loads(p.read_text())['runs'])==3 for p in cache_paths):modes.append('probe_cache')
+    fast_paths=[root/f'adapted_probe_fast_model{m}.json' for m in [0,1901,2718,3141]]
+    if all(p.exists() and len(json.loads(p.read_text())['runs'])==3 for p in fast_paths):modes.append('probe_fast')
     for mode in modes:
         docs=[json.loads((root/f'adapted_{mode}_model{m}.json').read_text()) for m in [0,1901,2718,3141]]
         dest=dict(per_model={});out['modes'][mode]=dest
@@ -21,10 +23,18 @@ def main():
                 seed=r['seed'];a=np.load(root/f'adapted_{mode}_model{m}_roll{seed}.npz')
                 ref=np.load(root/f'adapted_sparse_model0_roll{seed}.npz')
                 for k in ['truth','video','window_start']:np.testing.assert_array_equal(a[k],ref[k])
-                if mode=='probe_cache':
+                if mode in ('probe_cache','probe_fast'):
                     reference=np.load(root/f'adapted_probe_model{m}_roll{seed}.npz')
                     for k in ['prediction','failed','states','boundary']:np.testing.assert_array_equal(a[k],reference[k])
                     out['cache_bitwise_equal']=True
+                    if mode=='probe_fast':
+                        old=json.loads((root/f'adapted_probe_cache_model{m}.json').read_text())
+                        old_run=next(x for x in old['runs'] if x['seed']==seed)
+                        assert r['verification']==old_run['verification']
+                        for k,v in r['stats'].items():
+                            if k!='cpu_seconds':assert v==old_run['stats'][k],(m,seed,k)
+                        out['fast_probe_bitwise_equal']=True
+                        out['fast_probe_counters_equal']=True
                 end_failures+=int(a['failed'][:,:,-1].sum())
             dest['per_model'][str(m)]=dict(score=aggregate(runs),failed_endpoints=end_failures,total_particles=768,
                 cpu_seconds=float(np.mean([r['stats']['cpu_seconds'] for r in runs])),

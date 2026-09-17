@@ -54,7 +54,8 @@ def sparse_window(task):
     mode=extra[0] if extra else 'sparse'
     search=AdaptiveBeam(min_depth=2,max_depth=2,temperature=1,search_interval=1 if mode=='full' else 5,
              depth_invariant_temperature=True,shared_writer=True,boundary_repair=True,policy_adapter=manifest,
-             commit_probe=mode in ('probe','probe_cache'),rule_cache_size=4096 if mode=='probe_cache' else 0)
+             commit_probe=mode in ('probe','probe_cache','probe_fast'),
+             rule_cache_size=4096 if mode in ('probe_cache','probe_fast') else 0,fast_probe=mode=='probe_fast')
     raw,fail,diag=rollout(search,history[None],301,particles=8,seed=seed+i,rollback_budget=300,rollback_window=2)
     pred,failed,boundary=checked_prefix(raw,fail,history[None],300)
     states=np.full((1,8,301),-1,dtype=int)
@@ -70,7 +71,7 @@ def sparse_window(task):
 
 def main():
     p=argparse.ArgumentParser();p.add_argument('--model-seed',type=int,default=0)
-    p.add_argument('--mode',choices=['checked','sparse','probe','probe_cache','full'],default='checked');p.add_argument('--workers',type=int,default=4)
+    p.add_argument('--mode',choices=['checked','sparse','probe','probe_cache','probe_fast','full'],default='checked');p.add_argument('--workers',type=int,default=4)
     args=p.parse_args();root=Path('adaptive_search_results')
     manifest=None if args.model_seed==0 else str(root/f'windows_uniform_seed{args.model_seed}_search_adapter.json')
     w=tail_windows('dev',300,8);runs=[]

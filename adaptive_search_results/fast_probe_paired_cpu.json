@@ -1,0 +1,89 @@
+{
+  "rows": [
+    {
+      "repeat": 0,
+      "window": 0,
+      "order": [
+        "probe_cache",
+        "probe_fast"
+      ],
+      "cache_cpu": 5.070268261000001,
+      "fast_cpu": 4.897699834999999
+    },
+    {
+      "repeat": 0,
+      "window": 8,
+      "order": [
+        "probe_fast",
+        "probe_cache"
+      ],
+      "cache_cpu": 5.039503299,
+      "fast_cpu": 4.923093904
+    },
+    {
+      "repeat": 0,
+      "window": 16,
+      "order": [
+        "probe_cache",
+        "probe_fast"
+      ],
+      "cache_cpu": 5.053915384,
+      "fast_cpu": 5.0052764650000015
+    },
+    {
+      "repeat": 0,
+      "window": 24,
+      "order": [
+        "probe_fast",
+        "probe_cache"
+      ],
+      "cache_cpu": 4.980369977000002,
+      "fast_cpu": 4.8405523819999985
+    },
+    {
+      "repeat": 1,
+      "window": 0,
+      "order": [
+        "probe_fast",
+        "probe_cache"
+      ],
+      "cache_cpu": 5.056810505000001,
+      "fast_cpu": 5.208977883999999
+    },
+    {
+      "repeat": 1,
+      "window": 8,
+      "order": [
+        "probe_cache",
+        "probe_fast"
+      ],
+      "cache_cpu": 5.025405743,
+      "fast_cpu": 4.963515409000003
+    },
+    {
+      "repeat": 1,
+      "window": 16,
+      "order": [
+        "probe_fast",
+        "probe_cache"
+      ],
+      "cache_cpu": 5.060548287999993,
+      "fast_cpu": 4.904246127
+    },
+    {
+      "repeat": 1,
+      "window": 24,
+      "order": [
+        "probe_cache",
+        "probe_fast"
+      ],
+      "cache_cpu": 5.0023363849999924,
+      "fast_cpu": 4.903969016999994
+    }
+  ],
+  "outputs_and_search_counters_exact": true,
+  "cache_cpu_sum": 40.28915784199999,
+  "fast_cpu_sum": 39.64733102299999,
+  "reduction_fraction": 0.015930509679974336,
+  "note": "Two alternating repeats of four fixed DEV windows, original policy, seed1729,8particles. CPU sums include unchanged independent checker verification. Paired speed diagnostic, not independent accuracy replication."
+}
