@@ -7,6 +7,38 @@ from v20_rnn_mixture.engine.data import tail_windows
 
 
 class PrototypeTests(unittest.TestCase):
+    def test_revision_window_blocks_crossing_committed_frontier(self):
+        class Chain:
+            def __init__(self):self.machine=self
+            def initialize(self,h):return np.array([0]),{'hidden':np.zeros((1,1))}
+            def search(self,h,q,hidden,rng,check_root=True,banned_q=(),allow_lookahead=True):
+                info=dict(depth=1,roots=1,stable=False,root_gap=None)
+                if q==2 or (q==1 and 2 in banned_q):return None,info
+                r=(3 if 1 in banned_q else 1) if q==0 else (2 if q==1 else 3)
+                nh=np.concatenate([h[:,1:],np.full((1,1,2),r)],1)
+                return Node(nh,r,hidden+1,1,0,0,r,0,r),info
+        h=np.zeros((1,32,2))
+        p,f,d=rollout(Chain(),h,3,particles=1,rollback_budget=10,rollback_window=1)
+        np.testing.assert_array_equal(p[0,0,0],np.array([1.,1.]))
+        self.assertTrue(f[0,0,1:].all())
+        self.assertLessEqual(max(x['rollback_distance'] for x in d),1)
+        p,f,d=rollout(Chain(),h,3,particles=1,rollback_budget=10,rollback_window=2)
+        self.assertFalse(f.any())
+        np.testing.assert_array_equal(p,np.full((1,1,3,2),3.))
+        self.assertEqual(max(x['rollback_distance'] for x in d),2)
+
+    def test_shared_writer_matches_all_q_pairs(self):
+        from shared_candidate_writer import SharedCandidateWriter
+        search=AdaptiveBeam(); writer=SharedCandidateWriter(search.base)
+        rng=np.random.default_rng(1941)
+        for raw in tail_windows('dev',10,1)['history']:
+            for noise in [0.,.001]:
+                h=raw[None]+noise*rng.normal(size=(1,32,2))
+                rs=np.arange(search.base.k)
+                for q in range(search.base.k):
+                    expected=search.base.execute_rule(np.repeat(h,len(rs),axis=0),np.full(len(rs),q),rs)
+                    np.testing.assert_allclose(writer.execute(h,q,rs),expected,rtol=1e-12,atol=1e-12)
+
     def test_temperature_matching_preserves_root_prior_scale(self):
         h=np.zeros((1,32,2)); hidden=np.zeros((1,32))
         search=AdaptiveBeam(min_depth=2,max_depth=2,temperature=1,depth_invariant_temperature=True)
@@ -64,8 +96,16 @@ class PrototypeTests(unittest.TestCase):
         self.assertFalse(failed.any())
         np.testing.assert_array_equal(pred, np.full((1,1,3,2),2.))
         self.assertEqual(sum(d['rollback'] for d in diag),1)
+        self.assertEqual(max(d['rollback_distance'] for d in diag),1)
+        self.assertEqual(sum(d['rewritten'] for d in diag),1)
+        self.assertEqual(max(d.get('step_revision_count',0) for d in diag),1)
         _,failed,_=rollout(Fake(),h,3,particles=1,rollback_budget=0)
         self.assertTrue(failed[0,0,1:].all())
+        _,failed,_=rollout(Fake(),h,3,particles=1,rollback_budget=2,rollback_window=0)
+        self.assertTrue(failed[0,0,1:].all())
+        _,failed,diag=rollout(Fake(),h,3,particles=1,rollback_budget=2,rollback_window=1)
+        self.assertFalse(failed.any())
+        self.assertLessEqual(max(d['rollback_distance'] for d in diag),1)
 
     def test_support_stop_counts_unique_q_paths(self):
         h = np.zeros((1,32,2)); hidden = np.zeros((1,32))

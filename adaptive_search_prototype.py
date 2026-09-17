@@ -57,8 +57,12 @@ class AdaptiveBeam:
                  check_weight=0.08, contradiction_weight=0.35,
                  widen_on_empty=False, soft_check=False, value_model=None, value_weight=1.,
                  min_stop_support=1, search_interval=1, uncertainty_gap=0., rule_cache_size=0,
-                 depth_invariant_temperature=False):
+                 depth_invariant_temperature=False, shared_writer=False):
         self.base = Dynamics()
+        self.shared_writer = None
+        if shared_writer:
+            from shared_candidate_writer import SharedCandidateWriter
+            self.shared_writer = SharedCandidateWriter(self.base)
         self.machine = EventMachine(self.base, Path(__file__).resolve().parent /
                                     "v20_rnn_mixture" / "models" / checkpoint)
         self.checker = MixtureChecker(checker, alpha)
@@ -147,7 +151,8 @@ class AdaptiveBeam:
             value=self._rule_cache.pop(key); self._rule_cache[key]=value
             return value
         self.audit['rule_cache_misses'] += 1
-        value=self.base.execute_rule(np.repeat(history,len(rs),axis=0),np.full(len(rs),q,dtype=int),rs)
+        value=(self.shared_writer.execute(history,q,rs) if self.shared_writer is not None else
+               self.base.execute_rule(np.repeat(history,len(rs),axis=0),np.full(len(rs),q,dtype=int),rs))
         if key is not None:
             value.setflags(write=False)
             self._rule_cache[key]=value
@@ -298,7 +303,7 @@ class AdaptiveBeam:
         return node, info
 
 
-def rollout(searcher, history, horizon, particles=8, seed=1729, rollback_budget=0):
+def rollout(searcher, history, horizon, particles=8, seed=1729, rollback_budget=0, rollback_window=None):
     history = np.asarray(history, dtype=float)
     q0, mem0 = searcher.machine.initialize(history)
     rng = np.random.default_rng(seed)
@@ -308,30 +313,37 @@ def rollout(searcher, history, horizon, particles=8, seed=1729, rollback_budget=
     for particle in range(particles):
         h = history.copy(); q = int(q0[0]); hidden = mem0["hidden"].copy()
         stack = [(h, q, hidden, set())]
-        t = 0; rewinds = 0
+        t = 0; rewinds = 0; frontier = 0
+        revisions = np.zeros(horizon,dtype=int)
         while t < horizon:
             h, q, hidden, banned = stack[t]
             node, info = searcher.search(h, q, hidden, rng, check_root=(t > 0), banned_q=banned,
                                          allow_lookahead=(t % getattr(searcher,'search_interval',1)==0))
-            info.update(particle=particle, step=t, rollback=False)
+            info.update(particle=particle, step=t, rollback=False, rollback_distance=0, rewritten=False)
             diagnostics.append(info)
             if node is None:
-                if t > 0 and rewinds < rollback_budget:
+                within_window = rollback_window is None or frontier-(t-1) <= rollback_window
+                if t > 0 and rewinds < rollback_budget and within_window:
                     # Restore the actual parent state and ban the dead child
                     # only at that parent; later descendants are discarded.
                     dead_q = q
                     stack.pop(); t -= 1; rewinds += 1
                     stack[t][3].add(dead_q)
                     info['rollback'] = True
+                    info['rollback_distance'] = frontier-t
                     continue
                 failed[0, particle, t:] = True
                 pred[0, particle, t:] = h[0, -1]
                 break
             y = node.history[0, -1]
+            info['rewritten'] = bool(t < frontier)
+            revisions[t] += 1
+            info['step_revision_count'] = int(revisions[t]-1)
             pred[0, particle, t] = y
             h, q, hidden = node.history, node.q, node.hidden
             stack.append((h, q, hidden, set()))
             t += 1
+            frontier = max(frontier,t)
     return pred, failed, diagnostics
 
 
@@ -348,22 +360,27 @@ def make_searcher(args):
                             min_stop_support=args.min_stop_support,
                             search_interval=args.search_interval, uncertainty_gap=args.uncertainty_gap,
                             rule_cache_size=args.rule_cache_size,
-                            depth_invariant_temperature=args.depth_invariant_temperature)
+                            depth_invariant_temperature=args.depth_invariant_temperature,
+                            shared_writer=args.shared_writer)
 
 
 def run_window(task):
+    cpu_start=time.process_time()
     i, h, args = task
     searcher = make_searcher(args)
     actual_particles = 1 if args.temperature == 0 else args.particles
-    p,f,d = rollout(searcher,h[None],args.steps,actual_particles,args.seed+i,args.rollback_budget)
+    p,f,d = rollout(searcher,h[None],args.steps,actual_particles,args.seed+i,args.rollback_budget,args.rollback_window)
     if actual_particles != args.particles:
         p=np.repeat(p,args.particles,axis=1); f=np.repeat(f,args.particles,axis=1)
-    return p[0],f[0],d,searcher.audit
+    audit=dict(searcher.audit,worker_cpu_seconds=time.process_time()-cpu_start)
+    return p[0],f[0],d,audit
 
 
 def run(args):
     if args.workers < 1 or args.particles < 1:
         raise ValueError('workers and particles must be positive')
+    if args.rollback_budget < 0 or (args.rollback_window is not None and args.rollback_window < 0):
+        raise ValueError('rollback budget/window must be nonnegative')
     window_horizon = args.window_horizon or args.steps
     if window_horizon < args.steps:
         raise ValueError('window-horizon must cover steps')
@@ -387,6 +404,9 @@ def run(args):
                 n_windows=len(windows['history']), particles=args.particles,
                 failed_fraction=float(failed.mean()), audit=audit,
                 rollbacks=sum(d.get('rollback',False) for d in all_diag),
+                revision=dict(max_rollback_distance=max((d.get('rollback_distance',0) for d in all_diag),default=0),
+                              rewritten_steps=sum(d.get('rewritten',False) for d in all_diag),
+                              max_step_revisions=max((d.get('step_revision_count',0) for d in all_diag),default=0)),
                 search=dict(mean_depth=float(np.mean([d['depth'] for d in all_diag])),
                             max_depth=int(max(d['depth'] for d in all_diag)),
                             stable_fraction=float(np.mean([d['stable'] for d in all_diag])),
@@ -409,6 +429,7 @@ def main():
     ap.add_argument('--uncertainty-gap',type=float,default=0.)
     ap.add_argument('--rule-cache-size',type=int,default=0)
     ap.add_argument('--depth-invariant-temperature',action='store_true')
+    ap.add_argument('--shared-writer',action='store_true')
     ap.add_argument('--seed',type=int,default=1729)
     ap.add_argument('--min-depth',type=int,default=2)
     ap.add_argument('--max-depth',type=int,default=4)
@@ -427,6 +448,8 @@ def main():
     ap.add_argument('--window-horizon', type=int)
     ap.add_argument('--rollback-budget', type=int, default=0,
                     help='Bounded OFFLINE path revision; zero preserves irrevocable rollout')
+    ap.add_argument('--rollback-window',type=int,
+                    help='Optional maximum withdrawal behind generated frontier; limits revision latency')
     ap.add_argument('--output',default='adaptive_search_results/prototype.json')
     run(ap.parse_args())
 

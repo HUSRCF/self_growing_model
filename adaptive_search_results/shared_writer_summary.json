@@ -1,0 +1,75 @@
+{
+  "full": {
+    "max_prediction_abs_difference": 1.635697799429181e-09,
+    "reference_cpu": 696.839951338,
+    "shared_cpu": 430.33907784200005,
+    "cpu_speedup": 1.6192811371730604,
+    "revision": {
+      "max_rollback_distance": 2,
+      "rewritten_steps": 32,
+      "max_step_revisions": 1
+    },
+    "rollbacks": 32
+  },
+  "sparse": {
+    "max_prediction_abs_difference": 3.7215386328171007e-10,
+    "reference_cpu": 272.778442246,
+    "shared_cpu": 168.24528684899994,
+    "cpu_speedup": 1.621314019279592,
+    "revision": {
+      "max_rollback_distance": 2,
+      "rewritten_steps": 2310,
+      "max_step_revisions": 3
+    },
+    "rollbacks": 2310
+  },
+  "buffer2": [
+    {
+      "seed": 1729,
+      "max_prediction_abs_difference": 3.7215386328171007e-10,
+      "revision": {
+        "max_rollback_distance": 2,
+        "rewritten_steps": 2310,
+        "max_step_revisions": 3
+      },
+      "failure": 0.0,
+      "cpu": 144.73898874300002,
+      "rmse300": 0.3942818252715717
+    },
+    {
+      "seed": 2718,
+      "max_prediction_abs_difference": 1.8593482309370302e-10,
+      "revision": {
+        "max_rollback_distance": 2,
+        "rewritten_steps": 2301,
+        "max_step_revisions": 4
+      },
+      "failure": 0.0,
+      "cpu": 135.27745352899998,
+      "rmse300": 0.3992258668303188
+    },
+    {
+      "seed": 3141,
+      "max_prediction_abs_difference": 3.4150041510943936,
+      "revision": {
+        "max_rollback_distance": 2,
+        "rewritten_steps": 2263,
+        "max_step_revisions": 3
+      },
+      "failure": 0.00390625,
+      "cpu": 141.009145542,
+      "rmse300": 0.3714854931262135
+    }
+  ],
+  "unbounded3141": {
+    "revision": {
+      "max_rollback_distance": 3,
+      "rewritten_steps": 2290,
+      "max_step_revisions": 5
+    },
+    "failure": 0.0,
+    "max_prediction_abs_difference": 2.859223968698643e-11,
+    "rollbacks": 2290
+  },
+  "note": "32DEV windows,8particles. Finite revision distance is NOT measured real-time latency; the prototype still returns a whole offline trajectory. Shared matrix operations allow small roundoff."
+}
