@@ -1,0 +1,611 @@
+{
+  "groups": {
+    "fit": {
+      "observed": {
+        "rows": 10240,
+        "videos": [
+          1,
+          2,
+          4,
+          5,
+          7,
+          11,
+          12,
+          15,
+          19,
+          20
+        ],
+        "expected_mse": 2.343817228177185e-06,
+        "ensemble_mse": 2.3062398459099485e-06,
+        "candidate_variance": 3.757738226723781e-08,
+        "oracle_mse": 1.5229646045278565e-06,
+        "routing_headroom": 8.208526236493285e-07,
+        "modal_mse": 2.3172364244830206e-06,
+        "oracle_probability": 0.2518094856914236,
+        "current_check_support": 0.99287109375,
+        "oracle_passes_current_check": 0.9921875,
+        "dead": 0.0,
+        "invalid_numeric_candidate_fraction": 0.0,
+        "destination_consistent_support": 0.99892578125,
+        "oracle_destination_consistent": 0.25791015625,
+        "current_check_oracle_mse": 1.522800185782893e-06,
+        "current_check_paired_expected_mse": 2.3377084752134265e-06,
+        "current_check_paired_reduction_fraction": 0.3485927771024291,
+        "current_check_paired_unrestricted_oracle_mse": 1.5196468655989115e-06,
+        "current_check_paired_oracle_gap": 3.153320183981669e-09,
+        "consistent_oracle_mse": 2.2906681983334845e-06,
+        "consistent_paired_expected_mse": 2.3425150560125903e-06,
+        "consistent_paired_reduction_fraction": 0.02213298802329111,
+        "consistent_paired_unrestricted_oracle_mse": 1.5222419314293908e-06,
+        "consistent_paired_oracle_gap": 7.684262669040938e-07,
+        "oracle_fraction_of_expected": 0.6497795929729062,
+        "oracle_absolute_residual_quantiles_rad": [
+          0.0016642031461017513,
+          0.0039789153131622205,
+          0.006653980828823212
+        ],
+        "per_video": {
+          "1": {
+            "expected_mse": 2.4518234815714566e-06,
+            "oracle_mse": 1.6635293186484148e-06,
+            "ensemble_mse": 2.4150063398573845e-06
+          },
+          "2": {
+            "expected_mse": 2.3034637587610334e-06,
+            "oracle_mse": 1.4826652618536676e-06,
+            "ensemble_mse": 2.2732617232155907e-06
+          },
+          "4": {
+            "expected_mse": 2.340014950683863e-06,
+            "oracle_mse": 1.5231073240562328e-06,
+            "ensemble_mse": 2.3096837466417547e-06
+          },
+          "5": {
+            "expected_mse": 2.303301897233308e-06,
+            "oracle_mse": 1.4773518917062282e-06,
+            "ensemble_mse": 2.2600158909267152e-06
+          },
+          "7": {
+            "expected_mse": 2.133662336264725e-06,
+            "oracle_mse": 1.374718896131623e-06,
+            "ensemble_mse": 2.1031686007694575e-06
+          },
+          "11": {
+            "expected_mse": 2.308165166781182e-06,
+            "oracle_mse": 1.5358803577213186e-06,
+            "ensemble_mse": 2.27166888813002e-06
+          },
+          "12": {
+            "expected_mse": 2.2537693241139696e-06,
+            "oracle_mse": 1.4487915656744843e-06,
+            "ensemble_mse": 2.209538785285815e-06
+          },
+          "15": {
+            "expected_mse": 2.4730372943269054e-06,
+            "oracle_mse": 1.616062858631544e-06,
+            "ensemble_mse": 2.4326762806207807e-06
+          },
+          "19": {
+            "expected_mse": 2.568593689776832e-06,
+            "oracle_mse": 1.5814160122939055e-06,
+            "ensemble_mse": 2.524785838722436e-06
+          },
+          "20": {
+            "expected_mse": 2.302340382258576e-06,
+            "oracle_mse": 1.5261225585611477e-06,
+            "ensemble_mse": 2.2625923649295263e-06
+          }
+        }
+      },
+      "drift0": {
+        "rows": 480,
+        "videos": [
+          1,
+          2,
+          4,
+          5,
+          7,
+          11,
+          12,
+          15,
+          19,
+          20
+        ],
+        "expected_mse": 2.1325403159930218e-06,
+        "ensemble_mse": 2.0870878831189722e-06,
+        "candidate_variance": 4.545243287404541e-08,
+        "oracle_mse": 1.430026407397087e-06,
+        "routing_headroom": 7.025139085959345e-07,
+        "modal_mse": 2.123263619805081e-06,
+        "oracle_probability": 0.3115391205781236,
+        "current_check_support": 0.9875,
+        "oracle_passes_current_check": 0.9875,
+        "dead": 0.0,
+        "invalid_numeric_candidate_fraction": 0.0,
+        "destination_consistent_support": 1.0,
+        "oracle_destination_consistent": 0.3,
+        "current_check_oracle_mse": 1.4170944348694828e-06,
+        "current_check_paired_expected_mse": 2.1108196618597675e-06,
+        "current_check_paired_reduction_fraction": 0.32865205849895684,
+        "current_check_paired_unrestricted_oracle_mse": 1.4170944348694828e-06,
+        "current_check_paired_oracle_gap": 0.0,
+        "consistent_oracle_mse": 2.1819175644219757e-06,
+        "consistent_paired_expected_mse": 2.1325403159930218e-06,
+        "consistent_paired_reduction_fraction": -0.023154192236671145,
+        "consistent_paired_unrestricted_oracle_mse": 1.430026407397087e-06,
+        "consistent_paired_oracle_gap": 7.518911570248886e-07,
+        "oracle_fraction_of_expected": 0.6705741489024053,
+        "oracle_absolute_residual_quantiles_rad": [
+          0.001499893660285646,
+          0.0038333877596913087,
+          0.007351043990258606
+        ],
+        "per_video": {
+          "1": {
+            "expected_mse": 1.7558545407346972e-06,
+            "oracle_mse": 1.3272194369509092e-06,
+            "ensemble_mse": 1.6691898498919555e-06
+          },
+          "2": {
+            "expected_mse": 2.038120128602929e-06,
+            "oracle_mse": 1.1508826072757842e-06,
+            "ensemble_mse": 1.993583021964143e-06
+          },
+          "4": {
+            "expected_mse": 1.4971398085009347e-06,
+            "oracle_mse": 9.580186303099971e-07,
+            "ensemble_mse": 1.4731159788625458e-06
+          },
+          "5": {
+            "expected_mse": 2.1575753903940242e-06,
+            "oracle_mse": 1.6158920602516023e-06,
+            "ensemble_mse": 2.1462090752681815e-06
+          },
+          "7": {
+            "expected_mse": 2.408685680072656e-06,
+            "oracle_mse": 2.0151079967928336e-06,
+            "ensemble_mse": 2.384794042066912e-06
+          },
+          "11": {
+            "expected_mse": 1.6602057134236142e-06,
+            "oracle_mse": 8.73449705684675e-07,
+            "ensemble_mse": 1.6219548078753594e-06
+          },
+          "12": {
+            "expected_mse": 2.177846151884619e-06,
+            "oracle_mse": 1.6287418335592143e-06,
+            "ensemble_mse": 2.065499314340898e-06
+          },
+          "15": {
+            "expected_mse": 2.092177383213625e-06,
+            "oracle_mse": 1.2770604883740451e-06,
+            "ensemble_mse": 2.0391825345123582e-06
+          },
+          "19": {
+            "expected_mse": 3.1390773597716765e-06,
+            "oracle_mse": 1.7482594763605572e-06,
+            "ensemble_mse": 3.119989371619506e-06
+          },
+          "20": {
+            "expected_mse": 2.398721003331438e-06,
+            "oracle_mse": 1.7056318384112532e-06,
+            "ensemble_mse": 2.357360834787862e-06
+          }
+        }
+      },
+      "drift24": {
+        "rows": 480,
+        "videos": [
+          1,
+          2,
+          4,
+          5,
+          7,
+          11,
+          12,
+          15,
+          19,
+          20
+        ],
+        "expected_mse": 0.008405235244251701,
+        "ensemble_mse": 0.00840519467182374,
+        "candidate_variance": 4.057242795922309e-08,
+        "oracle_mse": 0.008366982394102067,
+        "routing_headroom": 3.8252850149634114e-05,
+        "modal_mse": 0.008404436393981758,
+        "oracle_probability": 0.18707927648808292,
+        "current_check_support": 0.9208333333333333,
+        "oracle_passes_current_check": 0.9208333333333333,
+        "dead": 0.0,
+        "invalid_numeric_candidate_fraction": 0.0,
+        "destination_consistent_support": 0.9979166666666667,
+        "oracle_destination_consistent": 0.17708333333333334,
+        "current_check_oracle_mse": 0.008929275246554366,
+        "current_check_paired_expected_mse": 0.008969026830931839,
+        "current_check_paired_reduction_fraction": 0.004432095602655561,
+        "current_check_paired_unrestricted_oracle_mse": 0.008929275246554366,
+        "current_check_paired_oracle_gap": 0.0,
+        "consistent_oracle_mse": 0.008420578591267448,
+        "consistent_paired_expected_mse": 0.008421733449517937,
+        "consistent_paired_reduction_fraction": 0.0001371283308135851,
+        "consistent_paired_unrestricted_oracle_mse": 0.008383457948376001,
+        "consistent_paired_oracle_gap": 3.71206428914477e-05,
+        "oracle_fraction_of_expected": 0.9954489256947574,
+        "oracle_absolute_residual_quantiles_rad": [
+          0.03653579139650735,
+          0.11142506586160719,
+          0.8321883418771775
+        ],
+        "per_video": {
+          "1": {
+            "expected_mse": 0.0009727671452411787,
+            "oracle_mse": 0.0009337572070936186,
+            "ensemble_mse": 0.0009726999590852862
+          },
+          "2": {
+            "expected_mse": 0.003354594730465322,
+            "oracle_mse": 0.0033372777107795984,
+            "ensemble_mse": 0.0033545422612210993
+          },
+          "4": {
+            "expected_mse": 0.0014362468764699328,
+            "oracle_mse": 0.0013976463975548306,
+            "ensemble_mse": 0.0014362317514578285
+          },
+          "5": {
+            "expected_mse": 0.006213654057768221,
+            "oracle_mse": 0.006157103896728941,
+            "ensemble_mse": 0.006213612684907295
+          },
+          "7": {
+            "expected_mse": 0.019774766135400086,
+            "oracle_mse": 0.01967569336573218,
+            "ensemble_mse": 0.01977472446725755
+          },
+          "11": {
+            "expected_mse": 0.002515685471433797,
+            "oracle_mse": 0.0025001163237694424,
+            "ensemble_mse": 0.0025156374293261257
+          },
+          "12": {
+            "expected_mse": 0.0010351348163135145,
+            "oracle_mse": 0.0010111996616083143,
+            "ensemble_mse": 0.0010350984732054708
+          },
+          "15": {
+            "expected_mse": 0.04588558578969309,
+            "oracle_mse": 0.04583029529357124,
+            "ensemble_mse": 0.04588552722088715
+          },
+          "19": {
+            "expected_mse": 0.0012619790795294745,
+            "oracle_mse": 0.0012400258988471385,
+            "ensemble_mse": 0.0012619506027079202
+          },
+          "20": {
+            "expected_mse": 0.001601938340202395,
+            "oracle_mse": 0.0015867081853353764,
+            "ensemble_mse": 0.0016019218681816872
+          }
+        }
+      },
+      "drift100": {
+        "rows": 480,
+        "videos": [
+          1,
+          2,
+          4,
+          5,
+          7,
+          11,
+          12,
+          15,
+          19,
+          20
+        ],
+        "expected_mse": 0.2039466601432443,
+        "ensemble_mse": 0.2039466058478888,
+        "candidate_variance": 5.429535551685641e-08,
+        "oracle_mse": 0.20370314073937254,
+        "routing_headroom": 0.00024351940387179732,
+        "modal_mse": 0.20394246654170295,
+        "oracle_probability": 0.17567041237201028,
+        "current_check_support": 0.9208333333333333,
+        "oracle_passes_current_check": 0.9208333333333333,
+        "dead": 0.0,
+        "invalid_numeric_candidate_fraction": 0.0,
+        "destination_consistent_support": 1.0,
+        "oracle_destination_consistent": 0.17291666666666666,
+        "current_check_oracle_mse": 0.19826353175348727,
+        "current_check_paired_expected_mse": 0.1985123825090832,
+        "current_check_paired_reduction_fraction": 0.0012535780007806308,
+        "current_check_paired_unrestricted_oracle_mse": 0.19826353175348727,
+        "current_check_paired_oracle_gap": 0.0,
+        "consistent_oracle_mse": 0.2039414230817775,
+        "consistent_paired_expected_mse": 0.2039466601432443,
+        "consistent_paired_reduction_fraction": 2.5678584111732405e-05,
+        "consistent_paired_unrestricted_oracle_mse": 0.20370314073937254,
+        "consistent_paired_oracle_gap": 0.0002382823424049728,
+        "oracle_fraction_of_expected": 0.9988059652278654,
+        "oracle_absolute_residual_quantiles_rad": [
+          0.4060244894589252,
+          1.981098476726444,
+          3.1694629119115287
+        ],
+        "per_video": {
+          "1": {
+            "expected_mse": 0.15144578633136482,
+            "oracle_mse": 0.1512404950115231,
+            "ensemble_mse": 0.1514457482106678
+          },
+          "2": {
+            "expected_mse": 0.1409637374720253,
+            "oracle_mse": 0.1407822892411658,
+            "ensemble_mse": 0.14096365599854774
+          },
+          "4": {
+            "expected_mse": 0.27598283370049725,
+            "oracle_mse": 0.2756868409622684,
+            "ensemble_mse": 0.27598278134196547
+          },
+          "5": {
+            "expected_mse": 0.24971676289061984,
+            "oracle_mse": 0.24951151736904273,
+            "ensemble_mse": 0.24971672265919778
+          },
+          "7": {
+            "expected_mse": 0.25556331676091826,
+            "oracle_mse": 0.25515914598576345,
+            "ensemble_mse": 0.2555632763399819
+          },
+          "11": {
+            "expected_mse": 0.2188176718135968,
+            "oracle_mse": 0.21861124299232607,
+            "ensemble_mse": 0.21881759763896583
+          },
+          "12": {
+            "expected_mse": 0.1541894727987124,
+            "oracle_mse": 0.15392504531426845,
+            "ensemble_mse": 0.1541894538873755
+          },
+          "15": {
+            "expected_mse": 0.3688303727574054,
+            "oracle_mse": 0.36848684907076423,
+            "ensemble_mse": 0.3688302790510993
+          },
+          "19": {
+            "expected_mse": 0.12104800832806313,
+            "oracle_mse": 0.12087333971396375,
+            "ensemble_mse": 0.12104795229319408
+          },
+          "20": {
+            "expected_mse": 0.10290863857923992,
+            "oracle_mse": 0.10275464173263904,
+            "ensemble_mse": 0.10290859105789259
+          }
+        }
+      }
+    },
+    "hold": {
+      "observed": {
+        "rows": 3072,
+        "videos": [
+          13,
+          16,
+          18
+        ],
+        "expected_mse": 2.207146529027167e-06,
+        "ensemble_mse": 2.164010921915062e-06,
+        "candidate_variance": 4.3135607112103435e-08,
+        "oracle_mse": 1.4330721538615968e-06,
+        "routing_headroom": 7.740743751655702e-07,
+        "modal_mse": 2.1886970680312067e-06,
+        "oracle_probability": 0.2659537837818779,
+        "current_check_support": 0.990234375,
+        "oracle_passes_current_check": 0.9899088541666666,
+        "dead": 0.0,
+        "invalid_numeric_candidate_fraction": 0.0,
+        "destination_consistent_support": 0.9986979166666666,
+        "oracle_destination_consistent": 0.2760416666666667,
+        "current_check_oracle_mse": 1.4371301559443926e-06,
+        "current_check_paired_expected_mse": 2.2093069622047086e-06,
+        "current_check_paired_reduction_fraction": 0.3495108735319181,
+        "current_check_paired_unrestricted_oracle_mse": 1.436350943975977e-06,
+        "current_check_paired_oracle_gap": 7.792119684157491e-10,
+        "consistent_oracle_mse": 2.1533325913137935e-06,
+        "consistent_paired_expected_mse": 2.2061856248153883e-06,
+        "consistent_paired_reduction_fraction": 0.02395674820246263,
+        "consistent_paired_unrestricted_oracle_mse": 1.4336109428567944e-06,
+        "consistent_paired_oracle_gap": 7.197216484569989e-07,
+        "oracle_fraction_of_expected": 0.6492872743221288,
+        "oracle_absolute_residual_quantiles_rad": [
+          0.0016162463488027033,
+          0.0038540734285064013,
+          0.006515396512927663
+        ],
+        "per_video": {
+          "13": {
+            "expected_mse": 2.5720746514784287e-06,
+            "oracle_mse": 1.6692737639368829e-06,
+            "ensemble_mse": 2.5127478049463246e-06
+          },
+          "16": {
+            "expected_mse": 2.1240575551506465e-06,
+            "oracle_mse": 1.3659105146290979e-06,
+            "ensemble_mse": 2.085178310495978e-06
+          },
+          "18": {
+            "expected_mse": 1.9253073804524262e-06,
+            "oracle_mse": 1.2640321830188101e-06,
+            "ensemble_mse": 1.8941066503028833e-06
+          }
+        }
+      },
+      "drift0": {
+        "rows": 144,
+        "videos": [
+          13,
+          16,
+          18
+        ],
+        "expected_mse": 2.0291427641062115e-06,
+        "ensemble_mse": 1.99553000308609e-06,
+        "candidate_variance": 3.361276102012368e-08,
+        "oracle_mse": 1.4568093553712617e-06,
+        "routing_headroom": 5.7233340873495e-07,
+        "modal_mse": 1.933386001964042e-06,
+        "oracle_probability": 0.3129425516442713,
+        "current_check_support": 1.0,
+        "oracle_passes_current_check": 1.0,
+        "dead": 0.0,
+        "invalid_numeric_candidate_fraction": 0.0,
+        "destination_consistent_support": 1.0,
+        "oracle_destination_consistent": 0.3333333333333333,
+        "current_check_oracle_mse": 1.4568093553712617e-06,
+        "current_check_paired_expected_mse": 2.0291427641062115e-06,
+        "current_check_paired_reduction_fraction": 0.28205674773556355,
+        "current_check_paired_unrestricted_oracle_mse": 1.4568093553712617e-06,
+        "current_check_paired_oracle_gap": 0.0,
+        "consistent_oracle_mse": 1.933386001964042e-06,
+        "consistent_paired_expected_mse": 2.0291427641062115e-06,
+        "consistent_paired_reduction_fraction": 0.04719074667195633,
+        "consistent_paired_unrestricted_oracle_mse": 1.4568093553712617e-06,
+        "consistent_paired_oracle_gap": 4.765766465927809e-07,
+        "oracle_fraction_of_expected": 0.7179432522644364,
+        "oracle_absolute_residual_quantiles_rad": [
+          0.0019752019633614898,
+          0.00409474079027973,
+          0.005347966488628156
+        ],
+        "per_video": {
+          "13": {
+            "expected_mse": 2.1216307629434894e-06,
+            "oracle_mse": 1.4813008817454038e-06,
+            "ensemble_mse": 2.0603507917514877e-06
+          },
+          "16": {
+            "expected_mse": 1.7212223783176183e-06,
+            "oracle_mse": 1.1772569794077047e-06,
+            "ensemble_mse": 1.700563526735993e-06
+          },
+          "18": {
+            "expected_mse": 2.2445751510575265e-06,
+            "oracle_mse": 1.7118702049606757e-06,
+            "ensemble_mse": 2.2256756907707897e-06
+          }
+        }
+      },
+      "drift24": {
+        "rows": 144,
+        "videos": [
+          13,
+          16,
+          18
+        ],
+        "expected_mse": 0.0026790577247754626,
+        "ensemble_mse": 0.0026790041845531484,
+        "candidate_variance": 5.354022231437032e-08,
+        "oracle_mse": 0.0026402822156919204,
+        "routing_headroom": 3.877550908354202e-05,
+        "modal_mse": 0.0026789653361302336,
+        "oracle_probability": 0.25576591869190674,
+        "current_check_support": 0.9166666666666666,
+        "oracle_passes_current_check": 0.9166666666666666,
+        "dead": 0.0,
+        "invalid_numeric_candidate_fraction": 0.0,
+        "destination_consistent_support": 1.0,
+        "oracle_destination_consistent": 0.22916666666666666,
+        "current_check_oracle_mse": 0.002586220827814604,
+        "current_check_paired_expected_mse": 0.0026252599066762376,
+        "current_check_paired_reduction_fraction": 0.014870557677871932,
+        "current_check_paired_unrestricted_oracle_mse": 0.002586220827814604,
+        "current_check_paired_oracle_gap": 0.0,
+        "consistent_oracle_mse": 0.0026770151362651546,
+        "consistent_paired_expected_mse": 0.0026790577247754626,
+        "consistent_paired_reduction_fraction": 0.0007624279579415694,
+        "consistent_paired_unrestricted_oracle_mse": 0.0026402822156919204,
+        "consistent_paired_oracle_gap": 3.673292057323428e-05,
+        "oracle_fraction_of_expected": 0.985526437625829,
+        "oracle_absolute_residual_quantiles_rad": [
+          0.03509947444375493,
+          0.17356944243727412,
+          0.3275281905407025
+        ],
+        "per_video": {
+          "13": {
+            "expected_mse": 0.0032675179110253426,
+            "oracle_mse": 0.0032090957430171187,
+            "ensemble_mse": 0.0032674485430923884
+          },
+          "16": {
+            "expected_mse": 0.0030875857178862954,
+            "oracle_mse": 0.003058079946148095,
+            "ensemble_mse": 0.0030875307428563955
+          },
+          "18": {
+            "expected_mse": 0.0016820695454147492,
+            "oracle_mse": 0.0016536709579105479,
+            "ensemble_mse": 0.0016820332677106606
+          }
+        }
+      },
+      "drift100": {
+        "rows": 144,
+        "videos": [
+          13,
+          16,
+          18
+        ],
+        "expected_mse": 0.19869645560744953,
+        "ensemble_mse": 0.19869641757251416,
+        "candidate_variance": 3.8034935362269704e-08,
+        "oracle_mse": 0.19844988920575088,
+        "routing_headroom": 0.0002465664016986262,
+        "modal_mse": 0.1987021976504213,
+        "oracle_probability": 0.1562959456550709,
+        "current_check_support": 0.9305555555555556,
+        "oracle_passes_current_check": 0.9305555555555556,
+        "dead": 0.0,
+        "invalid_numeric_candidate_fraction": 0.0,
+        "destination_consistent_support": 0.9930555555555556,
+        "oracle_destination_consistent": 0.1527777777777778,
+        "current_check_oracle_mse": 0.20184167882009807,
+        "current_check_paired_expected_mse": 0.2020962961089537,
+        "current_check_paired_reduction_fraction": 0.001259881025817311,
+        "current_check_paired_unrestricted_oracle_mse": 0.20184167882009807,
+        "current_check_paired_oracle_gap": 0.0,
+        "consistent_oracle_mse": 0.20007843096883512,
+        "consistent_paired_expected_mse": 0.20008227528940584,
+        "consistent_paired_reduction_fraction": 1.9213698790432332e-05,
+        "consistent_paired_unrestricted_oracle_mse": 0.19983414181830897,
+        "consistent_paired_oracle_gap": 0.0002442891505262023,
+        "oracle_fraction_of_expected": 0.9987590800200997,
+        "oracle_absolute_residual_quantiles_rad": [
+          0.3757978482361684,
+          1.9638432421389656,
+          2.9979750489701606
+        ],
+        "per_video": {
+          "13": {
+            "expected_mse": 0.30600808491790915,
+            "oracle_mse": 0.3057065892977969,
+            "ensemble_mse": 0.3060080233640661
+          },
+          "16": {
+            "expected_mse": 0.1554739598598733,
+            "oracle_mse": 0.15523496745585894,
+            "ensemble_mse": 0.15547393533523898
+          },
+          "18": {
+            "expected_mse": 0.1346073220445661,
+            "oracle_mse": 0.1344081108635968,
+            "ensemble_mse": 0.13460729401823743
+          }
+        }
+      }
+    }
+  },
+  "variance_identity_verified": true,
+  "train_only": true,
+  "note": "Only TRAIN prefixes; fit/hold denote prior adapter split, no fitting here. Observed chains16starts\u00d764steps/video; free snapshots16starts\u00d73RNG seeds/video at0/24/100. Drift0 repeats identical contexts. Oracle uses true next angle and is not deployable or a long-run bound. Oracle floor applies to selecting one of fixed candidate points, NOT their ensemble mean or a continuous extension. Ensemble here is local candidate mixture at one fixed history, not full rollout ensemble. Current-check support verifies the observed/generated middle, not a complete valid future. Destination consistency is a separate diagnostic restriction, not an official hard checker requirement. Restricted oracle comparisons use paired supported rows. Drift compares forecast history to aligned true trajectory, not observed one-step dynamics alone. No DEV/TEST or parameter updates."
+}
