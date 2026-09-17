@@ -132,6 +132,11 @@ def run_policy(s,windows,actor=None,arrays=None,use_feedback=False,seed=1729,par
 def train_one(s,args,use_feedback):
     actor=Actor(s,use_feedback,args.train_seed);optimizer=torch.optim.AdamW(actor.model.parameters(),lr=.003,weight_decay=.01)
     fit=prefix_windows(SPLITS['train'][:-3],per_video=4)
+    sampling=getattr(args,'window_sampling','fixed')
+    pool=None
+    if sampling!='fixed':
+        from training_window_sampler import TrainingPrefixPool
+        pool=TrainingPrefixPool(s.base)
     hold=prefix_windows(SPLITS['train'][-3:],per_video=8)
     best=float('inf');chosen=None;chosen_epoch=0;trace=[];train_trace=[];start=time.perf_counter()
     checkpoints=set(np.linspace(0,args.epochs,7,dtype=int))
@@ -150,6 +155,7 @@ def train_one(s,args,use_feedback):
         batch_stats=[]
         for batch in range(args.accumulate):
             seed=42000+epoch*args.accumulate+batch+args.train_seed-1901
+            if pool is not None:fit=pool.sample(seed+15000,mode=sampling)
             loss,kl,stats=run_policy(s,fit,actor=actor,training=True,seed=seed,particles=4)
             ((loss+args.kl_weight*kl)/args.accumulate).backward()
             batch_stats.append(dict(loss=float(loss.detach()),kl=float(kl.detach()),**stats))
@@ -158,7 +164,8 @@ def train_one(s,args,use_feedback):
         averaged={k:float(np.mean([b[k] for b in batch_stats])) for k in batch_stats[0]}
         train_trace.append(dict(epoch=epoch+1,batches_seen=(epoch+1)*args.accumulate,gradient_norm=grad_norm,**averaged))
         if epoch%5==0:print('train',train_trace[-1],flush=True)
-    return chosen,dict(selected_epoch=chosen_epoch,holdout_objective=best,trace=trace,train_trace=train_trace,seconds=time.perf_counter()-start)
+    return chosen,dict(selected_epoch=chosen_epoch,holdout_objective=best,trace=trace,train_trace=train_trace,
+                       sampler_audit=pool.audit() if pool else None,seconds=time.perf_counter()-start)
 
 
 def main():
@@ -166,6 +173,7 @@ def main():
     parser.add_argument('--kl-weight',type=float,default=.01)
     parser.add_argument('--train-seed',type=int,default=1901)
     parser.add_argument('--accumulate',type=int,default=1)
+    parser.add_argument('--window-sampling',choices=['fixed','uniform','stratified'],default='fixed')
     parser.add_argument('--output',default='adaptive_search_results/closed_loop_policy.json')
     args=parser.parse_args();torch.set_num_threads(1)
     if args.accumulate<1 or args.epochs<1:raise ValueError('Positive accumulation and update counts required')
