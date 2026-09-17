@@ -4,6 +4,7 @@ Same TRAIN histories, actor and objective; independent action RNG seeds.
 No optimizer steps, no DEV/test data. This is not gradient variance from
 changing training videos, nor a proof that more sampling solves generalization.
 """
+import argparse
 import json
 from pathlib import Path
 import numpy as np
@@ -14,14 +15,22 @@ from v20_rnn_mixture.engine.common import SPLITS
 
 
 def main():
+    parser=argparse.ArgumentParser();parser.add_argument('--objective-kind',choices=['mse','energy_u'],default='mse')
+    parser.add_argument('--uniform-window',action='store_true')
+    parser.add_argument('--particles',type=int,default=4)
+    parser.add_argument('--output',default='adaptive_search_results/policy_gradient_noise.json')
+    args=parser.parse_args()
     torch.set_num_threads(1)
     s=AdaptiveBeam();windows=prefix_windows(SPLITS['train'][:-3],per_video=4)
-    report=dict(n_batches=12,particles_per_window=4,n_windows=len(windows['history']),arms={})
+    if args.uniform_window:
+        from training_window_sampler import TrainingPrefixPool
+        windows=TrainingPrefixPool(s.base).sample(57000,mode='uniform')
+    report=dict(config=vars(args),n_batches=12,particles_per_window=args.particles,n_windows=len(windows['history']),arms={})
     for name,feedback in [('control',False),('feedback',True)]:
         actor=Actor(s,feedback);grads=[];objectives=[]
         for i in range(12):
             actor.model.zero_grad(set_to_none=True)
-            loss,kl,stats=run_policy(s,windows,actor=actor,training=True,seed=62000+i,particles=4)
+            loss,kl,stats=run_policy(s,windows,actor=actor,training=True,seed=62000+i,particles=args.particles,objective_kind=args.objective_kind)
             loss.backward()
             grads.append(np.concatenate([p.grad.detach().numpy().reshape(-1) for p in actor.model.parameters()]))
             objectives.append(stats['objective'])
@@ -41,7 +50,7 @@ def main():
             objective_mean=float(np.mean(objectives)),objective_std=float(np.std(objectives)),
             note='Finite12-batch estimate; dependent gradient-pair cosines are descriptive, not independent observations.')
         print(name,report['arms'][name],flush=True)
-    Path('adaptive_search_results/policy_gradient_noise.json').write_text(json.dumps(report,indent=2))
+    Path(args.output).write_text(json.dumps(report,indent=2))
 
 
 if __name__=='__main__':main()

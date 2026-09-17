@@ -68,7 +68,8 @@ class Actor:
                     w2=a['2.weight'].detach().numpy().T.copy(),b2=a['2.bias'].detach().numpy().copy())
 
 
-def run_policy(s,windows,actor=None,arrays=None,use_feedback=False,seed=1729,particles=4,training=False):
+def run_policy(s,windows,actor=None,arrays=None,use_feedback=False,seed=1729,particles=4,training=False,objective_kind='mse'):
+    if objective_kind not in ('mse','energy_u'):raise ValueError('Unknown objective')
     n=len(windows['history']);steps=windows['truth'].shape[1]
     h=np.repeat(windows['history'],particles,axis=0)
     truth=np.repeat(windows['truth'],particles,axis=0)
@@ -77,7 +78,7 @@ def run_policy(s,windows,actor=None,arrays=None,use_feedback=False,seed=1729,par
     predictions=[];failures=[];log_probs=[];regularizers=[]
     dead=np.zeros(len(h),dtype=bool)
     horizons=[t for t in [50,100] if t<=steps]
-    errors=[];rejected=0;checked=0
+    errors=[];energy_advantages=[];rejected=0;checked=0
     for t in range(steps):
         pe,raw_tr,read=s.machine.read(h,q,{'hidden':hidden})
         x=inputs(s,h,q,hidden,pe,raw_tr)
@@ -106,16 +107,25 @@ def run_policy(s,windows,actor=None,arrays=None,use_feedback=False,seed=1729,par
         if t+1 in horizons:
             embed=np.c_[np.sin(y),np.cos(y)]
             target=np.c_[np.sin(truth[:,t]),np.cos(truth[:,t])]
-            errors.append(((embed-target)**2).mean(1)+2*dead)
+            if objective_kind=='mse':
+                errors.append(((embed-target)**2).mean(1)+2*dead)
+            else:
+                from ensemble_score_objective import energy_costs
+                cost,baseline=energy_costs(embed.reshape(n,particles,-1),target.reshape(n,particles,-1)[:,0],dead.reshape(n,particles))
+                errors.append(np.repeat(cost,particles))
+                energy_advantages.append((particles*(cost[:,None]-baseline)).reshape(-1))
         h=np.concatenate([h[:,1:],y[:,None]],1);q=r;hidden=read['read_hidden']
     pred=np.stack(predictions,1).reshape(n,particles,steps,2)
     failed=np.stack(failures,1).reshape(n,particles,steps)
     objective=float(np.mean(errors))
     if training:
         if particles<2:raise ValueError('Leave-one-out baseline requires multiple particles')
-        returns=future_costs(errors,horizons,steps)
-        baseline=np.stack([leave_one_out(v,particles) for v in returns])
-        advantage=returns-baseline
+        if objective_kind=='mse':
+            returns=future_costs(errors,horizons,steps)
+            baseline=np.stack([leave_one_out(v,particles) for v in returns])
+            advantage=returns-baseline
+        else:
+            advantage=future_costs(energy_advantages,horizons,steps)
         # Normalizing by a random batch statistic would alter the estimator.
         # Fixed scale changes only effective learning rate, not credit signs.
         weights=torch.tensor(advantage/.02,dtype=torch.float32)
@@ -130,6 +140,8 @@ def run_policy(s,windows,actor=None,arrays=None,use_feedback=False,seed=1729,par
 
 
 def train_one(s,args,use_feedback):
+    objective_kind=getattr(args,'objective_kind','mse')
+    selection_kind=getattr(args,'selection_objective_kind',None) or objective_kind
     actor=Actor(s,use_feedback,args.train_seed);optimizer=torch.optim.AdamW(actor.model.parameters(),lr=.003,weight_decay=.01)
     fit=prefix_windows(SPLITS['train'][:-3],per_video=4)
     sampling=getattr(args,'window_sampling','fixed')
@@ -143,7 +155,7 @@ def train_one(s,args,use_feedback):
     for epoch in range(args.epochs+1):
         if epoch in checkpoints:
             a=actor.arrays()
-            checks=[run_policy(s,hold,arrays=a,use_feedback=use_feedback,seed=seed,particles=8)[0]
+            checks=[run_policy(s,hold,arrays=a,use_feedback=use_feedback,seed=seed,particles=8,objective_kind=selection_kind)[0]
                     for seed in [12017,12019]]
             objective=float(np.mean([c['objective'] for c in checks]))
             trace.append(dict(epoch=epoch,holdout_objective=objective,
@@ -156,7 +168,7 @@ def train_one(s,args,use_feedback):
         for batch in range(args.accumulate):
             seed=42000+epoch*args.accumulate+batch+args.train_seed-1901
             if pool is not None:fit=pool.sample(seed+15000,mode=sampling)
-            loss,kl,stats=run_policy(s,fit,actor=actor,training=True,seed=seed,particles=4)
+            loss,kl,stats=run_policy(s,fit,actor=actor,training=True,seed=seed,particles=4,objective_kind=objective_kind)
             ((loss+args.kl_weight*kl)/args.accumulate).backward()
             batch_stats.append(dict(loss=float(loss.detach()),kl=float(kl.detach()),**stats))
         grad_norm=float(torch.nn.utils.clip_grad_norm_(actor.model.parameters(),1.))
@@ -174,13 +186,16 @@ def main():
     parser.add_argument('--train-seed',type=int,default=1901)
     parser.add_argument('--accumulate',type=int,default=1)
     parser.add_argument('--window-sampling',choices=['fixed','uniform','stratified'],default='fixed')
+    parser.add_argument('--objective-kind',choices=['mse','energy_u'],default='mse')
+    parser.add_argument('--selection-objective-kind',choices=['mse','energy_u'],default=None)
     parser.add_argument('--output',default='adaptive_search_results/closed_loop_policy.json')
     args=parser.parse_args();torch.set_num_threads(1)
     if args.accumulate<1 or args.epochs<1:raise ValueError('Positive accumulation and update counts required')
     s=AdaptiveBeam();out=Path(args.output);out.parent.mkdir(exist_ok=True);start=time.perf_counter()
     report=dict(config=vars(args),fit_videos=SPLITS['train'][:-3],selection_videos=SPLITS['train'][-3:],training={},arms={},
       limitations=['On-policy score-function estimator; F and GRU frozen. No checker/search/noise.',
-        'Training and checkpoint selection minimize per-particle mean embedding MSE at50/100, not ensemble-mean RMSE.',
+        'Training/selection objectives at50/100: '+args.objective_kind+'/'+(args.selection_objective_kind or args.objective_kind)+'; not ensemble-mean RMSE. Energy uses off-diagonal U score and whole-trajectory leave-out baselines.',
+        'Same fixed gradient scale/learning rate across objectives; loss units and clipping incidence can differ. This is not an equal-gradient-magnitude comparison.',
         '3s rollout is extrapolation beyond100-step training horizon.',
         'Previous confidence uses frozen-backbone probabilities; not the actor probabilities from earlier pilot.',
         'Original backbone already saw all TRAIN videos. Holdout is only for the new adapter.',
@@ -194,7 +209,7 @@ def main():
     for name,a in models.items():
         report['arms'][name]=[]
         for seed in [1729,2718,3141]:
-            r,p,f=run_policy(s,windows,arrays=a,use_feedback=name.endswith('feedback'),seed=seed,particles=8)
+            r,p,f=run_policy(s,windows,arrays=a,use_feedback=name.endswith('feedback'),seed=seed,particles=8,objective_kind=args.objective_kind)
             report['arms'][name].append(r)
             np.savez_compressed(out.with_name(out.stem+'_'+name+f'_{seed}.npz'),prediction=p,failed=f,
                                 truth=windows['truth'],video=windows['video'],window_start=windows['start'])

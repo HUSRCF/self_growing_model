@@ -1,0 +1,39 @@
+{
+  "config": {
+    "objective_kind": "mse",
+    "uniform_window": true,
+    "particles": 4,
+    "output": "adaptive_search_results/objective_noise_mse.json"
+  },
+  "n_batches": 12,
+  "particles_per_window": 4,
+  "n_windows": 40,
+  "arms": {
+    "control": {
+      "mean_gradient_norm": 0.009988722277209197,
+      "batch_gradient_norm_mean": 0.02901573770872708,
+      "pairwise_cosine_mean": 0.03594935652190498,
+      "pairwise_cosine_median": 0.07498443322760703,
+      "negative_cosine_fraction": 0.42424242424242425,
+      "estimated_gradient_noise_trace": 0.0008997385840344555,
+      "noise_corrected_signal_squared": 2.479635739501065e-05,
+      "estimated_single_batch_signal_to_noise": 0.1660105816298306,
+      "objective_mean": 0.10365120962980617,
+      "objective_std": 0.008555325078549923,
+      "note": "Finite12-batch estimate; dependent gradient-pair cosines are descriptive, not independent observations."
+    },
+    "feedback": {
+      "mean_gradient_norm": 0.009965753202917614,
+      "batch_gradient_norm_mean": 0.02891784044309387,
+      "pairwise_cosine_mean": 0.036741702157207935,
+      "pairwise_cosine_median": 0.08426975469833026,
+      "negative_cosine_fraction": 0.42424242424242425,
+      "estimated_gradient_noise_trace": 0.0008924786139058307,
+      "noise_corrected_signal_squared": 2.4943019075976782e-05,
+      "estimated_single_batch_signal_to_noise": 0.16717664310602626,
+      "objective_mean": 0.10365120962980617,
+      "objective_std": 0.008555325078549923,
+      "note": "Finite12-batch estimate; dependent gradient-pair cosines are descriptive, not independent observations."
+    }
+  }
+}
