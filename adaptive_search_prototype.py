@@ -57,9 +57,10 @@ class AdaptiveBeam:
                  check_weight=0.08, contradiction_weight=0.35,
                  widen_on_empty=False, soft_check=False, value_model=None, value_weight=1.,
                  min_stop_support=1, search_interval=1, uncertainty_gap=0., rule_cache_size=0,
-                 depth_invariant_temperature=False, shared_writer=False):
+                 depth_invariant_temperature=False, shared_writer=False, boundary_repair=False):
         self.base = Dynamics()
         self.shared_writer = None
+        self.boundary_repair = boundary_repair
         if shared_writer:
             from shared_candidate_writer import SharedCandidateWriter
             self.shared_writer = SharedCandidateWriter(self.base)
@@ -216,11 +217,11 @@ class AdaptiveBeam:
                 contradictions=node.contradictions + contradiction))
         return out
 
-    def _root_options(self, history, q, hidden, check_root=True):
+    def _root_options(self, history, q, hidden, check_root=True, full=False):
         root = Node(history=history.copy(), q=int(q), hidden=hidden.copy(), depth=0,
                     score=0.0, root_event=-1, root_q=-1, event=-1, next_q=-1,
                     check_middle=check_root)
-        return self._expand(root)
+        return self._expand(root,full=full)
 
     def _value(self, node):
         # Same-depth comparisons are primary; normalization makes diagnostics
@@ -230,8 +231,8 @@ class AdaptiveBeam:
             score -= self.value_weight * self.value_model.predict(self.base, node)
         return score
 
-    def search(self, history, q, hidden, rng, check_root=True, banned_q=(), allow_lookahead=True):
-        roots = self._root_options(history, q, hidden, check_root)
+    def search(self, history, q, hidden, rng, check_root=True, banned_q=(), allow_lookahead=True, full_root=False):
+        roots = self._root_options(history, q, hidden, check_root, full_root)
         roots = [node for node in roots if node.q not in banned_q]
         if not roots:
             return None, {"depth": 0, "roots": 0, "stable": False, "root_gap": None}
@@ -319,10 +320,16 @@ def rollout(searcher, history, horizon, particles=8, seed=1729, rollback_budget=
             h, q, hidden, banned = stack[t]
             node, info = searcher.search(h, q, hidden, rng, check_root=(t > 0), banned_q=banned,
                                          allow_lookahead=(t % getattr(searcher,'search_interval',1)==0))
-            info.update(particle=particle, step=t, rollback=False, rollback_distance=0, rewritten=False)
+            within_window = rollback_window is None or frontier-(t-1) <= rollback_window
+            repair_attempted = False
+            if node is None and t>0 and not within_window and getattr(searcher,'boundary_repair',False):
+                repair_attempted = True
+                node,info = searcher.search(h,q,hidden,rng,check_root=True,banned_q=banned,
+                                            allow_lookahead=True,full_root=True)
+            info.update(particle=particle, step=t, rollback=False, rollback_distance=0, rewritten=False,
+                        repair_attempted=repair_attempted,repair_success=repair_attempted and node is not None)
             diagnostics.append(info)
             if node is None:
-                within_window = rollback_window is None or frontier-(t-1) <= rollback_window
                 if t > 0 and rewinds < rollback_budget and within_window:
                     # Restore the actual parent state and ban the dead child
                     # only at that parent; later descendants are discarded.
@@ -361,7 +368,7 @@ def make_searcher(args):
                             search_interval=args.search_interval, uncertainty_gap=args.uncertainty_gap,
                             rule_cache_size=args.rule_cache_size,
                             depth_invariant_temperature=args.depth_invariant_temperature,
-                            shared_writer=args.shared_writer)
+                            shared_writer=args.shared_writer,boundary_repair=args.boundary_repair)
 
 
 def run_window(task):
@@ -404,6 +411,8 @@ def run(args):
                 n_windows=len(windows['history']), particles=args.particles,
                 failed_fraction=float(failed.mean()), audit=audit,
                 rollbacks=sum(d.get('rollback',False) for d in all_diag),
+                boundary_repairs=dict(attempts=sum(d.get('repair_attempted',False) for d in all_diag),
+                                      successes=sum(d.get('repair_success',False) for d in all_diag)),
                 revision=dict(max_rollback_distance=max((d.get('rollback_distance',0) for d in all_diag),default=0),
                               rewritten_steps=sum(d.get('rewritten',False) for d in all_diag),
                               max_step_revisions=max((d.get('step_revision_count',0) for d in all_diag),default=0)),
@@ -430,6 +439,7 @@ def main():
     ap.add_argument('--rule-cache-size',type=int,default=0)
     ap.add_argument('--depth-invariant-temperature',action='store_true')
     ap.add_argument('--shared-writer',action='store_true')
+    ap.add_argument('--boundary-repair',action='store_true')
     ap.add_argument('--seed',type=int,default=1729)
     ap.add_argument('--min-depth',type=int,default=2)
     ap.add_argument('--max-depth',type=int,default=4)

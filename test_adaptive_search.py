@@ -7,6 +7,30 @@ from v20_rnn_mixture.engine.data import tail_windows
 
 
 class PrototypeTests(unittest.TestCase):
+    def test_boundary_repair_preserves_committed_prefix(self):
+        class Chain:
+            boundary_repair = True
+            def __init__(self): self.machine = self
+            def initialize(self,h): return np.array([0]), {'hidden':np.zeros((1,1))}
+            def search(self,h,q,hidden,rng,check_root=True,banned_q=(),allow_lookahead=True,full_root=False):
+                info=dict(depth=1,roots=1,stable=False,root_gap=None)
+                if q==2 or (q==1 and 2 in banned_q and not full_root): return None,info
+                if full_root:
+                    self_outer.assertEqual(q,1)
+                    self_outer.assertIn(2,banned_q)
+                    self_outer.assertTrue(check_root and allow_lookahead)
+                r=1 if q==0 else (3 if full_root or q==3 else 2)
+                nh=np.concatenate([h[:,1:],np.full((1,1,2),r)],1)
+                return Node(nh,r,hidden+1,1,0,0,r,0,r),info
+        self_outer=self
+        p,f,d=rollout(Chain(),np.zeros((1,32,2)),3,particles=1,
+                      rollback_budget=10,rollback_window=1)
+        self.assertFalse(f.any())
+        np.testing.assert_array_equal(p[0,0,:,0],[1.,3.,3.])
+        self.assertEqual(sum(x['repair_attempted'] for x in d),1)
+        self.assertEqual(sum(x['repair_success'] for x in d),1)
+        self.assertEqual(max(x['rollback_distance'] for x in d),1)
+
     def test_revision_window_blocks_crossing_committed_frontier(self):
         class Chain:
             def __init__(self):self.machine=self
