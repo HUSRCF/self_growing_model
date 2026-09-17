@@ -1,5 +1,6 @@
 """Small bounded TRAIN pilot of pathwise plus routing-score gradients."""
 import json
+import argparse
 import time
 from pathlib import Path
 import numpy as np
@@ -32,6 +33,8 @@ def hybrid_loss(prediction,truth,failed,logp,prefix_logp=None):
 
 
 def main():
+    parser=argparse.ArgumentParser();parser.add_argument('--detach-every',type=int,choices=[0,50],default=0);args=parser.parse_args()
+    stem='hybrid_writer_pilot' if not args.detach_every else 'hybrid_writer_truncated50_pilot'
     torch.set_num_threads(1);s=AdaptiveBeam();b=FrozenBridge(s);pool=TrainingPrefixPool(s.base,steps=300)
     root=Path('adaptive_search_results')
     with np.load(root/'continuous_residual_model_ridge_0.0001.npz') as saved:bound=saved['cap'].copy()*.01
@@ -49,7 +52,7 @@ def main():
             start=time.perf_counter();w=pool.sample(seed*100+iteration,per_video=1)
             total=torch.zeros_like(theta);path=torch.zeros_like(theta);costs=[];guards=0;finite=True
             for j,h in enumerate(w['history']):
-                a=sampled_path(b,tensor(np.repeat(h[None],4,axis=0)),300,theta*tensor(bound),seed*10000+iteration*100+j)
+                a=sampled_path(b,tensor(np.repeat(h[None],4,axis=0)),300,theta*tensor(bound),seed*10000+iteration*100+j,detach_every=args.detach_every)
                 guards+=int(a['failed'].any(1).sum())
                 cost,loss=hybrid_loss(a['prediction'],tensor(w['truth'][j]),a['failed'],a['logp'])
                 pg=torch.autograd.grad(cost,theta,retain_graph=True)[0]
@@ -72,7 +75,9 @@ def main():
         allruns.append(run)
         report=dict(bound=bound.tolist(),runs=allruns,config=dict(iterations=4,particles=4,windows_per_update=10,steps=300,lr=.1,clip=1.),
                     note='TRAIN only; original NumPy checkpoint evaluator. No DEV/TEST/default promotion. Full pathwise plus detached leave-one-particle routing score, no truncated BPTT. Whole update skipped on any guard or nonfinite gradient. Hard-boundary gradient not claimed unbiased. Three optimization seeds retained; budget not matched to prior direct search.')
-        (root/'hybrid_writer_pilot.json').write_text(json.dumps(report,indent=2))
+        report['config']['detach_every']=args.detach_every
+        if args.detach_every:report['note']='TRAIN only. Explicitly BIASED 50-step history/hidden detach; forward300step rollout/old joint event score/LOO/Adam budget unchanged. No DEV/TEST/promotion. Same seeds/windows as full-gradient pilot,not necessarily same CPU time; later trajectories differ after parameter updates. Zero eligible; all three seeds retained.'
+        (root/f'{stem}.json').write_text(json.dumps(report,indent=2))
 
 
 if __name__=='__main__':main()

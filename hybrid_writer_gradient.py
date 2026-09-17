@@ -6,11 +6,12 @@ import numpy as np
 import torch
 
 
-def paths(theta,detach_routing_state=False,return_history=False,return_marginal=False):
+def paths(theta,detach_routing_state=False,return_history=False,return_marginal=False,truncate=False):
     actions=torch.tensor(list(itertools.product([0,1],repeat=4)),dtype=torch.long)
     x=torch.full((16,),.2,dtype=torch.float64);h=torch.full_like(x,.1);q=torch.zeros_like(x)
     logp=torch.zeros_like(x);history=[];prefix=[];marginal_logp=torch.zeros_like(x)
     for t in range(2):
+        if truncate and t:x=x.detach();h=h.detach()
         e=actions[:,2*t].to(x.dtype);r=actions[:,2*t+1].to(x.dtype)
         rx=x.detach() if detach_routing_state else x
         rh=h.detach() if detach_routing_state else h

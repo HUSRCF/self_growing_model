@@ -98,7 +98,7 @@ def fixed_path(bridge,h,events,destinations,theta):
     return torch.stack(out,1),logp
 
 
-def sampled_path(bridge,h,steps,theta,seed,trace=False):
+def sampled_path(bridge,h,steps,theta,seed,trace=False,detach_every=0):
     """Match unchecked NumPy rollout, including continuing q/hidden after failure.
 
     Sampling is detached; returned logp retains routing-state derivatives.
@@ -106,10 +106,13 @@ def sampled_path(bridge,h,steps,theta,seed,trace=False):
     unbiased gradient across parameter-dependent failure boundaries.
     """
     from feedback_distribution_pilot import sample
+    if detach_every not in [0,50]:raise ValueError('Only full or predeclared 50-step truncation supported')
     q,hidden=bridge.initialize(h);rng=np.random.default_rng(seed)
     dead=torch.zeros(len(h),dtype=torch.bool);logp=torch.zeros(len(h),dtype=h.dtype)
     out=[];failures=[];records=[];prefix_logs=[];i=torch.arange(len(h));marginal_logp=torch.zeros_like(logp)
-    for _ in range(steps):
+    for step in range(steps):
+        if detach_every and step and step%detach_every==0:
+            h=h.detach();hidden=hidden.detach()
         pe,T,hidden=bridge.read(h,q,hidden)
         e=torch.tensor(sample(pe.detach().numpy(),rng.random(len(h))))
         r=torch.tensor(sample(T[i,e].detach().numpy(),rng.random(len(h))))
