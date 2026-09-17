@@ -1,0 +1,65 @@
+{
+  "results": {
+    "base": {
+      "1": {
+        "mse": 5.034743661035245e-06,
+        "per_video": {
+          "13": 2.3014397020400006e-06,
+          "16": 5.719493214986704e-06,
+          "18": 7.083298066079034e-06
+        }
+      },
+      "10": {
+        "mse": 6.836532887733108e-05,
+        "per_video": {
+          "13": 9.548720841653894e-05,
+          "16": 4.416197141618205e-05,
+          "18": 6.544680679927222e-05
+        }
+      }
+    },
+    "h1": {
+      "1": {
+        "mse": 5.9597580752255875e-06,
+        "per_video": {
+          "13": 4.14609098344324e-06,
+          "16": 7.333744337685781e-06,
+          "18": 6.399438904547739e-06
+        }
+      },
+      "10": {
+        "mse": 0.00021693289578919524,
+        "per_video": {
+          "13": 0.0004275698692435853,
+          "16": 0.00013502937461709543,
+          "18": 8.819944350690496e-05
+        }
+      }
+    },
+    "h10": {
+      "1": {
+        "mse": 5.7680291025269125e-06,
+        "per_video": {
+          "13": 3.623633177615423e-06,
+          "16": 6.4222429273398945e-06,
+          "18": 7.258211202625417e-06
+        }
+      },
+      "10": {
+        "mse": 8.679303888665413e-05,
+        "per_video": {
+          "13": 0.00013878095481754452,
+          "16": 6.0138370933811464e-05,
+          "18": 6.14597909086064e-05
+        }
+      }
+    }
+  },
+  "source_hashes": {
+    "adaptive_search_results/prefix_velocity_memory_model.npz": "25b841b86d7eefed97e254a3e7404ae49415603c6e21e6ccc1e43d5a81e9b3e2",
+    "adaptive_search_results/multistep_initializer_h1.npz": "2c4d729da9a72e88901d2410c6d72e238505b9f52be75af14b7ce70bbb2d6bae",
+    "adaptive_search_results/multistep_initializer_h10.npz": "eeddaccf704cea60781cb9e8cbe997ac6916775e9fd8faac8234febf5cffca49"
+  },
+  "sources_unchanged": true,
+  "note": "Post-fit fixed observed-q-path TRAINhold diagnostics on same24starts as300step evaluation. Uses future observed labels/path, not deployable inference; no refit/selection/DEV/TEST."
+}
