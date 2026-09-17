@@ -19,6 +19,7 @@ import time
 from dataclasses import dataclass, field
 from pathlib import Path
 from concurrent.futures import ProcessPoolExecutor
+from collections import OrderedDict
 
 import numpy as np
 
@@ -55,7 +56,8 @@ class AdaptiveBeam:
                  max_depth=4, stability_rounds=1, temperature=0.0,
                  check_weight=0.08, contradiction_weight=0.35,
                  widen_on_empty=False, soft_check=False, value_model=None, value_weight=1.,
-                 min_stop_support=1):
+                 min_stop_support=1, search_interval=1, uncertainty_gap=0., rule_cache_size=0,
+                 depth_invariant_temperature=False):
         self.base = Dynamics()
         self.machine = EventMachine(self.base, Path(__file__).resolve().parent /
                                     "v20_rnn_mixture" / "models" / checkpoint)
@@ -73,12 +75,19 @@ class AdaptiveBeam:
         self.soft_check = soft_check
         self.value_weight = value_weight
         self.min_stop_support = int(min_stop_support)
+        self.search_interval = int(search_interval)
+        self.uncertainty_gap = float(uncertainty_gap)
+        self.rule_cache_size = int(rule_cache_size)
+        self.depth_invariant_temperature = depth_invariant_temperature
+        self._rule_cache = OrderedDict()
+        if self.search_interval < 1:
+            raise ValueError('search_interval must be positive')
         self.value_model = None
         if value_model:
             from train_search_value import ValueModel
             self.value_model = ValueModel(value_model)
         self.audit = dict(expansions=0, empty_narrow=0, rescued=0,
-                          empty_full=0, rejected_edges=0)
+                          empty_full=0, rejected_edges=0, rule_cache_hits=0, rule_cache_misses=0)
         if self.min_depth < 1 or self.max_depth < self.min_depth:
             raise ValueError("Require 1 <= min_depth <= max_depth")
 
@@ -129,6 +138,22 @@ class AdaptiveBeam:
             path_q=parent.path_q + (int(r),),
             check_sum=check_sum, contradictions=parent.contradictions + contradiction)
 
+    def _execute_candidates(self, history, q, rs):
+        # F is independent of GRU hidden/event. Reuse only exact numeric
+        # inputs; keep event identities/probabilities in the search edges.
+        key = (history.shape, history.dtype.str, history.tobytes(), int(q), tuple(rs)) if self.rule_cache_size>0 else None
+        if key is not None and key in self._rule_cache:
+            self.audit['rule_cache_hits'] += 1
+            value=self._rule_cache.pop(key); self._rule_cache[key]=value
+            return value
+        self.audit['rule_cache_misses'] += 1
+        value=self.base.execute_rule(np.repeat(history,len(rs),axis=0),np.full(len(rs),q,dtype=int),rs)
+        if key is not None:
+            value.setflags(write=False)
+            self._rule_cache[key]=value
+            if len(self._rule_cache)>self.rule_cache_size:self._rule_cache.popitem(last=False)
+        return value
+
     def _expand(self, node, full=False):
         self.audit['expansions'] += 1
         pe, trans, read_hidden = self._read(node)
@@ -144,7 +169,7 @@ class AdaptiveBeam:
         histories = np.repeat(node.history, n, axis=0)
         qs = np.full(n, int(node.q), dtype=int)
         rs = np.asarray([r for _, r in pairs], dtype=int)
-        ys = self.base.execute_rule(histories, qs, rs)
+        ys = self._execute_candidates(node.history,node.q,rs)
         valid = np.isfinite(ys).all(axis=1)
         valid &= np.max(np.abs(ys - node.history[0, -1]), axis=1) <= 20
 
@@ -200,17 +225,22 @@ class AdaptiveBeam:
             score -= self.value_weight * self.value_model.predict(self.base, node)
         return score
 
-    def search(self, history, q, hidden, rng, check_root=True, banned_q=()):
+    def search(self, history, q, hidden, rng, check_root=True, banned_q=(), allow_lookahead=True):
         roots = self._root_options(history, q, hidden, check_root)
         roots = [node for node in roots if node.q not in banned_q]
         if not roots:
             return None, {"depth": 0, "roots": 0, "stable": False, "root_gap": None}
+        # Shallow calls still validate the actual middle. Uncertainty can
+        # promote a scheduled shallow call; this is an ablation heuristic.
+        root_scores = sorted((node.score for node in roots), reverse=True)
+        uncertain = self.uncertainty_gap > 0 and (len(root_scores)<2 or root_scores[0]-root_scores[1]<self.uncertainty_gap)
+        depth_limit = self.max_depth if allow_lookahead or uncertain else 1
         groups = {i: [root] for i, root in enumerate(roots)}
         previous = None
         stable = 0
         root_values = np.full(len(roots), -np.inf)
         depth_done = 1
-        for depth in range(1, self.max_depth + 1):
+        for depth in range(1, depth_limit + 1):
             if depth > 1:
                 for i, nodes in list(groups.items()):
                     expanded = []
@@ -247,7 +277,10 @@ class AdaptiveBeam:
             return None, {"depth": depth_done, "roots": len(roots), "stable": False, "root_gap": None}
         vals = root_values.copy()
         if self.temperature > 0:
-            z = (vals - np.nanmax(vals)) / self.temperature
+            # Optional ablation: hold the coefficient of root log-prior
+            # constant when a scheduled shallow call changes mean depth.
+            temp = self.temperature * self.max_depth / depth_done if self.depth_invariant_temperature else self.temperature
+            z = (vals - np.nanmax(vals)) / temp
             probs = np.exp(np.clip(z, -60, 0)); probs[~finite] = 0
             probs /= probs.sum()
             chosen = int(rng.choice(len(roots), p=probs))
@@ -278,7 +311,8 @@ def rollout(searcher, history, horizon, particles=8, seed=1729, rollback_budget=
         t = 0; rewinds = 0
         while t < horizon:
             h, q, hidden, banned = stack[t]
-            node, info = searcher.search(h, q, hidden, rng, check_root=(t > 0), banned_q=banned)
+            node, info = searcher.search(h, q, hidden, rng, check_root=(t > 0), banned_q=banned,
+                                         allow_lookahead=(t % getattr(searcher,'search_interval',1)==0))
             info.update(particle=particle, step=t, rollback=False)
             diagnostics.append(info)
             if node is None:
@@ -311,7 +345,10 @@ def make_searcher(args):
                             contradiction_weight=args.contradiction_weight,
                             widen_on_empty=args.widen_on_empty, soft_check=args.soft_check,
                             value_model=args.value_model, value_weight=args.value_weight,
-                            min_stop_support=args.min_stop_support)
+                            min_stop_support=args.min_stop_support,
+                            search_interval=args.search_interval, uncertainty_gap=args.uncertainty_gap,
+                            rule_cache_size=args.rule_cache_size,
+                            depth_invariant_temperature=args.depth_invariant_temperature)
 
 
 def run_window(task):
@@ -368,6 +405,10 @@ def main():
     ap.add_argument('--per-video',type=int,default=2)
     ap.add_argument('--particles',type=int,default=2)
     ap.add_argument('--workers',type=int,default=1)
+    ap.add_argument('--search-interval',type=int,default=1)
+    ap.add_argument('--uncertainty-gap',type=float,default=0.)
+    ap.add_argument('--rule-cache-size',type=int,default=0)
+    ap.add_argument('--depth-invariant-temperature',action='store_true')
     ap.add_argument('--seed',type=int,default=1729)
     ap.add_argument('--min-depth',type=int,default=2)
     ap.add_argument('--max-depth',type=int,default=4)

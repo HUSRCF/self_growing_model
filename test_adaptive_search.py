@@ -7,11 +7,50 @@ from v20_rnn_mixture.engine.data import tail_windows
 
 
 class PrototypeTests(unittest.TestCase):
+    def test_temperature_matching_preserves_root_prior_scale(self):
+        h=np.zeros((1,32,2)); hidden=np.zeros((1,32))
+        search=AdaptiveBeam(min_depth=2,max_depth=2,temperature=1,depth_invariant_temperature=True)
+        roots=[Node(h,i,hidden,1,-float(2+2*i),i,i,i,i,path_q=(i,)) for i in range(2)]
+        search._root_options=lambda *args:roots
+        search._expand=lambda n:[replace(n,depth=n.depth+1,path_q=n.path_q+(n.q,))]
+        class Capture:
+            def choice(self,n,p):self.probs=p.copy();return 0
+        rng=Capture()
+        search.search(h,0,hidden,rng,allow_lookahead=True);deep=rng.probs.copy()
+        search.search(h,0,hidden,rng,allow_lookahead=False)
+        np.testing.assert_allclose(deep,rng.probs)
+        search.depth_invariant_temperature=False
+        search.search(h,0,hidden,rng,allow_lookahead=False)
+        self.assertGreater(rng.probs[0],deep[0])
+
+    def test_exact_rule_cache_preserves_rule_inputs(self):
+        search=AdaptiveBeam(rule_cache_size=1)
+        h=tail_windows('dev',10,1)['history'][:1]
+        q=int(search.base.state_from_history(h)[0][0]);rs=np.array([0,1])
+        first=search._execute_candidates(h,q,rs)
+        np.testing.assert_array_equal(first,search._execute_candidates(h.copy(),q,rs))
+        self.assertEqual(search.audit['rule_cache_hits'],1)
+        search._execute_candidates(h,q,rs[::-1])
+        self.assertEqual(search.audit['rule_cache_misses'],2)
+        self.assertEqual(len(search._rule_cache),1)
+        search._execute_candidates(h,q,rs)
+        self.assertEqual(search.audit['rule_cache_misses'],3)
+
+    def test_shallow_schedule_and_uncertainty_promotion(self):
+        h=np.zeros((1,32,2)); hidden=np.zeros((1,32))
+        for gap,expected in [(0.,1),(4.,2)]:
+            search=AdaptiveBeam(min_depth=2,max_depth=2,uncertainty_gap=gap)
+            roots=[Node(h,i,hidden,1,-float(1+3*i),i,i,i,i,path_q=(i,)) for i in range(2)]
+            search._root_options=lambda *args:roots
+            search._expand=lambda n:[replace(n,depth=n.depth+1,score=n.score-1,path_q=n.path_q+(n.q,))]
+            _,info=search.search(h,0,hidden,np.random.default_rng(0),allow_lookahead=False)
+            self.assertEqual(info['depth'],expected)
+
     def test_rollback_restores_parent_and_bans_dead_destination(self):
         class Fake:
             def __init__(self): self.machine=self
             def initialize(self,h): return np.array([0]),{'hidden':np.zeros((1,1))}
-            def search(self,h,q,hidden,rng,check_root=True,banned_q=()):
+            def search(self,h,q,hidden,rng,check_root=True,banned_q=(),allow_lookahead=True):
                 info=dict(depth=1,roots=1,stable=False,root_gap=None)
                 if q==1:return None,info
                 if q==0:

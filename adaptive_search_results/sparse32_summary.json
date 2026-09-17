@@ -1,0 +1,185 @@
+{
+  "results": {
+    "shallow": {
+      "metrics": {
+        "50": {
+          "embedding_rmse": 0.035810936849477025,
+          "energy_score": 0.04661930835399667,
+          "coverage90": 0.17708333333333334,
+          "failure": 0.0
+        },
+        "100": {
+          "embedding_rmse": 0.17362252869342965,
+          "energy_score": 0.137974963384028,
+          "coverage90": 0.17708333333333334,
+          "failure": 0.0
+        },
+        "300": {
+          "embedding_rmse": 0.4095146226448769,
+          "energy_score": 0.51912938234771,
+          "coverage90": 0.328125,
+          "failure": 0.0
+        }
+      },
+      "rollbacks": 1354.0,
+      "expansions": 79508.0,
+      "seconds": [
+        37.57869180198759,
+        36.99068826902658,
+        36.896508070640266
+      ],
+      "mean_depth": 0.9829745416518869
+    },
+    "period5": {
+      "metrics": {
+        "50": {
+          "embedding_rmse": 0.03449198636254084,
+          "energy_score": 0.04468971448796686,
+          "coverage90": 0.1953125,
+          "failure": 0.0
+        },
+        "100": {
+          "embedding_rmse": 0.1586652286886659,
+          "energy_score": 0.12562525354578702,
+          "coverage90": 0.20052083333333334,
+          "failure": 0.0
+        },
+        "300": {
+          "embedding_rmse": 0.3977864709410088,
+          "energy_score": 0.4985615652562639,
+          "coverage90": 0.34375,
+          "failure": 0.0
+        }
+      },
+      "rollbacks": 888.0,
+      "expansions": 140049.0,
+      "seconds": [
+        62.31655782740563,
+        61.93457742128521,
+        61.761598736047745
+      ],
+      "mean_depth": 1.1845475516706065
+    },
+    "guard5": {
+      "metrics": {
+        "50": {
+          "embedding_rmse": 0.03458946465629643,
+          "energy_score": 0.04458945710910033,
+          "coverage90": 0.19270833333333334,
+          "failure": 0.0
+        },
+        "100": {
+          "embedding_rmse": 0.15953871286222565,
+          "energy_score": 0.12478993548391441,
+          "coverage90": 0.2109375,
+          "failure": 0.0
+        },
+        "300": {
+          "embedding_rmse": 0.3908704772700962,
+          "energy_score": 0.48242143043750957,
+          "coverage90": 0.3359375,
+          "failure": 0.0
+        }
+      },
+      "rollbacks": 687.3333333333334,
+      "expansions": 145501.66666666666,
+      "seconds": [
+        64.32516136486083,
+        63.71457451675087,
+        63.980128289200366
+      ],
+      "mean_depth": 1.2075183482407128
+    },
+    "shallow_t2": {
+      "metrics": {
+        "50": {
+          "embedding_rmse": 0.03440007749278576,
+          "energy_score": 0.04236225756241935,
+          "coverage90": 0.2942708333333333,
+          "failure": 0.0
+        },
+        "100": {
+          "embedding_rmse": 0.1358072875706887,
+          "energy_score": 0.10359803186855591,
+          "coverage90": 0.3359375,
+          "failure": 0.0
+        },
+        "300": {
+          "embedding_rmse": 0.397003518935018,
+          "energy_score": 0.4698601182397766,
+          "coverage90": 0.40625,
+          "failure": 0.0
+        }
+      },
+      "rollbacks": 2908.3333333333335,
+      "expansions": 82616.66666666667,
+      "seconds": [
+        38.104733034037054,
+        47.52599009592086,
+        82.85572423320264
+      ],
+      "mean_depth": 0.9647973421549705
+    },
+    "period5_matched": {
+      "metrics": {
+        "50": {
+          "embedding_rmse": 0.03507395221599622,
+          "energy_score": 0.042919108898188583,
+          "coverage90": 0.2838541666666667,
+          "failure": 0.0
+        },
+        "100": {
+          "embedding_rmse": 0.12467802193757462,
+          "energy_score": 0.10228261041154163,
+          "coverage90": 0.2994791666666667,
+          "failure": 0.0
+        },
+        "300": {
+          "embedding_rmse": 0.38840297053407297,
+          "energy_score": 0.4570798941026098,
+          "coverage90": 0.3932291666666667,
+          "failure": 0.0
+        }
+      },
+      "rollbacks": 2300.3333333333335,
+      "expansions": 142865.0,
+      "seconds": [
+        97.86333451513201,
+        85.4145046249032,
+        78.1107566729188
+      ],
+      "mean_depth": 1.160797218982233
+    },
+    "full": {
+      "metrics": {
+        "50": {
+          "embedding_rmse": 0.03242137892963482,
+          "energy_score": 0.04101198610999829,
+          "coverage90": 0.2630208333333333,
+          "failure": 0.0
+        },
+        "100": {
+          "embedding_rmse": 0.11397781991045952,
+          "energy_score": 0.09692972631154066,
+          "coverage90": 0.3098958333333333,
+          "failure": 0.0
+        },
+        "300": {
+          "embedding_rmse": 0.3949242340559613,
+          "energy_score": 0.46354539804079237,
+          "coverage90": 0.3359375,
+          "failure": 0.0
+        }
+      },
+      "rollbacks": 32.666666666666664,
+      "expansions": 384179.0,
+      "seconds": [
+        105.28659958578646,
+        89.60463692806661,
+        104.67094247695059
+      ],
+      "mean_depth": 2.0
+    }
+  },
+  "note": "32 DEV windows,8 particles,3 seeds. Same windows verified. Unequal workers/concurrent load: compare numerical expansion counts, not wall time as an equal-budget benchmark. Depth-normalized scores confound sampling temperature; matched variants control root-prior coefficient only."
+}
