@@ -1,11 +1,58 @@
 import unittest
+from dataclasses import replace
 import numpy as np
-from adaptive_search_prototype import AdaptiveBeam, Node
+from adaptive_search_prototype import AdaptiveBeam, Node, rollout
 from v20_rnn_mixture.engine.checker import central
 from v20_rnn_mixture.engine.data import tail_windows
 
 
 class PrototypeTests(unittest.TestCase):
+    def test_rollback_restores_parent_and_bans_dead_destination(self):
+        class Fake:
+            def __init__(self): self.machine=self
+            def initialize(self,h): return np.array([0]),{'hidden':np.zeros((1,1))}
+            def search(self,h,q,hidden,rng,check_root=True,banned_q=()):
+                info=dict(depth=1,roots=1,stable=False,root_gap=None)
+                if q==1:return None,info
+                if q==0:
+                    np.testing.assert_array_equal(hidden,np.zeros((1,1)))
+                    r=2 if 1 in banned_q else 1
+                else:r=2
+                nh=np.concatenate([h[:,1:],np.full((1,1,2),r)],1)
+                return Node(nh,r,hidden+1,1,0,0,r,0,r),info
+        h=np.zeros((1,32,2))
+        pred,failed,diag=rollout(Fake(),h,3,particles=1,rollback_budget=2)
+        self.assertFalse(failed.any())
+        np.testing.assert_array_equal(pred, np.full((1,1,3,2),2.))
+        self.assertEqual(sum(d['rollback'] for d in diag),1)
+        _,failed,_=rollout(Fake(),h,3,particles=1,rollback_budget=0)
+        self.assertTrue(failed[0,0,1:].all())
+
+    def test_support_stop_counts_unique_q_paths(self):
+        h = np.zeros((1,32,2)); hidden = np.zeros((1,32))
+        for required, expected in [(1,2),(2,3)]:
+            search = AdaptiveBeam(min_depth=2,max_depth=3,min_stop_support=required)
+            roots = [Node(h,i,hidden,1,-float(1+3*i),i,i,i,i,path_q=(i,)) for i in range(2)]
+            search._root_options = lambda *args: roots
+            # Duplicate event histories with the same q path must not count
+            # as independent support for stopping.
+            def expand(node):
+                child=replace(node,depth=node.depth+1,score=node.score-(1+3*node.q),path_q=node.path_q+(node.q,))
+                return [child,replace(child,event=7)]
+            search._expand=expand
+            _,info=search.search(h,0,hidden,np.random.default_rng(0))
+            self.assertEqual(info['depth'],expected)
+
+    def test_committed_middle_checked_after_replanning(self):
+        search = AdaptiveBeam(min_depth=1, max_depth=1)
+        h = tail_windows('dev', 10, 1)['history'][:1]
+        q, memory = search.machine.initialize(h)
+        search.checker.reject = lambda left, middle, right, qs: (np.ones(len(qs), bool), np.ones(len(qs)))
+        node, _ = search.search(h, int(q[0]), memory['hidden'], np.random.default_rng(0), check_root=True)
+        self.assertIsNone(node)
+        observed, _ = search.search(h, int(q[0]), memory['hidden'], np.random.default_rng(0), check_root=False)
+        self.assertIsNotNone(observed)
+
     def test_checker_receives_left_neighbor(self):
         search = AdaptiveBeam()
         h = np.stack([np.arange(32.) * .01] * 2, axis=-1)[None]

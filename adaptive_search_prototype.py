@@ -43,6 +43,7 @@ class Node:
     path_q: tuple[int, ...] = field(default_factory=tuple)
     check_sum: float = 0.0
     contradictions: int = 0
+    check_middle: bool = False
 
 
 class AdaptiveBeam:
@@ -52,7 +53,8 @@ class AdaptiveBeam:
                  event_top=2, next_top=2, beam_per_root=3, min_depth=2,
                  max_depth=4, stability_rounds=1, temperature=0.0,
                  check_weight=0.08, contradiction_weight=0.35,
-                 widen_on_empty=False, soft_check=False, value_model=None, value_weight=1.):
+                 widen_on_empty=False, soft_check=False, value_model=None, value_weight=1.,
+                 min_stop_support=1):
         self.base = Dynamics()
         self.machine = EventMachine(self.base, Path(__file__).resolve().parent /
                                     "v20_rnn_mixture" / "models" / checkpoint)
@@ -69,6 +71,7 @@ class AdaptiveBeam:
         self.widen_on_empty = widen_on_empty
         self.soft_check = soft_check
         self.value_weight = value_weight
+        self.min_stop_support = int(min_stop_support)
         self.value_model = None
         if value_model:
             from train_search_value import ValueModel
@@ -99,7 +102,7 @@ class AdaptiveBeam:
         check_sum = parent.check_sum
         # The first generated point has no generated middle point yet.  Once
         # depth>=1, the new right point checks the previous generated middle.
-        if parent.depth >= 1:
+        if parent.depth >= 1 or parent.check_middle:
             left = parent.history[:, :-1]
             middle = parent.history[:, -1]
             right = y[None]
@@ -146,7 +149,7 @@ class AdaptiveBeam:
 
         scores = np.zeros(n, dtype=float)
         rejected = np.zeros(n, dtype=bool)
-        if node.depth >= 1:
+        if node.depth >= 1 or node.check_middle:
             left = np.repeat(node.history[:, :-1], n, axis=0)
             middle = np.repeat(node.history[:, -1], n, axis=0)
             rejected, scores = self.checker.reject(left, middle, ys, qs)
@@ -182,9 +185,10 @@ class AdaptiveBeam:
                 contradictions=node.contradictions + contradiction))
         return out
 
-    def _root_options(self, history, q, hidden):
+    def _root_options(self, history, q, hidden, check_root=True):
         root = Node(history=history.copy(), q=int(q), hidden=hidden.copy(), depth=0,
-                    score=0.0, root_event=-1, root_q=-1, event=-1, next_q=-1)
+                    score=0.0, root_event=-1, root_q=-1, event=-1, next_q=-1,
+                    check_middle=check_root)
         return self._expand(root)
 
     def _value(self, node):
@@ -195,8 +199,9 @@ class AdaptiveBeam:
             score -= self.value_weight * self.value_model.predict(self.base, node)
         return score
 
-    def search(self, history, q, hidden, rng):
-        roots = self._root_options(history, q, hidden)
+    def search(self, history, q, hidden, rng, check_root=True, banned_q=()):
+        roots = self._root_options(history, q, hidden, check_root)
+        roots = [node for node in roots if node.q not in banned_q]
         if not roots:
             return None, {"depth": 0, "roots": 0, "stable": False, "root_gap": None}
         groups = {i: [root] for i, root in enumerate(roots)}
@@ -230,7 +235,10 @@ class AdaptiveBeam:
                 gap = root_values[order[0]] - root_values[order[1]]
             else:
                 gap = -np.inf
-            if depth >= self.min_depth and stable >= self.stability_rounds and gap > 0.02:
+            # Count distinct q paths, not duplicate event edges. This is a
+            # finite-horizon support heuristic, not a feasibility guarantee.
+            support = len({x.path_q for x in groups.get(previous, [])})
+            if depth >= self.min_depth and stable >= self.stability_rounds and gap > 0.02 and support >= self.min_stop_support:
                 break
 
         finite = np.isfinite(root_values)
@@ -256,7 +264,7 @@ class AdaptiveBeam:
         return node, info
 
 
-def rollout(searcher, history, horizon, particles=8, seed=1729):
+def rollout(searcher, history, horizon, particles=8, seed=1729, rollback_budget=0):
     history = np.asarray(history, dtype=float)
     q0, mem0 = searcher.machine.initialize(history)
     rng = np.random.default_rng(seed)
@@ -265,17 +273,30 @@ def rollout(searcher, history, horizon, particles=8, seed=1729):
     diagnostics = []
     for particle in range(particles):
         h = history.copy(); q = int(q0[0]); hidden = mem0["hidden"].copy()
-        for t in range(horizon):
-            node, info = searcher.search(h, q, hidden, rng)
-            info.update(particle=particle, step=t)
+        stack = [(h, q, hidden, set())]
+        t = 0; rewinds = 0
+        while t < horizon:
+            h, q, hidden, banned = stack[t]
+            node, info = searcher.search(h, q, hidden, rng, check_root=(t > 0), banned_q=banned)
+            info.update(particle=particle, step=t, rollback=False)
             diagnostics.append(info)
             if node is None:
+                if t > 0 and rewinds < rollback_budget:
+                    # Restore the actual parent state and ban the dead child
+                    # only at that parent; later descendants are discarded.
+                    dead_q = q
+                    stack.pop(); t -= 1; rewinds += 1
+                    stack[t][3].add(dead_q)
+                    info['rollback'] = True
+                    continue
                 failed[0, particle, t:] = True
                 pred[0, particle, t:] = h[0, -1]
                 break
             y = node.history[0, -1]
             pred[0, particle, t] = y
             h, q, hidden = node.history, node.q, node.hidden
+            stack.append((h, q, hidden, set()))
+            t += 1
     return pred, failed, diagnostics
 
 
@@ -288,8 +309,13 @@ def run(args):
                             check_weight=args.check_weight,
                             contradiction_weight=args.contradiction_weight,
                             widen_on_empty=args.widen_on_empty, soft_check=args.soft_check,
-                            value_model=args.value_model, value_weight=args.value_weight)
-    windows = tail_windows(args.split, args.steps, args.per_video)
+                            value_model=args.value_model, value_weight=args.value_weight,
+                            min_stop_support=args.min_stop_support)
+    window_horizon = args.window_horizon or args.steps
+    if window_horizon < args.steps:
+        raise ValueError('window-horizon must cover steps')
+    windows = tail_windows(args.split, window_horizon, args.per_video)
+    windows['truth'] = windows['truth'][:, :args.steps]
     all_pred=[]; all_failed=[]; all_diag=[]; start=time.perf_counter()
     for i, h in enumerate(windows['history']):
         # With temperature 0 the search is deterministic.  Re-running the
@@ -297,7 +323,7 @@ def run(args):
         # replicate the one result after the rollout.  Nonzero temperature
         # retains the original independent-particle behavior.
         rollout_particles = 1 if (args.particles > 1 and args.temperature == 0.0) else args.particles
-        p, f, d = rollout(searcher, h[None], args.steps, rollout_particles, args.seed+i)
+        p, f, d = rollout(searcher, h[None], args.steps, rollout_particles, args.seed+i, args.rollback_budget)
         if rollout_particles != args.particles:
             p = np.repeat(p, args.particles, axis=1)
             f = np.repeat(f, args.particles, axis=1)
@@ -309,6 +335,7 @@ def run(args):
                 tracking=tracking(arrays['angular_errors']), seconds=time.perf_counter()-start,
                 n_windows=len(windows['history']), particles=args.particles,
                 failed_fraction=float(failed.mean()), audit=searcher.audit,
+                rollbacks=sum(d.get('rollback',False) for d in all_diag),
                 search=dict(mean_depth=float(np.mean([d['depth'] for d in all_diag])),
                             max_depth=int(max(d['depth'] for d in all_diag)),
                             stable_fraction=float(np.mean([d['stable'] for d in all_diag])),
@@ -316,7 +343,7 @@ def run(args):
                     mean_root_gap=float(np.mean([d['root_gap'] for d in all_diag if d.get('root_gap') is not None])) if any(d.get('root_gap') is not None for d in all_diag) else None)
                 )
     out=Path(args.output);out.parent.mkdir(parents=True,exist_ok=True);out.write_text(json.dumps(result,indent=2,ensure_ascii=False))
-    np.savez_compressed(out.with_suffix('.npz'),prediction=pred,failed=failed,truth=windows['truth'],history=windows['history'],**arrays)
+    np.savez_compressed(out.with_suffix('.npz'),prediction=pred,failed=failed,truth=windows['truth'],history=windows['history'],video=windows['video'],window_start=windows['start'],**arrays)
     print(json.dumps(result,indent=2,ensure_ascii=False),flush=True)
 
 
@@ -340,6 +367,10 @@ def main():
     ap.add_argument('--soft-check', action='store_true')
     ap.add_argument('--value-model')
     ap.add_argument('--value-weight', type=float, default=1.)
+    ap.add_argument('--min-stop-support', type=int, default=1)
+    ap.add_argument('--window-horizon', type=int)
+    ap.add_argument('--rollback-budget', type=int, default=0,
+                    help='Bounded OFFLINE path revision; zero preserves irrevocable rollout')
     ap.add_argument('--output',default='adaptive_search_results/prototype.json')
     run(ap.parse_args())
 

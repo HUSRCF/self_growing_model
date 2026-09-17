@@ -1,0 +1,79 @@
+{
+  "config": {
+    "split": "dev",
+    "steps": 50,
+    "per_video": 8,
+    "particles": 2,
+    "seed": 1729,
+    "min_depth": 2,
+    "max_depth": 2,
+    "event_top": 2,
+    "next_top": 2,
+    "beam_width": 3,
+    "stability_rounds": 1,
+    "temperature": 0.0,
+    "check_weight": 0.08,
+    "contradiction_weight": 0.35,
+    "widen_on_empty": false,
+    "soft_check": false,
+    "value_model": null,
+    "value_weight": 1.0,
+    "output": "adaptive_search_results/root_checked_dev_d2.json"
+  },
+  "score": {
+    "10": {
+      "seconds": 0.1,
+      "embedding_rmse": 0.005636467338086953,
+      "angular_rmse": 0.007971275259015483,
+      "energy_score": 0.009279645953053244,
+      "coverage90": 0.0,
+      "failure": 0.0,
+      "all_particles_valid_windows": 32,
+      "valid_window_rmse": 0.005636467338086953
+    },
+    "25": {
+      "seconds": 0.25,
+      "embedding_rmse": 0.03620661671046469,
+      "angular_rmse": 0.051352798660366655,
+      "energy_score": 0.03826071035816507,
+      "coverage90": 0.0,
+      "failure": 0.03125,
+      "all_particles_valid_windows": 31,
+      "valid_window_rmse": 0.0171848941428567
+    },
+    "50": {
+      "seconds": 0.5,
+      "embedding_rmse": 0.18604472184622306,
+      "angular_rmse": 0.3194159639401695,
+      "energy_score": 0.11089155246512696,
+      "coverage90": 0.0,
+      "failure": 0.03125,
+      "all_particles_valid_windows": 31,
+      "valid_window_rmse": 0.036257537231295336
+    }
+  },
+  "tracking": {
+    "threshold_radians": 0.2,
+    "median_first_exit_seconds": 0.5,
+    "mean_first_exit_seconds": 0.491875,
+    "right_censored_windows": 31
+  },
+  "seconds": 13.062100630253553,
+  "n_windows": 32,
+  "particles": 2,
+  "failed_fraction": 0.020625,
+  "audit": {
+    "expansions": 7836,
+    "empty_narrow": 3460,
+    "rescued": 0,
+    "empty_full": 0,
+    "rejected_edges": 13857
+  },
+  "search": {
+    "mean_depth": 2.0,
+    "max_depth": 2,
+    "stable_fraction": 0.9661989795918368,
+    "mean_roots": 3.997448979591837,
+    "mean_root_gap": 2.897777354841951
+  }
+}
