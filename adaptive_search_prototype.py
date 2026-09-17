@@ -18,6 +18,7 @@ import math
 import time
 from dataclasses import dataclass, field
 from pathlib import Path
+from concurrent.futures import ProcessPoolExecutor
 
 import numpy as np
 
@@ -300,8 +301,8 @@ def rollout(searcher, history, horizon, particles=8, seed=1729, rollback_budget=
     return pred, failed, diagnostics
 
 
-def run(args):
-    searcher = AdaptiveBeam(max_depth=args.max_depth, min_depth=args.min_depth,
+def make_searcher(args):
+    return AdaptiveBeam(max_depth=args.max_depth, min_depth=args.min_depth,
                             event_top=args.event_top, next_top=args.next_top,
                             beam_per_root=args.beam_width,
                             stability_rounds=args.stability_rounds,
@@ -311,30 +312,43 @@ def run(args):
                             widen_on_empty=args.widen_on_empty, soft_check=args.soft_check,
                             value_model=args.value_model, value_weight=args.value_weight,
                             min_stop_support=args.min_stop_support)
+
+
+def run_window(task):
+    i, h, args = task
+    searcher = make_searcher(args)
+    actual_particles = 1 if args.temperature == 0 else args.particles
+    p,f,d = rollout(searcher,h[None],args.steps,actual_particles,args.seed+i,args.rollback_budget)
+    if actual_particles != args.particles:
+        p=np.repeat(p,args.particles,axis=1); f=np.repeat(f,args.particles,axis=1)
+    return p[0],f[0],d,searcher.audit
+
+
+def run(args):
+    if args.workers < 1 or args.particles < 1:
+        raise ValueError('workers and particles must be positive')
     window_horizon = args.window_horizon or args.steps
     if window_horizon < args.steps:
         raise ValueError('window-horizon must cover steps')
     windows = tail_windows(args.split, window_horizon, args.per_video)
     windows['truth'] = windows['truth'][:, :args.steps]
-    all_pred=[]; all_failed=[]; all_diag=[]; start=time.perf_counter()
-    for i, h in enumerate(windows['history']):
-        # With temperature 0 the search is deterministic.  Re-running the
-        # same state for multiple particles only duplicates identical work;
-        # replicate the one result after the rollout.  Nonzero temperature
-        # retains the original independent-particle behavior.
-        rollout_particles = 1 if (args.particles > 1 and args.temperature == 0.0) else args.particles
-        p, f, d = rollout(searcher, h[None], args.steps, rollout_particles, args.seed+i, args.rollback_budget)
-        if rollout_particles != args.particles:
-            p = np.repeat(p, args.particles, axis=1)
-            f = np.repeat(f, args.particles, axis=1)
-        all_pred.append(p[0]); all_failed.append(f[0]); all_diag.extend(d)
-        if (i+1) % 4 == 0: print(f"completed {i+1}/{len(windows['history'])}", flush=True)
+    all_pred=[]; all_failed=[]; all_diag=[]; audit={}; start=time.perf_counter()
+    tasks=[(i,h,args) for i,h in enumerate(windows['history'])]
+    pool=ProcessPoolExecutor(max_workers=min(args.workers,len(tasks))) if args.workers>1 else None
+    try:
+        results=pool.map(run_window,tasks) if pool else map(run_window,tasks)
+        for i,(p,f,d,a) in enumerate(results):
+            all_pred.append(p); all_failed.append(f); all_diag.extend(d)
+            for k,v in a.items():audit[k]=audit.get(k,0)+v
+            if (i+1)%4==0: print(f"completed {i+1}/{len(tasks)}",flush=True)
+    finally:
+        if pool:pool.shutdown()
     pred=np.asarray(all_pred); failed=np.asarray(all_failed)
     score, arrays=metrics(pred,windows['truth'],failed)
     result=dict(config={k:v for k,v in vars(args).items()}, score=score,
                 tracking=tracking(arrays['angular_errors']), seconds=time.perf_counter()-start,
                 n_windows=len(windows['history']), particles=args.particles,
-                failed_fraction=float(failed.mean()), audit=searcher.audit,
+                failed_fraction=float(failed.mean()), audit=audit,
                 rollbacks=sum(d.get('rollback',False) for d in all_diag),
                 search=dict(mean_depth=float(np.mean([d['depth'] for d in all_diag])),
                             max_depth=int(max(d['depth'] for d in all_diag)),
@@ -353,6 +367,7 @@ def main():
     ap.add_argument('--steps',type=int,default=50)
     ap.add_argument('--per-video',type=int,default=2)
     ap.add_argument('--particles',type=int,default=2)
+    ap.add_argument('--workers',type=int,default=1)
     ap.add_argument('--seed',type=int,default=1729)
     ap.add_argument('--min-depth',type=int,default=2)
     ap.add_argument('--max-depth',type=int,default=4)

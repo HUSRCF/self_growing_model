@@ -1,0 +1,116 @@
+{
+  "search": {
+    "50": {
+      "embedding_rmse": 0.03242137892963482,
+      "energy_score": 0.04101198610999829,
+      "coverage90": 0.2630208333333333,
+      "failure": 0.0
+    },
+    "100": {
+      "embedding_rmse": 0.11397781991045952,
+      "energy_score": 0.09692972631154066,
+      "coverage90": 0.3098958333333333,
+      "failure": 0.0
+    },
+    "300": {
+      "embedding_rmse": 0.3949242340559613,
+      "energy_score": 0.46354539804079237,
+      "coverage90": 0.3359375,
+      "failure": 0.0
+    }
+  },
+  "original": {
+    "50": {
+      "embedding_rmse": 0.033691175385232024,
+      "energy_score": 0.0431079407119972,
+      "coverage90": 0.20572916666666666,
+      "failure": 0.0
+    },
+    "100": {
+      "embedding_rmse": 0.14426155452422632,
+      "energy_score": 0.11198264555371018,
+      "coverage90": 0.2578125,
+      "failure": 0.0
+    },
+    "300": {
+      "embedding_rmse": 0.39812447337624945,
+      "energy_score": 0.4766742842692862,
+      "coverage90": 0.359375,
+      "failure": 0.0
+    }
+  },
+  "per_video": {
+    "3": {
+      "50": {
+        "search_rmse": 0.03892827608168118,
+        "original_rmse": 0.04233039139351472
+      },
+      "100": {
+        "search_rmse": 0.18283724056635542,
+        "original_rmse": 0.2554104510245366
+      },
+      "300": {
+        "search_rmse": 0.37522486608437894,
+        "original_rmse": 0.352301067339577
+      }
+    },
+    "6": {
+      "50": {
+        "search_rmse": 0.044190440975875156,
+        "original_rmse": 0.0433452462978316
+      },
+      "100": {
+        "search_rmse": 0.12377116141420835,
+        "original_rmse": 0.12489863721409149
+      },
+      "300": {
+        "search_rmse": 0.43040934329649855,
+        "original_rmse": 0.4451193754156943
+      }
+    },
+    "8": {
+      "50": {
+        "search_rmse": 0.009835607888816428,
+        "original_rmse": 0.009649851198294025
+      },
+      "100": {
+        "search_rmse": 0.023053533583745858,
+        "original_rmse": 0.023248023582124844
+      },
+      "300": {
+        "search_rmse": 0.19671548561214677,
+        "original_rmse": 0.17136774995350512
+      }
+    },
+    "9": {
+      "50": {
+        "search_rmse": 0.02512844865153725,
+        "original_rmse": 0.027801912967024656
+      },
+      "100": {
+        "search_rmse": 0.038703107797159506,
+        "original_rmse": 0.04164160148234044
+      },
+      "300": {
+        "search_rmse": 0.5087133857868391,
+        "original_rmse": 0.5282307881860576
+      }
+    }
+  },
+  "note": "Expanded DEV windows overlap the pilot videos/windows; not independent holdout. Three seeds,8 particles. Configuration t1 selected in pilot and frozen for this expansion.",
+  "search_seconds": [
+    105.28659958578646,
+    89.60463692806661,
+    104.67094247695059
+  ],
+  "original_seconds": [
+    5.091412249952555,
+    4.758215656504035,
+    4.498435620218515
+  ],
+  "rollbacks": [
+    32,
+    33,
+    33
+  ]
+}

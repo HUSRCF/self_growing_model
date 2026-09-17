@@ -1,0 +1,244 @@
+{
+  "video": [
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    9,
+    9,
+    9,
+    9,
+    9,
+    9,
+    9,
+    9,
+    6,
+    6,
+    6,
+    6,
+    6,
+    6,
+    6,
+    6,
+    8,
+    8,
+    8,
+    8,
+    8,
+    8,
+    8,
+    8
+  ],
+  "window_start": [
+    2253,
+    2532,
+    2811,
+    3090,
+    3369,
+    3648,
+    3927,
+    4207,
+    2246,
+    2524,
+    2802,
+    3080,
+    3359,
+    3637,
+    3915,
+    4194,
+    2281,
+    2564,
+    2847,
+    3130,
+    3414,
+    3697,
+    3980,
+    4264,
+    2220,
+    2494,
+    2768,
+    3043,
+    3317,
+    3592,
+    3866,
+    4141
+  ],
+  "results": [
+    {
+      "particles": 8,
+      "seed": 1729,
+      "seconds": 4.6375088626518846,
+      "score": {
+        "10": {
+          "seconds": 0.1,
+          "embedding_rmse": 0.005700369306503824,
+          "angular_rmse": 0.008061729058321311,
+          "energy_score": 0.009073362511068772,
+          "coverage90": 0.078125,
+          "failure": 0.0,
+          "all_particles_valid_windows": 32,
+          "valid_window_rmse": 0.005700369306503824
+        },
+        "25": {
+          "seconds": 0.25,
+          "embedding_rmse": 0.014629953071514584,
+          "angular_rmse": 0.020691801370392712,
+          "energy_score": 0.022815436377466983,
+          "coverage90": 0.109375,
+          "failure": 0.0,
+          "all_particles_valid_windows": 32,
+          "valid_window_rmse": 0.014629953071514584
+        },
+        "50": {
+          "seconds": 0.5,
+          "embedding_rmse": 0.03280474905824196,
+          "angular_rmse": 0.046447207479547135,
+          "energy_score": 0.042175955267141116,
+          "coverage90": 0.21875,
+          "failure": 0.0,
+          "all_particles_valid_windows": 32,
+          "valid_window_rmse": 0.03280474905824196
+        },
+        "100": {
+          "seconds": 1.0,
+          "embedding_rmse": 0.13754753132328879,
+          "angular_rmse": 0.25485647139534673,
+          "energy_score": 0.10602915160814944,
+          "coverage90": 0.296875,
+          "failure": 0.0,
+          "all_particles_valid_windows": 32,
+          "valid_window_rmse": 0.13754753132328879
+        },
+        "300": {
+          "seconds": 3.0,
+          "embedding_rmse": 0.3952616288798222,
+          "angular_rmse": 0.8106538428759125,
+          "energy_score": 0.46216446159890723,
+          "coverage90": 0.375,
+          "failure": 0.0,
+          "all_particles_valid_windows": 32,
+          "valid_window_rmse": 0.3952616288798222
+        }
+      }
+    },
+    {
+      "particles": 8,
+      "seed": 2718,
+      "seconds": 4.540230953134596,
+      "score": {
+        "10": {
+          "seconds": 0.1,
+          "embedding_rmse": 0.005681741384271928,
+          "angular_rmse": 0.0080353872803373,
+          "energy_score": 0.009081460145946792,
+          "coverage90": 0.0625,
+          "failure": 0.0,
+          "all_particles_valid_windows": 32,
+          "valid_window_rmse": 0.005681741384271928
+        },
+        "25": {
+          "seconds": 0.25,
+          "embedding_rmse": 0.015148821118655266,
+          "angular_rmse": 0.021425773242015098,
+          "energy_score": 0.0239402466306968,
+          "coverage90": 0.046875,
+          "failure": 0.0,
+          "all_particles_valid_windows": 32,
+          "valid_window_rmse": 0.015148821118655266
+        },
+        "50": {
+          "seconds": 0.5,
+          "embedding_rmse": 0.033186279526247586,
+          "angular_rmse": 0.04698457797385133,
+          "energy_score": 0.04321049819893911,
+          "coverage90": 0.234375,
+          "failure": 0.0,
+          "all_particles_valid_windows": 32,
+          "valid_window_rmse": 0.033186279526247586
+        },
+        "100": {
+          "seconds": 1.0,
+          "embedding_rmse": 0.1355292051295542,
+          "angular_rmse": 0.2260922531244747,
+          "energy_score": 0.10671398367964081,
+          "coverage90": 0.265625,
+          "failure": 0.0,
+          "all_particles_valid_windows": 32,
+          "valid_window_rmse": 0.1355292051295542
+        },
+        "300": {
+          "seconds": 3.0,
+          "embedding_rmse": 0.39584167455342656,
+          "angular_rmse": 0.708425116035182,
+          "energy_score": 0.47140059839078496,
+          "coverage90": 0.3671875,
+          "failure": 0.0,
+          "all_particles_valid_windows": 32,
+          "valid_window_rmse": 0.39584167455342656
+        }
+      }
+    },
+    {
+      "particles": 8,
+      "seed": 3141,
+      "seconds": 4.560517517849803,
+      "score": {
+        "10": {
+          "seconds": 0.1,
+          "embedding_rmse": 0.005675456860083732,
+          "angular_rmse": 0.00802649785156514,
+          "energy_score": 0.008988607840742891,
+          "coverage90": 0.109375,
+          "failure": 0.0,
+          "all_particles_valid_windows": 32,
+          "valid_window_rmse": 0.005675456860083732
+        },
+        "25": {
+          "seconds": 0.25,
+          "embedding_rmse": 0.015580555483502066,
+          "angular_rmse": 0.02203706248753198,
+          "energy_score": 0.024069949409570492,
+          "coverage90": 0.09375,
+          "failure": 0.0,
+          "all_particles_valid_windows": 32,
+          "valid_window_rmse": 0.015580555483502066
+        },
+        "50": {
+          "seconds": 0.5,
+          "embedding_rmse": 0.035082497571206524,
+          "angular_rmse": 0.04968049814537941,
+          "energy_score": 0.04393736866991138,
+          "coverage90": 0.1640625,
+          "failure": 0.0,
+          "all_particles_valid_windows": 32,
+          "valid_window_rmse": 0.035082497571206524
+        },
+        "100": {
+          "seconds": 1.0,
+          "embedding_rmse": 0.15970792711983597,
+          "angular_rmse": 0.27086429783171834,
+          "energy_score": 0.12320480137334026,
+          "coverage90": 0.2109375,
+          "failure": 0.0,
+          "all_particles_valid_windows": 32,
+          "valid_window_rmse": 0.15970792711983597
+        },
+        "300": {
+          "seconds": 3.0,
+          "embedding_rmse": 0.40327011669549956,
+          "angular_rmse": 0.7604084180845776,
+          "energy_score": 0.49645779281816654,
+          "coverage90": 0.3359375,
+          "failure": 0.0,
+          "all_particles_valid_windows": 32,
+          "valid_window_rmse": 0.40327011669549956
+        }
+      }
+    }
+  ],
+  "note": "Original stochastic rollout may revise earlier points by rollback; search commits sequentially. Same initial windows, different selection semantics."
+}
