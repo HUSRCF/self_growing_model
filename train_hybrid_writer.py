@@ -15,7 +15,7 @@ from train_closed_loop_writer import constant_model
 from v20_rnn_mixture.engine.common import SPLITS
 
 
-def hybrid_loss(prediction,truth,failed,logp):
+def hybrid_loss(prediction,truth,failed,logp,prefix_logp=None):
     """One window, independent particles; full-horizon score with detached LOO."""
     costs=[];baselines=[]
     for step in [50,100,300]:
@@ -26,7 +26,8 @@ def hybrid_loss(prediction,truth,failed,logp):
         _,baseline=energy_costs(emb.detach().numpy(),target.detach().numpy()[None],failed[:,step-1].numpy()[None])
         baselines.append(tensor(baseline[0]))
     cost=torch.stack(costs).mean();baseline=torch.stack(baselines).mean(0)
-    score=((cost.detach()-baseline)*logp).sum()
+    if prefix_logp is None:score=((cost.detach()-baseline)*logp).sum()
+    else:score=torch.stack([((c.detach()-b)*prefix_logp[:,t-1]).sum() for c,b,t in zip(costs,baselines,[50,100,300])]).mean()
     return cost,cost+score
 
 

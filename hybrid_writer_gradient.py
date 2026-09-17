@@ -6,10 +6,10 @@ import numpy as np
 import torch
 
 
-def paths(theta,detach_routing_state=False):
+def paths(theta,detach_routing_state=False,return_history=False):
     actions=torch.tensor(list(itertools.product([0,1],repeat=4)),dtype=torch.long)
     x=torch.full((16,),.2,dtype=torch.float64);h=torch.full_like(x,.1);q=torch.zeros_like(x)
-    logp=torch.zeros_like(x)
+    logp=torch.zeros_like(x);history=[];prefix=[]
     for t in range(2):
         e=actions[:,2*t].to(x.dtype);r=actions[:,2*t+1].to(x.dtype)
         rx=x.detach() if detach_routing_state else x
@@ -21,6 +21,8 @@ def paths(theta,detach_routing_state=False):
         # e influences r, not the numeric rule directly, matching the project interface.
         x=.85*x+.12*q-.2*r+.04*x*x+theta[0]+theta[1]*x
         h=read;q=r
+        history.append(x);prefix.append(logp)
+    if return_history:return torch.stack(history,1),torch.stack(prefix,1)
     return x,logp
 
 
