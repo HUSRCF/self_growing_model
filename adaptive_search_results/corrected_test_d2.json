@@ -1,0 +1,79 @@
+{
+  "config": {
+    "split": "test",
+    "steps": 50,
+    "per_video": 16,
+    "particles": 2,
+    "seed": 1729,
+    "min_depth": 2,
+    "max_depth": 2,
+    "event_top": 2,
+    "next_top": 2,
+    "beam_width": 3,
+    "stability_rounds": 1,
+    "temperature": 0.0,
+    "check_weight": 0.08,
+    "contradiction_weight": 0.35,
+    "widen_on_empty": false,
+    "soft_check": false,
+    "value_model": null,
+    "value_weight": 1.0,
+    "output": "adaptive_search_results/corrected_test_d2.json"
+  },
+  "score": {
+    "10": {
+      "seconds": 0.1,
+      "embedding_rmse": 0.007194666749269114,
+      "angular_rmse": 0.010175311592224371,
+      "energy_score": 0.011023604877154786,
+      "coverage90": 0.0,
+      "failure": 0.0,
+      "all_particles_valid_windows": 64,
+      "valid_window_rmse": 0.007194666749269114
+    },
+    "25": {
+      "seconds": 0.25,
+      "embedding_rmse": 0.01992949826283318,
+      "angular_rmse": 0.02819312319916282,
+      "energy_score": 0.030180394776879508,
+      "coverage90": 0.0,
+      "failure": 0.0,
+      "all_particles_valid_windows": 64,
+      "valid_window_rmse": 0.01992949826283318
+    },
+    "50": {
+      "seconds": 0.5,
+      "embedding_rmse": 0.09261813538693225,
+      "angular_rmse": 0.14046754983506474,
+      "energy_score": 0.0731977343959133,
+      "coverage90": 0.0,
+      "failure": 0.0,
+      "all_particles_valid_windows": 64,
+      "valid_window_rmse": 0.09261813538693225
+    }
+  },
+  "tracking": {
+    "threshold_radians": 0.2,
+    "median_first_exit_seconds": 0.5,
+    "mean_first_exit_seconds": 0.49671875,
+    "right_censored_windows": 61
+  },
+  "seconds": 26.50053845345974,
+  "n_windows": 64,
+  "particles": 2,
+  "failed_fraction": 0.0,
+  "audit": {
+    "expansions": 16000,
+    "empty_narrow": 7146,
+    "rescued": 0,
+    "empty_full": 0,
+    "rejected_edges": 28642
+  },
+  "search": {
+    "mean_depth": 2.0,
+    "max_depth": 2,
+    "stable_fraction": 0.9640625,
+    "mean_roots": 4.0,
+    "mean_root_gap": 3.0661757795558024
+  }
+}

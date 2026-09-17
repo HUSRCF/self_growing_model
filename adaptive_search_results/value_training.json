@@ -1,0 +1,28 @@
+{
+  "training_videos": [
+    12,
+    20,
+    7,
+    19,
+    5,
+    1,
+    2,
+    4,
+    11,
+    15
+  ],
+  "validation_videos": [
+    18,
+    16,
+    13
+  ],
+  "n_samples": 832,
+  "target": "mean embedding MSE at 1/10/25/50 under greedy continuation",
+  "validation_mse": 0.0014216292079171206,
+  "constant_validation_mse": 0.0013181487319948507,
+  "validation_correlation": 0.08881987747598855,
+  "validation_selected_cost": 0.00966612840112049,
+  "validation_mean_candidate_cost": 0.011263422575016599,
+  "validation_oracle_cost": 0.0028306226536402453,
+  "validation_selected_regret": 0.006835505747480246
+}

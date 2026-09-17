@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+*.zip
+*.npz
+*.pt
+v17_high_order_local_rules/
+v18_event_dynamics/
+v20_complete/
+v20_rnn_mixture/
+.env
+.env.*
