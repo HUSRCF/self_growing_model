@@ -6,10 +6,10 @@ import numpy as np
 import torch
 
 
-def paths(theta,detach_routing_state=False,return_history=False):
+def paths(theta,detach_routing_state=False,return_history=False,return_marginal=False):
     actions=torch.tensor(list(itertools.product([0,1],repeat=4)),dtype=torch.long)
     x=torch.full((16,),.2,dtype=torch.float64);h=torch.full_like(x,.1);q=torch.zeros_like(x)
-    logp=torch.zeros_like(x);history=[];prefix=[]
+    logp=torch.zeros_like(x);history=[];prefix=[];marginal_logp=torch.zeros_like(x)
     for t in range(2):
         e=actions[:,2*t].to(x.dtype);r=actions[:,2*t+1].to(x.dtype)
         rx=x.detach() if detach_routing_state else x
@@ -18,10 +18,15 @@ def paths(theta,detach_routing_state=False,return_history=False):
         pe=torch.sigmoid(.7*rx+.4*read-.2*q)
         pr=torch.sigmoid(-.5*rx+.8*read+.9*e+.3*q-.2)
         logp=logp+e*torch.log(pe)+(1-e)*torch.log1p(-pe)+r*torch.log(pr)+(1-r)*torch.log1p(-pr)
+        pr0=torch.sigmoid(-.5*rx+.8*read+.3*q-.2)
+        pr1=torch.sigmoid(-.5*rx+.8*read+.9+.3*q-.2)
+        marginal=(1-pe)*pr0+pe*pr1
+        marginal_logp=marginal_logp+r*torch.log(marginal)+(1-r)*torch.log1p(-marginal)
         # e influences r, not the numeric rule directly, matching the project interface.
         x=.85*x+.12*q-.2*r+.04*x*x+theta[0]+theta[1]*x
         h=read;q=r
         history.append(x);prefix.append(logp)
+    if return_marginal:return x,logp,marginal_logp
     if return_history:return torch.stack(history,1),torch.stack(prefix,1)
     return x,logp
 

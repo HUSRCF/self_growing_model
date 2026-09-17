@@ -108,13 +108,15 @@ def sampled_path(bridge,h,steps,theta,seed,trace=False):
     from feedback_distribution_pilot import sample
     q,hidden=bridge.initialize(h);rng=np.random.default_rng(seed)
     dead=torch.zeros(len(h),dtype=torch.bool);logp=torch.zeros(len(h),dtype=h.dtype)
-    out=[];failures=[];records=[];prefix_logs=[];i=torch.arange(len(h))
+    out=[];failures=[];records=[];prefix_logs=[];i=torch.arange(len(h));marginal_logp=torch.zeros_like(logp)
     for _ in range(steps):
         pe,T,hidden=bridge.read(h,q,hidden)
         e=torch.tensor(sample(pe.detach().numpy(),rng.random(len(h))))
         r=torch.tensor(sample(T[i,e].detach().numpy(),rng.random(len(h))))
         logp=logp+torch.log(pe[i,e])+torch.log(T[i,e,r])
         prefix_logs.append(logp)
+        marginal=(pe[:,:,None]*T).sum(1)
+        marginal_logp=marginal_logp+torch.log(marginal[i,r])
         candidate=bridge.execute(h,q,r)+theta
         dead=dead|(~torch.isfinite(candidate)).any(1)|((candidate-h[:,-1]).abs()>np.pi).any(1)
         y=torch.where(dead[:,None],h[:,-1],candidate)
@@ -122,4 +124,4 @@ def sampled_path(bridge,h,steps,theta,seed,trace=False):
         out.append(y);failures.append(dead)
         if trace:records.append(dict(event=e.clone(),q=q.clone(),hidden=hidden.clone(),history=h.clone()))
     return dict(prediction=torch.stack(out,1),failed=torch.stack(failures,1),logp=logp,
-                history=h,q=q,hidden=hidden,trace=records,prefix_logp=torch.stack(prefix_logs,1))
+                history=h,q=q,hidden=hidden,trace=records,prefix_logp=torch.stack(prefix_logs,1),marginal_logp=marginal_logp)
