@@ -120,7 +120,7 @@ def sampled_path(bridge,h,steps,theta,seed,trace=False,detach_every=0):
         prefix_logs.append(logp)
         marginal=(pe[:,:,None]*T).sum(1)
         marginal_logp=marginal_logp+torch.log(marginal[i,r])
-        candidate=bridge.execute(h,q,r)+theta
+        candidate=bridge.execute(h,q,r)+(theta[q] if theta.ndim==2 else theta)
         dead=dead|(~torch.isfinite(candidate)).any(1)|((candidate-h[:,-1]).abs()>np.pi).any(1)
         y=torch.where(dead[:,None],h[:,-1],candidate)
         h=torch.cat([h[:,1:],y[:,None]],1);q=r

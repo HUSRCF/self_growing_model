@@ -18,6 +18,7 @@ def design(raw,q,r,mean,scale):
 def correction(model,base,h,q,r):
     if model is None:return np.zeros((len(h),2))
     if model['kind']=='constant':return np.broadcast_to(model['value'],(len(h),2)).copy()
+    if model['kind']=='source_q':return model['value'][q]
     if model['kind']=='velocity':
         return model['value']*np.tanh((h[:,-1]-h[:,-2])/model['velocity_scale'])
     x=design(continuous_features(h,base),q,r,model['mean'],model['scale'])

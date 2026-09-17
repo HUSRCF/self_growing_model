@@ -33,17 +33,21 @@ def hybrid_loss(prediction,truth,failed,logp,prefix_logp=None):
 
 
 def main():
-    parser=argparse.ArgumentParser();parser.add_argument('--detach-every',type=int,choices=[0,50],default=0);args=parser.parse_args()
+    parser=argparse.ArgumentParser();parser.add_argument('--detach-every',type=int,choices=[0,50],default=0)
+    parser.add_argument('--writer',choices=['constant','source_q'],default='constant');args=parser.parse_args()
+    if args.writer=='source_q' and args.detach_every!=50:raise ValueError('Source-q pilot requires predeclared 50-step truncation')
     stem='hybrid_writer_pilot' if not args.detach_every else 'hybrid_writer_truncated50_pilot'
+    if args.writer=='source_q':stem='hybrid_writer_source_q_pilot'
     torch.set_num_threads(1);s=AdaptiveBeam();b=FrozenBridge(s);pool=TrainingPrefixPool(s.base,steps=300)
     root=Path('adaptive_search_results')
     with np.load(root/'continuous_residual_model_ridge_0.0001.npz') as saved:bound=saved['cap'].copy()*.01
     hold=prefix_windows(SPLITS['train'][-3:],steps=300,per_video=8);allruns=[]
     for seed in [1901,2718,3141]:
-        theta=torch.zeros(2,dtype=torch.float64,requires_grad=True);opt=torch.optim.Adam([theta],lr=.1)
+        theta=torch.zeros((s.base.k,2) if args.writer=='source_q' else (2,),dtype=torch.float64,requires_grad=True);opt=torch.optim.Adam([theta],lr=.1)
         checkpoints=[];trace=[]
         def evaluate(epoch):
             model=constant_model(theta.detach().numpy(),bound)
+            if args.writer=='source_q':model['kind']='source_q'
             rows=[rollout(s,hold,model,a)[0] for a in [301017,301018]]
             checkpoints.append(dict(epoch=epoch,theta=theta.detach().tolist(),objective=float(np.mean([r['objective'] for r in rows])),runs=rows))
             print(seed,'hold',epoch,checkpoints[-1]['objective'],flush=True)
@@ -76,7 +80,9 @@ def main():
         report=dict(bound=bound.tolist(),runs=allruns,config=dict(iterations=4,particles=4,windows_per_update=10,steps=300,lr=.1,clip=1.),
                     note='TRAIN only; original NumPy checkpoint evaluator. No DEV/TEST/default promotion. Full pathwise plus detached leave-one-particle routing score, no truncated BPTT. Whole update skipped on any guard or nonfinite gradient. Hard-boundary gradient not claimed unbiased. Three optimization seeds retained; budget not matched to prior direct search.')
         report['config']['detach_every']=args.detach_every
+        report['config']['writer']=args.writer
         if args.detach_every:report['note']='TRAIN only. Explicitly BIASED 50-step history/hidden detach; forward300step rollout/old joint event score/LOO/Adam budget unchanged. No DEV/TEST/promotion. Same seeds/windows as full-gradient pilot,not necessarily same CPU time; later trajectories differ after parameter updates. Zero eligible; all three seeds retained.'
+        if args.writer=='source_q':report['note']+=' Source-q 8x2 table versus shared2parameters,each entry same bound; increased capacity,not matched parameter count. Current registered source q,not destination r or diagnostic relabeling.'
         (root/f'{stem}.json').write_text(json.dumps(report,indent=2))
 
 
