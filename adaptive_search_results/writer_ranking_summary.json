@@ -1,0 +1,303 @@
+{
+  "sets": [
+    {
+      "optimization_seed": 1901,
+      "iteration": 1,
+      "original_chosen": 2,
+      "original_difference": -0.013181381107249424,
+      "fresh_winners": [
+        2,
+        0,
+        0,
+        0,
+        1,
+        1
+      ],
+      "same_winner_fraction": 0.16666666666666666,
+      "mean_costs": [
+        0.44405952478363225,
+        0.45336174360601084,
+        0.44166915441504734
+      ],
+      "mean_winner": 2,
+      "chosen_mean_difference": -0.0023903703685848967,
+      "chosen_conditional_rng_se": 0.014015957375169003,
+      "chosen_better_replicas": 2,
+      "group3_winners": [
+        0,
+        1
+      ],
+      "group3_cross_evaluation": [
+        0.0,
+        0.03246407375537306
+      ]
+    },
+    {
+      "optimization_seed": 1901,
+      "iteration": 6,
+      "original_chosen": 1,
+      "original_difference": -0.019268260387710956,
+      "fresh_winners": [
+        1,
+        1,
+        0,
+        1,
+        0,
+        0
+      ],
+      "same_winner_fraction": 0.5,
+      "mean_costs": [
+        0.47782378268949705,
+        0.48435162311349705,
+        0.49148779815079974
+      ],
+      "mean_winner": 0,
+      "chosen_mean_difference": 0.006527840424000055,
+      "chosen_conditional_rng_se": 0.014525119810399077,
+      "chosen_better_replicas": 3,
+      "group3_winners": [
+        0,
+        1
+      ],
+      "group3_cross_evaluation": [
+        0.0,
+        0.01534024117610533
+      ]
+    },
+    {
+      "optimization_seed": 1901,
+      "iteration": 12,
+      "original_chosen": 2,
+      "original_difference": -0.03266037810146544,
+      "fresh_winners": [
+        1,
+        0,
+        2,
+        2,
+        2,
+        0
+      ],
+      "same_winner_fraction": 0.5,
+      "mean_costs": [
+        0.44114384020394487,
+        0.44268166502245726,
+        0.43816445848265423
+      ],
+      "mean_winner": 2,
+      "chosen_mean_difference": -0.0029793817212906415,
+      "chosen_conditional_rng_se": 0.014646118972317188,
+      "chosen_better_replicas": 4,
+      "group3_winners": [
+        1,
+        2
+      ],
+      "group3_cross_evaluation": [
+        0.01375924807574258,
+        -0.0030570592676054664
+      ]
+    },
+    {
+      "optimization_seed": 2718,
+      "iteration": 1,
+      "original_chosen": 1,
+      "original_difference": -0.035712044927804776,
+      "fresh_winners": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        0
+      ],
+      "same_winner_fraction": 0.16666666666666666,
+      "mean_costs": [
+        0.36358359835901766,
+        0.40186159082981615,
+        0.3816673090916574
+      ],
+      "mean_winner": 0,
+      "chosen_mean_difference": 0.03827799247079855,
+      "chosen_conditional_rng_se": 0.012260655938268411,
+      "chosen_better_replicas": 1,
+      "group3_winners": [
+        0,
+        0
+      ],
+      "group3_cross_evaluation": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "optimization_seed": 2718,
+      "iteration": 6,
+      "original_chosen": 2,
+      "original_difference": -0.042993138674247255,
+      "fresh_winners": [
+        1,
+        1,
+        2,
+        1,
+        2,
+        1
+      ],
+      "same_winner_fraction": 0.3333333333333333,
+      "mean_costs": [
+        0.4428736655952687,
+        0.42417676484203265,
+        0.4276327905428455
+      ],
+      "mean_winner": 1,
+      "chosen_mean_difference": -0.015240875052423173,
+      "chosen_conditional_rng_se": 0.009014888135040026,
+      "chosen_better_replicas": 5,
+      "group3_winners": [
+        1,
+        2
+      ],
+      "group3_cross_evaluation": [
+        -0.013986337056108855,
+        -0.010876901898793293
+      ]
+    },
+    {
+      "optimization_seed": 2718,
+      "iteration": 12,
+      "original_chosen": 0,
+      "original_difference": 0.0,
+      "fresh_winners": [
+        0,
+        2,
+        0,
+        0,
+        0,
+        1
+      ],
+      "same_winner_fraction": 0.6666666666666666,
+      "mean_costs": [
+        0.44815392286645056,
+        0.4561506684790207,
+        0.46427255908857873
+      ],
+      "mean_winner": 0,
+      "chosen_mean_difference": 0.0,
+      "chosen_conditional_rng_se": 0.0,
+      "chosen_better_replicas": 0,
+      "group3_winners": [
+        0,
+        0
+      ],
+      "group3_cross_evaluation": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "optimization_seed": 3141,
+      "iteration": 1,
+      "original_chosen": 1,
+      "original_difference": -0.014558092584222804,
+      "fresh_winners": [
+        2,
+        1,
+        1,
+        2,
+        0,
+        0
+      ],
+      "same_winner_fraction": 0.3333333333333333,
+      "mean_costs": [
+        0.44209082090988977,
+        0.4463798136426607,
+        0.44071569852503023
+      ],
+      "mean_winner": 2,
+      "chosen_mean_difference": 0.004288992732770937,
+      "chosen_conditional_rng_se": 0.006208655210471618,
+      "chosen_better_replicas": 3,
+      "group3_winners": [
+        2,
+        0
+      ],
+      "group3_cross_evaluation": [
+        0.01072144646445892,
+        0.0
+      ]
+    },
+    {
+      "optimization_seed": 3141,
+      "iteration": 6,
+      "original_chosen": 2,
+      "original_difference": -0.042793723509569725,
+      "fresh_winners": [
+        2,
+        0,
+        2,
+        1,
+        0,
+        2
+      ],
+      "same_winner_fraction": 0.5,
+      "mean_costs": [
+        0.43276424951572484,
+        0.4458965404854645,
+        0.43453179088801547
+      ],
+      "mean_winner": 0,
+      "chosen_mean_difference": 0.0017675413722906357,
+      "chosen_conditional_rng_se": 0.01483106171438819,
+      "chosen_better_replicas": 3,
+      "group3_winners": [
+        0,
+        1
+      ],
+      "group3_cross_evaluation": [
+        0.0,
+        0.04070107964656431
+      ]
+    },
+    {
+      "optimization_seed": 3141,
+      "iteration": 12,
+      "original_chosen": 0,
+      "original_difference": 0.0,
+      "fresh_winners": [
+        0,
+        0,
+        2,
+        2,
+        2,
+        2
+      ],
+      "same_winner_fraction": 0.3333333333333333,
+      "mean_costs": [
+        0.431682465028179,
+        0.4280844368339783,
+        0.4128347802092514
+      ],
+      "mean_winner": 2,
+      "chosen_mean_difference": 0.0,
+      "chosen_conditional_rng_se": 0.0,
+      "chosen_better_replicas": 0,
+      "group3_winners": [
+        0,
+        2
+      ],
+      "group3_cross_evaluation": [
+        0.0,
+        0.008584249527178863
+      ]
+    }
+  ],
+  "total_sets": 9,
+  "original_moves": 7,
+  "original_move_mean_difference": -0.02873814561318148,
+  "fresh_move_mean_difference": 0.004321677122508781,
+  "harmful_original_moves_on_fresh_mean": 4,
+  "mean_original_winner_replica_agreement": 0.3888888888888889,
+  "original_winner_matches_fresh_mean": 3,
+  "group3_agreement": 2,
+  "single_seed_split_agreement": 5,
+  "group3_cross_mean_difference": 0.005202780023495303,
+  "note": "Descriptive9sets,7or fewer acceptedmoves, overlapping videos/windows and RNG streams. No formal independent-set inference.3seed averaging comparison uses same6runs, not optimized retraining/equal-budget learning experiment."
+}
