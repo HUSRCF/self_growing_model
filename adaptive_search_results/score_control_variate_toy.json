@@ -1,0 +1,83 @@
+{
+  "results": [
+    {
+      "theta": [
+        -0.15,
+        0.07
+      ],
+      "coefficient": 0.0017144045541941007,
+      "mean": [
+        -1.8135038152603342,
+        -0.12877541010289248
+      ],
+      "corrected_mean": [
+        -1.8135038152603342,
+        -0.12877541010289248
+      ],
+      "score_mean": [
+        3.469446951953614e-17,
+        -1.1275702593849246e-17
+      ],
+      "variance_before": 0.007937775281837919,
+      "variance_after": 0.007936034660216487,
+      "same_sample_fit_bias_norm": 1.7864742504705127,
+      "independent_fit_mean": [
+        -1.8135038152603342,
+        -0.12877541010289248
+      ]
+    },
+    {
+      "theta": [
+        0.0,
+        0.0
+      ],
+      "coefficient": 0.00072203800680219,
+      "mean": [
+        -1.8217982888646431,
+        -0.25397748257219027
+      ],
+      "corrected_mean": [
+        -1.8217982888646431,
+        -0.25397748257219027
+      ],
+      "score_mean": [
+        6.938893903907228e-18,
+        1.734723475976807e-18
+      ],
+      "variance_before": 0.007958916280201553,
+      "variance_after": 0.007958609254291819,
+      "same_sample_fit_bias_norm": 1.8338588012073767,
+      "independent_fit_mean": [
+        -1.8217982888646431,
+        -0.25397748257219027
+      ]
+    },
+    {
+      "theta": [
+        0.2,
+        -0.1
+      ],
+      "coefficient": 0.05198967408941429,
+      "mean": [
+        -0.43352462437554506,
+        -0.1175173254490566
+      ],
+      "corrected_mean": [
+        -0.4335246243755451,
+        -0.11751732544905662
+      ],
+      "score_mean": [
+        9.71445146547012e-17,
+        3.642919299551295e-17
+      ],
+      "variance_before": 1.034153487726432,
+      "variance_after": 1.0326001934322173,
+      "same_sample_fit_bias_norm": 0.4424345415533812,
+      "independent_fit_mean": [
+        -0.4335246243755448,
+        -0.1175173254490565
+      ]
+    }
+  ],
+  "note": "Exact4096jointpaths/P3 full differentiable toy. Fixed/population-optimal coefficient preserves mean; independent random fitted coefficient also does by factorization. Same-sample ridge fit is biased. No claim real-task variance decreases or truncated estimator becomes unbiased for original objective."
+}
