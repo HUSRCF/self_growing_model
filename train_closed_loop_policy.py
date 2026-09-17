@@ -68,7 +68,7 @@ class Actor:
                     w2=a['2.weight'].detach().numpy().T.copy(),b2=a['2.bias'].detach().numpy().copy())
 
 
-def run_policy(s,windows,actor=None,arrays=None,use_feedback=False,seed=1729,particles=4,training=False,objective_kind='mse'):
+def run_policy(s,windows,actor=None,arrays=None,use_feedback=False,seed=1729,particles=4,training=False,objective_kind='mse',loss_horizons=(50,100)):
     if objective_kind not in ('mse','energy_u'):raise ValueError('Unknown objective')
     n=len(windows['history']);steps=windows['truth'].shape[1]
     h=np.repeat(windows['history'],particles,axis=0)
@@ -77,7 +77,8 @@ def run_policy(s,windows,actor=None,arrays=None,use_feedback=False,seed=1729,par
     rng=np.random.default_rng(seed);ids=np.arange(len(h))
     predictions=[];failures=[];log_probs=[];regularizers=[]
     dead=np.zeros(len(h),dtype=bool)
-    horizons=[t for t in [50,100] if t<=steps]
+    horizons=[t for t in loss_horizons if t<=steps]
+    if not horizons or any(t<1 for t in horizons):raise ValueError('At least one valid loss horizon required')
     errors=[];energy_advantages=[];rejected=0;checked=0
     for t in range(steps):
         pe,raw_tr,read=s.machine.read(h,q,{'hidden':hidden})
@@ -142,20 +143,27 @@ def run_policy(s,windows,actor=None,arrays=None,use_feedback=False,seed=1729,par
 def train_one(s,args,use_feedback):
     objective_kind=getattr(args,'objective_kind','mse')
     selection_kind=getattr(args,'selection_objective_kind',None) or objective_kind
+    train_steps=getattr(args,'train_steps',100)
+    eligible_steps=getattr(args,'eligible_steps',None) or train_steps
+    selection_steps=getattr(args,'selection_steps',100)
+    loss_horizons=getattr(args,'loss_horizons',(50,100))
+    selection_horizons=getattr(args,'selection_horizons',None) or loss_horizons
+    if eligible_steps<train_steps:raise ValueError('Eligibility must cover training rollout')
+    if max(loss_horizons)>train_steps or max(selection_horizons)>selection_steps:raise ValueError('Loss horizon exceeds rollout')
     actor=Actor(s,use_feedback,args.train_seed);optimizer=torch.optim.AdamW(actor.model.parameters(),lr=.003,weight_decay=.01)
-    fit=prefix_windows(SPLITS['train'][:-3],per_video=4)
+    fit=prefix_windows(SPLITS['train'][:-3],steps=eligible_steps,per_video=4)
     sampling=getattr(args,'window_sampling','fixed')
     pool=None
     if sampling!='fixed':
         from training_window_sampler import TrainingPrefixPool
-        pool=TrainingPrefixPool(s.base)
-    hold=prefix_windows(SPLITS['train'][-3:],per_video=8)
+        pool=TrainingPrefixPool(s.base,steps=eligible_steps)
+    hold=prefix_windows(SPLITS['train'][-3:],steps=selection_steps,per_video=8)
     best=float('inf');chosen=None;chosen_epoch=0;trace=[];train_trace=[];start=time.perf_counter()
     checkpoints=set(np.linspace(0,args.epochs,7,dtype=int))
     for epoch in range(args.epochs+1):
         if epoch in checkpoints:
             a=actor.arrays()
-            checks=[run_policy(s,hold,arrays=a,use_feedback=use_feedback,seed=seed,particles=8,objective_kind=selection_kind)[0]
+            checks=[run_policy(s,hold,arrays=a,use_feedback=use_feedback,seed=seed,particles=8,objective_kind=selection_kind,loss_horizons=selection_horizons)[0]
                     for seed in [12017,12019]]
             objective=float(np.mean([c['objective'] for c in checks]))
             trace.append(dict(epoch=epoch,holdout_objective=objective,
@@ -168,7 +176,8 @@ def train_one(s,args,use_feedback):
         for batch in range(args.accumulate):
             seed=42000+epoch*args.accumulate+batch+args.train_seed-1901
             if pool is not None:fit=pool.sample(seed+15000,mode=sampling)
-            loss,kl,stats=run_policy(s,fit,actor=actor,training=True,seed=seed,particles=4,objective_kind=objective_kind)
+            training_windows=dict(fit,truth=fit['truth'][:,:train_steps])
+            loss,kl,stats=run_policy(s,training_windows,actor=actor,training=True,seed=seed,particles=4,objective_kind=objective_kind,loss_horizons=loss_horizons)
             ((loss+args.kl_weight*kl)/args.accumulate).backward()
             batch_stats.append(dict(loss=float(loss.detach()),kl=float(kl.detach()),**stats))
         grad_norm=float(torch.nn.utils.clip_grad_norm_(actor.model.parameters(),1.))
@@ -177,7 +186,9 @@ def train_one(s,args,use_feedback):
         train_trace.append(dict(epoch=epoch+1,batches_seen=(epoch+1)*args.accumulate,gradient_norm=grad_norm,**averaged))
         if epoch%5==0:print('train',train_trace[-1],flush=True)
     return chosen,dict(selected_epoch=chosen_epoch,holdout_objective=best,trace=trace,train_trace=train_trace,
-                       sampler_audit=pool.audit() if pool else None,seconds=time.perf_counter()-start)
+                       sampler_audit=pool.audit() if pool else None,
+                       simulated_training_steps=args.epochs*args.accumulate*len(fit['history'])*4*train_steps,
+                       seconds=time.perf_counter()-start)
 
 
 def main():
@@ -188,15 +199,20 @@ def main():
     parser.add_argument('--window-sampling',choices=['fixed','uniform','stratified'],default='fixed')
     parser.add_argument('--objective-kind',choices=['mse','energy_u'],default='mse')
     parser.add_argument('--selection-objective-kind',choices=['mse','energy_u'],default=None)
+    parser.add_argument('--train-steps',type=int,default=100)
+    parser.add_argument('--eligible-steps',type=int,default=None)
+    parser.add_argument('--selection-steps',type=int,default=100)
+    parser.add_argument('--loss-horizons',nargs='+',type=int,default=[50,100])
+    parser.add_argument('--selection-horizons',nargs='+',type=int,default=None)
     parser.add_argument('--output',default='adaptive_search_results/closed_loop_policy.json')
     args=parser.parse_args();torch.set_num_threads(1)
     if args.accumulate<1 or args.epochs<1:raise ValueError('Positive accumulation and update counts required')
     s=AdaptiveBeam();out=Path(args.output);out.parent.mkdir(exist_ok=True);start=time.perf_counter()
     report=dict(config=vars(args),fit_videos=SPLITS['train'][:-3],selection_videos=SPLITS['train'][-3:],training={},arms={},
       limitations=['On-policy score-function estimator; F and GRU frozen. No checker/search/noise.',
-        'Training/selection objectives at50/100: '+args.objective_kind+'/'+(args.selection_objective_kind or args.objective_kind)+'; not ensemble-mean RMSE. Energy uses off-diagonal U score and whole-trajectory leave-out baselines.',
+        'Training/selection objectives: '+args.objective_kind+'/'+(args.selection_objective_kind or args.objective_kind)+'; horizons are explicit in config. Not ensemble-mean RMSE. Energy uses whole-trajectory leave-out baselines.',
         'Same fixed gradient scale/learning rate across objectives; loss units and clipping incidence can differ. This is not an equal-gradient-magnitude comparison.',
-        '3s rollout is extrapolation beyond100-step training horizon.',
+        'Training rollout steps='+str(args.train_steps)+'; policy loss averages over rollout steps, so different lengths change its global scale.',
         'Previous confidence uses frozen-backbone probabilities; not the actor probabilities from earlier pilot.',
         'Original backbone already saw all TRAIN videos. Holdout is only for the new adapter.',
         'One optimizer seed; repeated trajectory seeds do not establish training-seed robustness.'])
@@ -209,7 +225,7 @@ def main():
     for name,a in models.items():
         report['arms'][name]=[]
         for seed in [1729,2718,3141]:
-            r,p,f=run_policy(s,windows,arrays=a,use_feedback=name.endswith('feedback'),seed=seed,particles=8,objective_kind=args.objective_kind)
+            r,p,f=run_policy(s,windows,arrays=a,use_feedback=name.endswith('feedback'),seed=seed,particles=8,objective_kind=args.objective_kind,loss_horizons=args.loss_horizons)
             report['arms'][name].append(r)
             np.savez_compressed(out.with_name(out.stem+'_'+name+f'_{seed}.npz'),prediction=p,failed=f,
                                 truth=windows['truth'],video=windows['video'],window_start=windows['start'])
