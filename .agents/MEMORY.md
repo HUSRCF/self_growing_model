@@ -4,6 +4,8 @@ Last updated: 2026-09-17 UTC.
 
 User preference: always respond in Chinese. The active scope and working contract are in `TASK.md`.
 
+Latest initial velocity distribution: leave-one-fit-video-out initializer residuals from10TRAINprefixes, equal-video centered covariance [[4.08624e-7,-1.33066e-7],[-1.33066e-7,1.61092e-6]], fixed scale1, no mean correction. One independent initial velocity draw/particle; event sampling unchanged, not continuous q or per-step noise. New4actionseeds151017–151020/TRAINhold24/P8: original/point/distributed composite .424648/.465096/.430779. Distribution vs point Δ−.034318(SE.025566),vsoriginal +.006131(SE.018986); no robust upgrade. Coverage increases,3sRMSE point .644590 vsdistribution .645302 essentially same. Zero covariance full trajectory exact,modelSHA unchanged,88tests,noDEV/TEST/promotion. Next fixed-covariance crossed action/initialization RNG audit, not scale tuning; pending. See notes/initial_velocity_distribution.md. Goal active.
+
 Latest fixed velocity-memory blend: five predeclared betas 0/.25/.5/.75/1, frozen original F and prefix-fitted integral writer, synchronized legacy velocity mapping; TRAIN hold24/P8/4 action seeds. Mean composite .444357/.459072/.516334/.528550/.458680, so zero wins; no fresh-seed validation launched, no DEV/TEST/promotion. Endpoints exactly reproduce saved predictions/failures; model SHA unchanged; 86 tests pass. Full memory improves3s but short horizons worsen; static blend does not solve tradeoff. Next candidate: TRAIN-only cross-fitted initializer-residual distribution, one initial velocity draw per particle rather than IID per-step noise; not implemented or validated yet. See notes/velocity_memory_blend.md. Goal remains active.
 
 ## Workspace inventory
