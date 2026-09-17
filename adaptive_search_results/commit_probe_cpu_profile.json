@@ -1,0 +1,317 @@
+{
+  "window": 0,
+  "model_seed": 0,
+  "rollout_seed": 1729,
+  "mode": "probe_cache",
+  "prediction_bitwise_equal": true,
+  "total_profiled_cpu_seconds": 15.302207518000014,
+  "top_self": [
+    {
+      "file": "adaptive_search_prototype.py",
+      "line": 168,
+      "function": "_expand",
+      "calls": 6460,
+      "self_cpu_seconds": 0.7268416000000001,
+      "cumulative_cpu_seconds": 14.255995662
+    },
+    {
+      "file": "~",
+      "line": 0,
+      "function": "<method 'reduce' of 'numpy.ufunc' objects>",
+      "calls": 157231,
+      "self_cpu_seconds": 0.676770799,
+      "cumulative_cpu_seconds": 0.676770799
+    },
+    {
+      "file": "_index_tricks_impl.py",
+      "line": 343,
+      "function": "__getitem__",
+      "calls": 16806,
+      "self_cpu_seconds": 0.5924118150000001,
+      "cumulative_cpu_seconds": 1.0181753500000001
+    },
+    {
+      "file": "shared_candidate_writer.py",
+      "line": 19,
+      "function": "execute",
+      "calls": 3840,
+      "self_cpu_seconds": 0.536863266,
+      "cumulative_cpu_seconds": 2.943404406
+    },
+    {
+      "file": "event.py",
+      "line": 15,
+      "function": "step",
+      "calls": 6483,
+      "self_cpu_seconds": 0.413689849,
+      "cumulative_cpu_seconds": 3.1124717700000004
+    },
+    {
+      "file": "fromnumeric.py",
+      "line": 48,
+      "function": "_wrapfunc",
+      "calls": 123567,
+      "self_cpu_seconds": 0.389518024,
+      "cumulative_cpu_seconds": 0.8099763910000001
+    },
+    {
+      "file": "_logsumexp.py",
+      "line": 201,
+      "function": "_logsumexp",
+      "calls": 6453,
+      "self_cpu_seconds": 0.364600286,
+      "cumulative_cpu_seconds": 2.117476007
+    },
+    {
+      "file": "~",
+      "line": 0,
+      "function": "<built-in method builtins.isinstance>",
+      "calls": 345443,
+      "self_cpu_seconds": 0.354407168,
+      "cumulative_cpu_seconds": 0.354436438
+    },
+    {
+      "file": "adaptive_search_prototype.py",
+      "line": 239,
+      "function": "search",
+      "calls": 2416,
+      "self_cpu_seconds": 0.299565515,
+      "cumulative_cpu_seconds": 15.122054236
+    },
+    {
+      "file": "~",
+      "line": 0,
+      "function": "<built-in method numpy.array>",
+      "calls": 156696,
+      "self_cpu_seconds": 0.297363349,
+      "cumulative_cpu_seconds": 0.336959979
+    },
+    {
+      "file": "_shape_base_impl.py",
+      "line": 737,
+      "function": "array_split",
+      "calls": 12966,
+      "self_cpu_seconds": 0.290188834,
+      "cumulative_cpu_seconds": 0.8632310910000001
+    },
+    {
+      "file": "~",
+      "line": 0,
+      "function": "<built-in method numpy._core._multiarray_umath.c_einsum>",
+      "calls": 29643,
+      "self_cpu_seconds": 0.281621459,
+      "cumulative_cpu_seconds": 0.281621459
+    },
+    {
+      "file": "fromnumeric.py",
+      "line": 66,
+      "function": "_wrapreduction",
+      "calls": 62044,
+      "self_cpu_seconds": 0.269347552,
+      "cumulative_cpu_seconds": 0.6191696710000001
+    },
+    {
+      "file": "features.py",
+      "line": 28,
+      "function": "context_features",
+      "calls": 10323,
+      "self_cpu_seconds": 0.259128106,
+      "cumulative_cpu_seconds": 1.6105895350000001
+    },
+    {
+      "file": "_logsumexp.py",
+      "line": 15,
+      "function": "logsumexp",
+      "calls": 6453,
+      "self_cpu_seconds": 0.252840128,
+      "cumulative_cpu_seconds": 3.4055732080000003
+    },
+    {
+      "file": "_methods.py",
+      "line": 115,
+      "function": "_mean",
+      "calls": 20646,
+      "self_cpu_seconds": 0.22613797500000002,
+      "cumulative_cpu_seconds": 0.5450489620000001
+    },
+    {
+      "file": "_methods.py",
+      "line": 148,
+      "function": "_var",
+      "calls": 10323,
+      "self_cpu_seconds": 0.22612884400000002,
+      "cumulative_cpu_seconds": 0.42357942800000004
+    },
+    {
+      "file": "features.py",
+      "line": 12,
+      "function": "jets",
+      "calls": 15510,
+      "self_cpu_seconds": 0.21996235400000003,
+      "cumulative_cpu_seconds": 0.44166735300000004
+    },
+    {
+      "file": "checker.py",
+      "line": 24,
+      "function": "log_density_all",
+      "calls": 6453,
+      "self_cpu_seconds": 0.196189937,
+      "cumulative_cpu_seconds": 3.768492836
+    },
+    {
+      "file": "_at.py",
+      "line": 224,
+      "function": "_op",
+      "calls": 12906,
+      "self_cpu_seconds": 0.195597024,
+      "cumulative_cpu_seconds": 0.639329881
+    },
+    {
+      "file": "_logsumexp.py",
+      "line": 251,
+      "function": "softmax",
+      "calls": 12966,
+      "self_cpu_seconds": 0.194614898,
+      "cumulative_cpu_seconds": 0.7472862650000001
+    },
+    {
+      "file": "~",
+      "line": 0,
+      "function": "<method 'append' of 'list' objects>",
+      "calls": 174300,
+      "self_cpu_seconds": 0.183462954,
+      "cumulative_cpu_seconds": 0.183462954
+    },
+    {
+      "file": "~",
+      "line": 0,
+      "function": "<built-in method builtins.len>",
+      "calls": 161937,
+      "self_cpu_seconds": 0.17952685200000001,
+      "cumulative_cpu_seconds": 0.17952685200000001
+    },
+    {
+      "file": "_linalg.py",
+      "line": 1667,
+      "function": "svd",
+      "calls": 3840,
+      "self_cpu_seconds": 0.178795796,
+      "cumulative_cpu_seconds": 0.357574398
+    },
+    {
+      "file": "features.py",
+      "line": 47,
+      "function": "partition_features",
+      "calls": 11670,
+      "self_cpu_seconds": 0.16526880100000002,
+      "cumulative_cpu_seconds": 0.27003203800000003
+    }
+  ],
+  "selected": [
+    {
+      "file": "adaptive_search_prototype.py",
+      "line": 168,
+      "function": "_expand",
+      "calls": 6460,
+      "self_cpu_seconds": 0.7268416000000001,
+      "cumulative_cpu_seconds": 14.255995662
+    },
+    {
+      "file": "shared_candidate_writer.py",
+      "line": 19,
+      "function": "execute",
+      "calls": 3840,
+      "self_cpu_seconds": 0.536863266,
+      "cumulative_cpu_seconds": 2.943404406
+    },
+    {
+      "file": "event.py",
+      "line": 15,
+      "function": "step",
+      "calls": 6483,
+      "self_cpu_seconds": 0.413689849,
+      "cumulative_cpu_seconds": 3.1124717700000004
+    },
+    {
+      "file": "checker.py",
+      "line": 24,
+      "function": "log_density_all",
+      "calls": 6453,
+      "self_cpu_seconds": 0.196189937,
+      "cumulative_cpu_seconds": 3.768492836
+    },
+    {
+      "file": "features.py",
+      "line": 51,
+      "function": "membership",
+      "calls": 5187,
+      "self_cpu_seconds": 0.143937098,
+      "cumulative_cpu_seconds": 0.487176176
+    },
+    {
+      "file": "adaptive_search_prototype.py",
+      "line": 151,
+      "function": "_execute_candidates",
+      "calls": 6460,
+      "self_cpu_seconds": 0.074257005,
+      "cumulative_cpu_seconds": 3.046817173
+    },
+    {
+      "file": "checker.py",
+      "line": 30,
+      "function": "score",
+      "calls": 6453,
+      "self_cpu_seconds": 0.069243212,
+      "cumulative_cpu_seconds": 3.926539098
+    },
+    {
+      "file": "checker.py",
+      "line": 33,
+      "function": "reject",
+      "calls": 6452,
+      "self_cpu_seconds": 0.047730180000000004,
+      "cumulative_cpu_seconds": 3.963675154
+    },
+    {
+      "file": "adaptive_search_prototype.py",
+      "line": 231,
+      "function": "_value",
+      "calls": 21213,
+      "self_cpu_seconds": 0.042697022,
+      "cumulative_cpu_seconds": 0.06368828900000001
+    },
+    {
+      "file": "event.py",
+      "line": 41,
+      "function": "read",
+      "calls": 6460,
+      "self_cpu_seconds": 0.034806026000000004,
+      "cumulative_cpu_seconds": 4.638491567
+    },
+    {
+      "file": "adaptive_search_prototype.py",
+      "line": 109,
+      "function": "_read",
+      "calls": 6460,
+      "self_cpu_seconds": 0.031438467000000005,
+      "cumulative_cpu_seconds": 4.684121203
+    },
+    {
+      "file": "__init__.py",
+      "line": 843,
+      "function": "read",
+      "calls": 69,
+      "self_cpu_seconds": 0.00046244000000000005,
+      "cumulative_cpu_seconds": 0.0009076010000000001
+    },
+    {
+      "file": "__init__.py",
+      "line": 1006,
+      "function": "read",
+      "calls": 110,
+      "self_cpu_seconds": 0.00042143000000000004,
+      "cumulative_cpu_seconds": 0.002197302
+    }
+  ],
+  "note": "One selected DEV window under cProfile with process-time timer. Profiling overhead changes timing; not a benchmark or independent window sample. Cumulative times overlap and must not be added."
+}

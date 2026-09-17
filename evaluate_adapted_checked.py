@@ -50,9 +50,11 @@ def verify_checks(checker,history,pred,boundary,states,failed):
 
 
 def sparse_window(task):
-    i,history,seed,manifest=task;start=time.process_time()
-    search=AdaptiveBeam(min_depth=2,max_depth=2,temperature=1,search_interval=5,
-             depth_invariant_temperature=True,shared_writer=True,boundary_repair=True,policy_adapter=manifest)
+    i,history,seed,manifest,*extra=task;start=time.process_time()
+    mode=extra[0] if extra else 'sparse'
+    search=AdaptiveBeam(min_depth=2,max_depth=2,temperature=1,search_interval=1 if mode=='full' else 5,
+             depth_invariant_temperature=True,shared_writer=True,boundary_repair=True,policy_adapter=manifest,
+             commit_probe=mode in ('probe','probe_cache'),rule_cache_size=4096 if mode=='probe_cache' else 0)
     raw,fail,diag=rollout(search,history[None],301,particles=8,seed=seed+i,rollback_budget=300,rollback_window=2)
     pred,failed,boundary=checked_prefix(raw,fail,history[None],300)
     states=np.full((1,8,301),-1,dtype=int)
@@ -68,7 +70,7 @@ def sparse_window(task):
 
 def main():
     p=argparse.ArgumentParser();p.add_argument('--model-seed',type=int,default=0)
-    p.add_argument('--mode',choices=['checked','sparse'],default='checked');p.add_argument('--workers',type=int,default=4)
+    p.add_argument('--mode',choices=['checked','sparse','probe','probe_cache','full'],default='checked');p.add_argument('--workers',type=int,default=4)
     args=p.parse_args();root=Path('adaptive_search_results')
     manifest=None if args.model_seed==0 else str(root/f'windows_uniform_seed{args.model_seed}_search_adapter.json')
     w=tail_windows('dev',300,8);runs=[]
@@ -84,7 +86,7 @@ def main():
             stats={k:v for k,v in model.last_stats.items() if not isinstance(v,list)}
             stats['cpu_seconds']=time.process_time()-cpu
         else:
-            tasks=[(i,h,seed,manifest) for i,h in enumerate(w['history'])]
+            tasks=[(i,h,seed,manifest,args.mode) for i,h in enumerate(w['history'])]
             with ProcessPoolExecutor(max_workers=args.workers) as pool:items=list(pool.map(sparse_window,tasks))
             pred=np.array([r[0] for r in items]);failed=np.array([r[1] for r in items])
             boundary=np.array([r[2] for r in items]);states=np.array([r[3] for r in items])

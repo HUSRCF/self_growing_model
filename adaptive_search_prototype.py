@@ -57,10 +57,11 @@ class AdaptiveBeam:
                  check_weight=0.08, contradiction_weight=0.35,
                  widen_on_empty=False, soft_check=False, value_model=None, value_weight=1.,
                  min_stop_support=1, search_interval=1, uncertainty_gap=0., rule_cache_size=0,
-                 depth_invariant_temperature=False, shared_writer=False, boundary_repair=False, policy_adapter=None):
+                 depth_invariant_temperature=False, shared_writer=False, boundary_repair=False, policy_adapter=None, commit_probe=False):
         self.base = Dynamics()
         self.shared_writer = None
         self.boundary_repair = boundary_repair
+        self.commit_probe = commit_probe
         if shared_writer:
             from shared_candidate_writer import SharedCandidateWriter
             self.shared_writer = SharedCandidateWriter(self.base)
@@ -95,7 +96,8 @@ class AdaptiveBeam:
             from train_search_value import ValueModel
             self.value_model = ValueModel(value_model)
         self.audit = dict(expansions=0, empty_narrow=0, rescued=0,
-                          empty_full=0, rejected_edges=0, rule_cache_hits=0, rule_cache_misses=0)
+                          empty_full=0, rejected_edges=0, rule_cache_hits=0, rule_cache_misses=0,
+                          viability_probes=0,viability_full_probes=0,viability_rejected_roots=0)
         if self.min_depth < 1 or self.max_depth < self.min_depth:
             raise ValueError("Require 1 <= min_depth <= max_depth")
 
@@ -285,20 +287,41 @@ class AdaptiveBeam:
         if not finite.any():
             return None, {"depth": depth_done, "roots": len(roots), "stable": False, "root_gap": None}
         vals = root_values.copy()
-        if self.temperature > 0:
-            # Optional ablation: hold the coefficient of root log-prior
-            # constant when a scheduled shallow call changes mean depth.
-            temp = self.temperature * self.max_depth / depth_done if self.depth_invariant_temperature else self.temperature
-            z = (vals - np.nanmax(vals)) / temp
-            probs = np.exp(np.clip(z, -60, 0)); probs[~finite] = 0
-            probs /= probs.sum()
-            chosen = int(rng.choice(len(roots), p=probs))
-        else:
-            chosen = int(np.nanargmax(vals))
+        witness_q=None
+        while True:
+            if self.temperature > 0:
+                # Keep the original SCORING depth/temperature even if a
+                # later viability-only probe examines a second edge.
+                temp = self.temperature * self.max_depth / depth_done if self.depth_invariant_temperature else self.temperature
+                z = (vals - np.nanmax(vals)) / temp
+                probs = np.exp(np.clip(z, -60, 0)); probs[~finite] = 0
+                probs /= probs.sum()
+                chosen = int(rng.choice(len(roots), p=probs))
+            else:
+                chosen = int(np.nanargmax(vals))
+            if not self.commit_probe or depth_done>1:break
+            self.audit['viability_probes']+=1
+            children=self._expand(roots[chosen])
+            if not children:
+                self.audit['viability_full_probes']+=1
+                children=self._expand(roots[chosen],full=True)
+            if children:
+                witness_q=int(children[0].q)
+                break
+            # No e-specific commit state: equal root q has the same future.
+            # Remove those roots locally, without changing parent GRU memory.
+            removed=np.array([r.q==roots[chosen].q for r in roots])&finite
+            self.audit['viability_rejected_roots']+=int(removed.sum())
+            vals[removed]=-np.inf;finite=np.isfinite(vals)
+            if not finite.any():
+                return None,dict(depth=2,scoring_depth=depth_done,roots=len(roots),stable=False,root_gap=None,
+                                 viability_checked=True,viability_exhausted=True)
         node = roots[chosen]
         # Use the best continuation only to choose root; commit the root edge.
         best = max(groups.get(chosen, [node]), key=self._value)
-        info = dict(depth=depth_done, roots=len(roots), stable=(stable >= self.stability_rounds),
+        info = dict(depth=max(depth_done,2 if witness_q is not None else 1),scoring_depth=depth_done,
+                    viability_checked=(depth_done>1 or witness_q is not None),viability_witness_q=witness_q,
+                    roots=len(roots), stable=(stable >= self.stability_rounds),
                     root_event=node.root_event, root_q=node.root_q,
                     root_value=float(root_values[chosen]), root_gap=float(np.sort(vals[finite])[-1] - np.sort(vals[finite])[-2]) if finite.sum() > 1 else None,
                     continuation_value=float(self._value(best)),
@@ -372,7 +395,7 @@ def make_searcher(args):
                             rule_cache_size=args.rule_cache_size,
                             depth_invariant_temperature=args.depth_invariant_temperature,
                             shared_writer=args.shared_writer,boundary_repair=args.boundary_repair,
-                            policy_adapter=getattr(args,'policy_adapter',None))
+                            policy_adapter=getattr(args,'policy_adapter',None),commit_probe=getattr(args,'commit_probe',False))
 
 
 def run_window(task):
@@ -447,6 +470,7 @@ def main():
     ap.add_argument('--shared-writer',action='store_true')
     ap.add_argument('--boundary-repair',action='store_true')
     ap.add_argument('--policy-adapter')
+    ap.add_argument('--commit-probe',action='store_true')
     ap.add_argument('--seed',type=int,default=1729)
     ap.add_argument('--min-depth',type=int,default=2)
     ap.add_argument('--max-depth',type=int,default=4)
