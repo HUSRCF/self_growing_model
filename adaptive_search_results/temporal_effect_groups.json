@@ -1,0 +1,819 @@
+{
+  "edges": [
+    12.581720888509551,
+    17.165178506831893,
+    21.678411524231493
+  ],
+  "groups": {
+    "prefix": {
+      "zero": [
+        {
+          "bin": 0,
+          "windows": 4,
+          "window_indices": [
+            4,
+            13,
+            15,
+            19
+          ],
+          "mean_delta": 0.0,
+          "conditional_seed_se": 0.0
+        },
+        {
+          "bin": 1,
+          "windows": 5,
+          "window_indices": [
+            3,
+            5,
+            6,
+            11,
+            23
+          ],
+          "mean_delta": 0.0,
+          "conditional_seed_se": 0.0
+        },
+        {
+          "bin": 2,
+          "windows": 6,
+          "window_indices": [
+            7,
+            10,
+            14,
+            18,
+            20,
+            21
+          ],
+          "mean_delta": 0.0,
+          "conditional_seed_se": 0.0
+        },
+        {
+          "bin": 3,
+          "windows": 9,
+          "window_indices": [
+            0,
+            1,
+            2,
+            8,
+            9,
+            12,
+            16,
+            17,
+            22
+          ],
+          "mean_delta": 0.0,
+          "conditional_seed_se": 0.0
+        }
+      ],
+      "full_1901": [
+        {
+          "bin": 0,
+          "windows": 4,
+          "window_indices": [
+            4,
+            13,
+            15,
+            19
+          ],
+          "mean_delta": -0.0020816524021185297,
+          "conditional_seed_se": 0.006288175255681113
+        },
+        {
+          "bin": 1,
+          "windows": 5,
+          "window_indices": [
+            3,
+            5,
+            6,
+            11,
+            23
+          ],
+          "mean_delta": -0.024813525198029502,
+          "conditional_seed_se": 0.008390472905536872
+        },
+        {
+          "bin": 2,
+          "windows": 6,
+          "window_indices": [
+            7,
+            10,
+            14,
+            18,
+            20,
+            21
+          ],
+          "mean_delta": -0.011360243411804156,
+          "conditional_seed_se": 0.013980784105454273
+        },
+        {
+          "bin": 3,
+          "windows": 9,
+          "window_indices": [
+            0,
+            1,
+            2,
+            8,
+            9,
+            12,
+            16,
+            17,
+            22
+          ],
+          "mean_delta": -0.018604310951253835,
+          "conditional_seed_se": 0.01126739560622662
+        }
+      ],
+      "full_2718": [
+        {
+          "bin": 0,
+          "windows": 4,
+          "window_indices": [
+            4,
+            13,
+            15,
+            19
+          ],
+          "mean_delta": 0.0,
+          "conditional_seed_se": 0.0
+        },
+        {
+          "bin": 1,
+          "windows": 5,
+          "window_indices": [
+            3,
+            5,
+            6,
+            11,
+            23
+          ],
+          "mean_delta": 0.0,
+          "conditional_seed_se": 0.0
+        },
+        {
+          "bin": 2,
+          "windows": 6,
+          "window_indices": [
+            7,
+            10,
+            14,
+            18,
+            20,
+            21
+          ],
+          "mean_delta": 0.0,
+          "conditional_seed_se": 0.0
+        },
+        {
+          "bin": 3,
+          "windows": 9,
+          "window_indices": [
+            0,
+            1,
+            2,
+            8,
+            9,
+            12,
+            16,
+            17,
+            22
+          ],
+          "mean_delta": 0.0,
+          "conditional_seed_se": 0.0
+        }
+      ],
+      "full_3141": [
+        {
+          "bin": 0,
+          "windows": 4,
+          "window_indices": [
+            4,
+            13,
+            15,
+            19
+          ],
+          "mean_delta": 0.0,
+          "conditional_seed_se": 0.0
+        },
+        {
+          "bin": 1,
+          "windows": 5,
+          "window_indices": [
+            3,
+            5,
+            6,
+            11,
+            23
+          ],
+          "mean_delta": 0.0,
+          "conditional_seed_se": 0.0
+        },
+        {
+          "bin": 2,
+          "windows": 6,
+          "window_indices": [
+            7,
+            10,
+            14,
+            18,
+            20,
+            21
+          ],
+          "mean_delta": 0.0,
+          "conditional_seed_se": 0.0
+        },
+        {
+          "bin": 3,
+          "windows": 9,
+          "window_indices": [
+            0,
+            1,
+            2,
+            8,
+            9,
+            12,
+            16,
+            17,
+            22
+          ],
+          "mean_delta": 0.0,
+          "conditional_seed_se": 0.0
+        }
+      ],
+      "truncated_1901": [
+        {
+          "bin": 0,
+          "windows": 4,
+          "window_indices": [
+            4,
+            13,
+            15,
+            19
+          ],
+          "mean_delta": -0.003885721716555001,
+          "conditional_seed_se": 0.011005142385620595
+        },
+        {
+          "bin": 1,
+          "windows": 5,
+          "window_indices": [
+            3,
+            5,
+            6,
+            11,
+            23
+          ],
+          "mean_delta": -0.027630212867820716,
+          "conditional_seed_se": 0.015615026304842764
+        },
+        {
+          "bin": 2,
+          "windows": 6,
+          "window_indices": [
+            7,
+            10,
+            14,
+            18,
+            20,
+            21
+          ],
+          "mean_delta": -0.009008614448988667,
+          "conditional_seed_se": 0.0168552902714552
+        },
+        {
+          "bin": 3,
+          "windows": 9,
+          "window_indices": [
+            0,
+            1,
+            2,
+            8,
+            9,
+            12,
+            16,
+            17,
+            22
+          ],
+          "mean_delta": -0.03598622954811797,
+          "conditional_seed_se": 0.011948341737553101
+        }
+      ],
+      "truncated_2718": [
+        {
+          "bin": 0,
+          "windows": 4,
+          "window_indices": [
+            4,
+            13,
+            15,
+            19
+          ],
+          "mean_delta": -0.0020816604008117336,
+          "conditional_seed_se": 0.006288171042022563
+        },
+        {
+          "bin": 1,
+          "windows": 5,
+          "window_indices": [
+            3,
+            5,
+            6,
+            11,
+            23
+          ],
+          "mean_delta": -0.024813021053386605,
+          "conditional_seed_se": 0.008390537178588625
+        },
+        {
+          "bin": 2,
+          "windows": 6,
+          "window_indices": [
+            7,
+            10,
+            14,
+            18,
+            20,
+            21
+          ],
+          "mean_delta": -0.011796200564622314,
+          "conditional_seed_se": 0.013712986332050127
+        },
+        {
+          "bin": 3,
+          "windows": 9,
+          "window_indices": [
+            0,
+            1,
+            2,
+            8,
+            9,
+            12,
+            16,
+            17,
+            22
+          ],
+          "mean_delta": -0.018600953642233208,
+          "conditional_seed_se": 0.011265576536789283
+        }
+      ],
+      "truncated_3141": [
+        {
+          "bin": 0,
+          "windows": 4,
+          "window_indices": [
+            4,
+            13,
+            15,
+            19
+          ],
+          "mean_delta": 0.009971073735110766,
+          "conditional_seed_se": 0.006347195730174388
+        },
+        {
+          "bin": 1,
+          "windows": 5,
+          "window_indices": [
+            3,
+            5,
+            6,
+            11,
+            23
+          ],
+          "mean_delta": -0.003818122437091226,
+          "conditional_seed_se": 0.009962474254488733
+        },
+        {
+          "bin": 2,
+          "windows": 6,
+          "window_indices": [
+            7,
+            10,
+            14,
+            18,
+            20,
+            21
+          ],
+          "mean_delta": 0.004236882099632383,
+          "conditional_seed_se": 0.01573516537932363
+        },
+        {
+          "bin": 3,
+          "windows": 9,
+          "window_indices": [
+            0,
+            1,
+            2,
+            8,
+            9,
+            12,
+            16,
+            17,
+            22
+          ],
+          "mean_delta": -0.011012626648314452,
+          "conditional_seed_se": 0.010222070752981122
+        }
+      ]
+    },
+    "tail": {
+      "zero": [
+        {
+          "bin": 0,
+          "windows": 19,
+          "window_indices": [
+            0,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            18,
+            19,
+            20,
+            21,
+            23
+          ],
+          "mean_delta": 0.0,
+          "conditional_seed_se": 0.0
+        },
+        {
+          "bin": 1,
+          "windows": 3,
+          "window_indices": [
+            1,
+            16,
+            22
+          ],
+          "mean_delta": 0.0,
+          "conditional_seed_se": 0.0
+        },
+        {
+          "bin": 2,
+          "windows": 2,
+          "window_indices": [
+            2,
+            17
+          ],
+          "mean_delta": 0.0,
+          "conditional_seed_se": 0.0
+        },
+        {
+          "bin": 3,
+          "windows": 0,
+          "window_indices": [],
+          "mean_delta": null,
+          "conditional_seed_se": null
+        }
+      ],
+      "full_1901": [
+        {
+          "bin": 0,
+          "windows": 19,
+          "window_indices": [
+            0,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            18,
+            19,
+            20,
+            21,
+            23
+          ],
+          "mean_delta": -0.004431574052388497,
+          "conditional_seed_se": 0.0029976007273335107
+        },
+        {
+          "bin": 1,
+          "windows": 3,
+          "window_indices": [
+            1,
+            16,
+            22
+          ],
+          "mean_delta": -0.014006344199491143,
+          "conditional_seed_se": 0.011797943590691164
+        },
+        {
+          "bin": 2,
+          "windows": 2,
+          "window_indices": [
+            2,
+            17
+          ],
+          "mean_delta": 0.05097968652164093,
+          "conditional_seed_se": 0.013815164136811808
+        },
+        {
+          "bin": 3,
+          "windows": 0,
+          "window_indices": [],
+          "mean_delta": null,
+          "conditional_seed_se": null
+        }
+      ],
+      "full_2718": [
+        {
+          "bin": 0,
+          "windows": 19,
+          "window_indices": [
+            0,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            18,
+            19,
+            20,
+            21,
+            23
+          ],
+          "mean_delta": 0.0,
+          "conditional_seed_se": 0.0
+        },
+        {
+          "bin": 1,
+          "windows": 3,
+          "window_indices": [
+            1,
+            16,
+            22
+          ],
+          "mean_delta": 0.0,
+          "conditional_seed_se": 0.0
+        },
+        {
+          "bin": 2,
+          "windows": 2,
+          "window_indices": [
+            2,
+            17
+          ],
+          "mean_delta": 0.0,
+          "conditional_seed_se": 0.0
+        },
+        {
+          "bin": 3,
+          "windows": 0,
+          "window_indices": [],
+          "mean_delta": null,
+          "conditional_seed_se": null
+        }
+      ],
+      "full_3141": [
+        {
+          "bin": 0,
+          "windows": 19,
+          "window_indices": [
+            0,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            18,
+            19,
+            20,
+            21,
+            23
+          ],
+          "mean_delta": 0.0,
+          "conditional_seed_se": 0.0
+        },
+        {
+          "bin": 1,
+          "windows": 3,
+          "window_indices": [
+            1,
+            16,
+            22
+          ],
+          "mean_delta": 0.0,
+          "conditional_seed_se": 0.0
+        },
+        {
+          "bin": 2,
+          "windows": 2,
+          "window_indices": [
+            2,
+            17
+          ],
+          "mean_delta": 0.0,
+          "conditional_seed_se": 0.0
+        },
+        {
+          "bin": 3,
+          "windows": 0,
+          "window_indices": [],
+          "mean_delta": null,
+          "conditional_seed_se": null
+        }
+      ],
+      "truncated_1901": [
+        {
+          "bin": 0,
+          "windows": 19,
+          "window_indices": [
+            0,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            18,
+            19,
+            20,
+            21,
+            23
+          ],
+          "mean_delta": -0.012091635588812454,
+          "conditional_seed_se": 0.004151558139985642
+        },
+        {
+          "bin": 1,
+          "windows": 3,
+          "window_indices": [
+            1,
+            16,
+            22
+          ],
+          "mean_delta": -0.004977691806228928,
+          "conditional_seed_se": 0.01161039479876321
+        },
+        {
+          "bin": 2,
+          "windows": 2,
+          "window_indices": [
+            2,
+            17
+          ],
+          "mean_delta": 0.03092376624635898,
+          "conditional_seed_se": 0.01824035753033509
+        },
+        {
+          "bin": 3,
+          "windows": 0,
+          "window_indices": [],
+          "mean_delta": null,
+          "conditional_seed_se": null
+        }
+      ],
+      "truncated_2718": [
+        {
+          "bin": 0,
+          "windows": 19,
+          "window_indices": [
+            0,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            18,
+            19,
+            20,
+            21,
+            23
+          ],
+          "mean_delta": -0.004431880973363074,
+          "conditional_seed_se": 0.0029975947442254457
+        },
+        {
+          "bin": 1,
+          "windows": 3,
+          "window_indices": [
+            1,
+            16,
+            22
+          ],
+          "mean_delta": -0.01400607302034381,
+          "conditional_seed_se": 0.011797960973847861
+        },
+        {
+          "bin": 2,
+          "windows": 2,
+          "window_indices": [
+            2,
+            17
+          ],
+          "mean_delta": 0.050980649921667356,
+          "conditional_seed_se": 0.01381504900670471
+        },
+        {
+          "bin": 3,
+          "windows": 0,
+          "window_indices": [],
+          "mean_delta": null,
+          "conditional_seed_se": null
+        }
+      ],
+      "truncated_3141": [
+        {
+          "bin": 0,
+          "windows": 19,
+          "window_indices": [
+            0,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            18,
+            19,
+            20,
+            21,
+            23
+          ],
+          "mean_delta": 0.012675064044222955,
+          "conditional_seed_se": 0.004124869907776433
+        },
+        {
+          "bin": 1,
+          "windows": 3,
+          "window_indices": [
+            1,
+            16,
+            22
+          ],
+          "mean_delta": -0.00977618813355963,
+          "conditional_seed_se": 0.016998777428781527
+        },
+        {
+          "bin": 2,
+          "windows": 2,
+          "window_indices": [
+            2,
+            17
+          ],
+          "mean_delta": -0.017771001864219982,
+          "conditional_seed_se": 0.012304071378882455
+        },
+        {
+          "bin": 3,
+          "windows": 0,
+          "window_indices": [],
+          "mean_delta": null,
+          "conditional_seed_se": null
+        }
+      ]
+    }
+  },
+  "note": "Post-hoc description using preexisting fit-prefix thresholds,not new model selection or causal evidence. All bins/windows retained,small high-motion tail bins explicitly counted. No refitting/rollout/DEV/TEST; do not infer universal speed-gating rule."
+}
