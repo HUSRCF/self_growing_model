@@ -9,14 +9,19 @@ from train_closed_loop_policy import prefix_windows
 from v20_rnn_mixture.engine.common import SPLITS
 
 
-def main():
-    root=Path('adaptive_search_results');models={'zero':None};selections={}
+def load_models(root):
+    models={'zero':None};selections={}
     for label,stem in [('full','hybrid_writer_pilot'),('truncated','hybrid_writer_truncated50_pilot')]:
         training=json.loads((root/f'{stem}.json').read_text())
         assert [r['seed'] for r in training['runs']]==[1901,2718,3141]
         for r in training['runs']:
             name=f'{label}_{r["seed"]}';models[name]=constant_model(np.array(r['selected_theta']),np.array(training['bound']))
             selections[name]=dict(epoch=r['selected_epoch'],theta=r['selected_theta'])
+    return models,selections
+
+
+def main():
+    root=Path('adaptive_search_results');models,selections=load_models(root)
     s=AdaptiveBeam();w=prefix_windows(SPLITS['train'][-3:],steps=300,per_video=8);runs={name:[] for name in models}
     for seed in range(331017,331021):
         cache={}
