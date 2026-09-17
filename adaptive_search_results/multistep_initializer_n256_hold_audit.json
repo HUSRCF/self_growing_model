@@ -1,0 +1,65 @@
+{
+  "results": {
+    "base": {
+      "1": {
+        "mse": 5.034743661035245e-06,
+        "per_video": {
+          "13": 2.3014397020400006e-06,
+          "16": 5.719493214986704e-06,
+          "18": 7.083298066079034e-06
+        }
+      },
+      "10": {
+        "mse": 6.836532887733108e-05,
+        "per_video": {
+          "13": 9.548720841653894e-05,
+          "16": 4.416197141618205e-05,
+          "18": 6.544680679927222e-05
+        }
+      }
+    },
+    "h1": {
+      "1": {
+        "mse": 4.330213469790759e-06,
+        "per_video": {
+          "13": 3.35494774641357e-06,
+          "16": 4.501581898339984e-06,
+          "18": 5.134110764618723e-06
+        }
+      },
+      "10": {
+        "mse": 7.570543525005161e-05,
+        "per_video": {
+          "13": 0.0001332145423542123,
+          "16": 5.010231364960134e-05,
+          "18": 4.379944974634117e-05
+        }
+      }
+    },
+    "h10": {
+      "1": {
+        "mse": 4.373627757269596e-06,
+        "per_video": {
+          "13": 2.4821787735659185e-06,
+          "16": 4.918907767924922e-06,
+          "18": 5.719796730317949e-06
+        }
+      },
+      "10": {
+        "mse": 5.0022088995501205e-05,
+        "per_video": {
+          "13": 7.426792298558211e-05,
+          "16": 2.4710378442232086e-05,
+          "18": 5.108796555868942e-05
+        }
+      }
+    }
+  },
+  "source_hashes": {
+    "adaptive_search_results/prefix_velocity_memory_model.npz": "25b841b86d7eefed97e254a3e7404ae49415603c6e21e6ccc1e43d5a81e9b3e2",
+    "adaptive_search_results/multistep_initializer_n256_h1.npz": "f222dc17d8fb1c1620add19c7f13ecfc3952293632b8a9249bda07fcc2e30a23",
+    "adaptive_search_results/multistep_initializer_n256_h10.npz": "d7f39ac05d6879a106ea1a8b15b9a4c438bbda9ecbdc968f39f60fbbf57511e2"
+  },
+  "sources_unchanged": true,
+  "note": "Post-fit fixed observed-q-path TRAINhold diagnostics on same24starts as300step evaluation. Uses future observed labels/path, not deployable inference; no refit/selection/DEV/TEST."
+}

@@ -1,4 +1,5 @@
 """Causal initializer fitted to fixed observed-route short-horizon targets."""
+import argparse
 import hashlib
 import json
 import time
@@ -61,12 +62,18 @@ class ResidualInitializer:
     def execute(self,h,q,r,v):return self.weak.execute(h,q,r,v)
 
 
-def main():
+def artifact_stem(per_video):
+    if per_video not in [32,256]:raise ValueError('predeclared coverage levels only')
+    return 'multistep_initializer' if per_video==32 else 'multistep_initializer_n256'
+
+
+def main(per_video=32):
+    stem=artifact_stem(per_video)
     root=Path('adaptive_search_results');path=root/'prefix_velocity_memory_model.npz'
     digest=hashlib.sha256(path.read_bytes()).hexdigest()
     s=AdaptiveBeam();_,Writer=legacy_types();from v19.writers import history_features,ridge
     block=load_block(path);weak=Writer(LegacyFeatureBridge(s.base),block,dict(learned_initialization=True))
-    fit=prefix_windows(SPLITS['train'][:-3],steps=10,per_video=32)
+    fit=prefix_windows(SPLITS['train'][:-3],steps=10,per_video=per_video)
     sources,destinations=observed_routes(s.base,fit);initial=weak.initialize(fit['history'])
     scale=block['initializer']['scale'];raw=history_features(weak.m,fit['history']);x=raw/scale
     models={'original':None,'base':weak};training={}
@@ -76,8 +83,8 @@ def main():
         target,trace=bounded_gauss_newton(initial,residual)
         coef=ridge(x,target-initial,len(x)*.001)
         model=ResidualInitializer(weak,coef,scale);name=f'h{steps}';models[name]=model
-        np.savez_compressed(root/f'multistep_initializer_{name}.npz',coef=coef,scale=scale)
-        with np.load(root/f'multistep_initializer_{name}.npz') as z:
+        np.savez_compressed(root/f'{stem}_{name}.npz',coef=coef,scale=scale)
+        with np.load(root/f'{stem}_{name}.npz') as z:
             np.testing.assert_array_equal(z['coef'],coef);np.testing.assert_array_equal(z['scale'],scale)
         training[name]=dict(trace=trace,initial_surrogate_mse=float(np.mean(residual(initial)**2)),
             optimized_surrogate_mse=float(np.mean(residual(target)**2)),
@@ -96,15 +103,20 @@ def main():
     for seed in range(201017,201021):
         for name,model in models.items():
             r,p,f,_=rollout_memory(s,hold,model,seed);runs[name].append(r)
-            np.savez_compressed(root/f'multistep_initializer_{name}_{seed}.npz',prediction=p,failed=f,
+            if per_video!=32 and name in ['original','base']:
+                with np.load(root/f'multistep_initializer_{name}_{seed}.npz') as old:
+                    np.testing.assert_array_equal(p,old['prediction']);np.testing.assert_array_equal(f,old['failed'])
+            np.savez_compressed(root/f'{stem}_{name}_{seed}.npz',prediction=p,failed=f,
                 truth=hold['truth'],video=hold['video'],window_start=hold['start'])
             print(seed,name,r['objective'],flush=True)
     assert hashlib.sha256(path.read_bytes()).hexdigest()==digest
-    report=dict(training=training,runs=runs,mean_objective={k:float(np.mean([r['objective'] for r in rs])) for k,rs in runs.items()},
+    report=dict(per_video=per_video,training=training,runs=runs,mean_objective={k:float(np.mean([r['objective'] for r in rs])) for k,rs in runs.items()},
         fit_videos=SPLITS['train'][:-3],fit_windows=len(initial),fit_starts=fit['start'].tolist(),
         source_sha256=digest,source_unchanged=True,zero_residual_exact=True,
-        note='Observed-q-route inverse targets, not on-policy/REINFORCE or unbiased closed-loop gradient. Same320TRAINprefix windows/features/ridge/bound for h1/h10, but h10 costs more. Future observed path only for training labels, inference causal. No noise/DEV/TEST/tuning/promotion.')
-    (root/'multistep_initializer_pilot.json').write_text(json.dumps(report,indent=2))
+        note='Observed-q-route inverse targets, not on-policy/REINFORCE or unbiased closed-loop gradient. Same TRAINprefix windows/features/ridge/bound for h1/h10, but h10 costs more. Coverage levels32/256 per video have nonnested overlapping windows, not independent new videos. Evaluation reuses201017–201020 seeds; original/base must replay at expanded coverage. Future observed path only for training labels, inference causal. No noise/DEV/TEST/tuning/promotion.')
+    (root/f'{stem}_pilot.json').write_text(json.dumps(report,indent=2))
 
 
-if __name__=='__main__':main()
+if __name__=='__main__':
+    parser=argparse.ArgumentParser();parser.add_argument('--per-video',type=int,default=32,choices=[32,256])
+    main(parser.parse_args().per_video)

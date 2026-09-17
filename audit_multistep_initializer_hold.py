@@ -1,18 +1,20 @@
 """Fixed reference-path hold diagnostics; never used for fitting or selection."""
+import argparse
 import hashlib
 import json
 from pathlib import Path
 import numpy as np
 from adaptive_search_prototype import AdaptiveBeam
-from multistep_initializer_pilot import ResidualInitializer,observed_routes,fixed_route_residual
+from multistep_initializer_pilot import ResidualInitializer,observed_routes,fixed_route_residual,artifact_stem
 from velocity_memory_pilot import load_block
 from velocity_memory_compat import LegacyFeatureBridge,legacy_types
 from train_closed_loop_policy import prefix_windows
 from v20_rnn_mixture.engine.common import SPLITS
 
 
-def main():
-    root=Path('adaptive_search_results');paths=[root/'prefix_velocity_memory_model.npz']+[root/f'multistep_initializer_h{h}.npz' for h in [1,10]]
+def main(per_video=32):
+    stem=artifact_stem(per_video)
+    root=Path('adaptive_search_results');paths=[root/'prefix_velocity_memory_model.npz']+[root/f'{stem}_h{h}.npz' for h in [1,10]]
     hashes={str(p):hashlib.sha256(p.read_bytes()).hexdigest() for p in paths}
     s=AdaptiveBeam();_,Writer=legacy_types();weak=Writer(LegacyFeatureBridge(s.base),load_block(paths[0]),dict(learned_initialization=True))
     models={'base':weak}
@@ -28,7 +30,9 @@ def main():
     assert all(hashlib.sha256(Path(p).read_bytes()).hexdigest()==h for p,h in hashes.items())
     out=dict(results=report,source_hashes=hashes,sources_unchanged=True,
              note='Post-fit fixed observed-q-path TRAINhold diagnostics on same24starts as300step evaluation. Uses future observed labels/path, not deployable inference; no refit/selection/DEV/TEST.')
-    (root/'multistep_initializer_hold_audit.json').write_text(json.dumps(out,indent=2));print(json.dumps(report,indent=2))
+    (root/f'{stem}_hold_audit.json').write_text(json.dumps(out,indent=2));print(json.dumps(report,indent=2))
 
 
-if __name__=='__main__':main()
+if __name__=='__main__':
+    parser=argparse.ArgumentParser();parser.add_argument('--per-video',type=int,default=32,choices=[32,256])
+    main(parser.parse_args().per_video)

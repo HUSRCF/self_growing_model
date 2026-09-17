@@ -1,9 +1,14 @@
 import unittest
 import numpy as np
-from multistep_initializer_pilot import bounded_gauss_newton
+from multistep_initializer_pilot import bounded_gauss_newton,artifact_stem
 
 
 class MultistepTests(unittest.TestCase):
+    def test_artifact_isolation(self):
+        self.assertEqual(artifact_stem(32),'multistep_initializer')
+        self.assertEqual(artifact_stem(256),'multistep_initializer_n256')
+        with self.assertRaises(ValueError):artifact_stem(128)
+
     def test_recovery_monotonicity_and_bound(self):
         initial=np.zeros((3,2));target=np.array([[.01,-.01],[.005,.008],[1.,-1.]])
         def residual(v):return (v-target)[:,None,:]*np.arange(1,11)[None,:,None]
