@@ -1,0 +1,113 @@
+{
+  "results": [
+    {
+      "theta": [
+        -0.15,
+        0.07
+      ],
+      "objective": 0.579484315553727,
+      "gradients": {
+        "exact": [
+          -1.8135038152603342,
+          -0.12877541010289253
+        ],
+        "pathwise": [
+          -1.8141184196674016,
+          -0.128898330984306
+        ],
+        "score": [
+          0.0006146044070674539,
+          0.00012292088141348245
+        ],
+        "hybrid": [
+          -1.8135038152603342,
+          -0.12877541010289253
+        ],
+        "hybrid_loo": [
+          -1.8135038152603338,
+          -0.12877541010289242
+        ]
+      },
+      "finite_difference": [
+        -1.813503815234485,
+        -0.12877541010758442
+      ],
+      "pathwise_bias_norm": 0.0006267759729553554,
+      "score_only_bias_norm": 1.8186919531100065
+    },
+    {
+      "theta": [
+        0.0,
+        0.0
+      ],
+      "objective": 0.3196904490940418,
+      "gradients": {
+        "exact": [
+          -1.8217982888646438,
+          -0.25397748257219044
+        ],
+        "pathwise": [
+          -1.8217513541903063,
+          -0.2539680956373229
+        ],
+        "score": [
+          -4.693467433738996e-05,
+          -9.386934867475216e-06
+        ],
+        "hybrid": [
+          -1.8217982888646438,
+          -0.25397748257219044
+        ],
+        "hybrid_loo": [
+          -1.8217982888646436,
+          -0.25397748257219044
+        ]
+      },
+      "finite_difference": [
+        -1.8217982888341087,
+        -0.2539774825838226
+      ],
+      "pathwise_bias_norm": 4.786416406218405e-05,
+      "score_only_bias_norm": 1.8393688564548067
+    },
+    {
+      "theta": [
+        0.2,
+        -0.1
+      ],
+      "objective": 0.054404727101666536,
+      "gradients": {
+        "exact": [
+          -0.43352462437554473,
+          -0.1175173254490565
+        ],
+        "pathwise": [
+          -0.43278515507649523,
+          -0.11736943158924659
+        ],
+        "score": [
+          -0.0007394692990495381,
+          -0.00014789385980990694
+        ],
+        "hybrid": [
+          -0.43352462437554473,
+          -0.1175173254490565
+        ],
+        "hybrid_loo": [
+          -0.4335246243755448,
+          -0.11751732544905649
+        ]
+      },
+      "finite_difference": [
+        -0.4335246243620388,
+        -0.11751732544793002
+      ],
+      "pathwise_bias_norm": 0.0007541136771112384,
+      "score_only_bias_norm": 0.44841785638639414
+    }
+  ],
+  "paths": 16,
+  "particles": 3,
+  "joint_combinations": 4096,
+  "note": "Exact finite toy enumeration, not empirical task improvement. Full derivative through continuous state into later routing probabilities retained. score advantages/baselines detached; pathwise full ensemble loss remains differentiable. LOO baseline independent of omitted path conditional on theta. Real hard guards/discontinuities and NumPy/Torch parity still unaudited; no real-model training or DEV/TEST."
+}
