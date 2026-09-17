@@ -1,0 +1,92 @@
+{
+  "families": {
+    "p4_i12": {
+      "objective": 0.4208778945756282,
+      "paired_mean_delta": 0.0026545272356079397,
+      "per_action_seed_family_delta": [
+        -0.0018124766944056514,
+        0.010978301508914878,
+        -0.0006026528667781861,
+        0.002054936994700718
+      ],
+      "conditional_rng_se": 0.002889753059520464,
+      "rmse": {
+        "50": 0.12742358413804264,
+        "100": 0.3659003101697175,
+        "300": 0.6494293448096425
+      },
+      "selected_epochs": [
+        0,
+        12,
+        0
+      ],
+      "per_video_rmse3": {
+        "18": 0.6022639871294464,
+        "16": 0.5877393009262971,
+        "13": 0.7439076132122411
+      },
+      "max_numeric_failure": 0.0
+    },
+    "p12_i4": {
+      "objective": 0.42444696201932414,
+      "paired_mean_delta": 0.006223594679303904,
+      "per_action_seed_family_delta": [
+        0.0017584981509881636,
+        0.003404697577977178,
+        0.012183350000081083,
+        0.00754783298816919
+      ],
+      "conditional_rng_se": 0.002330156619508007,
+      "rmse": {
+        "50": 0.1289427948574955,
+        "100": 0.36988363319454026,
+        "300": 0.6481186056764288
+      },
+      "selected_epochs": [
+        4,
+        4,
+        4
+      ],
+      "per_video_rmse3": {
+        "18": 0.5758336700849073,
+        "16": 0.5996650436083147,
+        "13": 0.752916008413588
+      },
+      "max_numeric_failure": 0.0
+    },
+    "p12_i12": {
+      "objective": 0.43334669848100144,
+      "paired_mean_delta": 0.015123331140981203,
+      "per_action_seed_family_delta": [
+        0.01006950818658997,
+        0.01655136537357954,
+        0.024934727119259814,
+        0.008937723884495485
+      ],
+      "conditional_rng_se": 0.0036754323600300745,
+      "rmse": {
+        "50": 0.1268819881244925,
+        "100": 0.37105242388095877,
+        "300": 0.6649295554483101
+      },
+      "selected_epochs": [
+        8,
+        4,
+        12
+      ],
+      "per_video_rmse3": {
+        "18": 0.6050493511779496,
+        "16": 0.6132740879248235,
+        "13": 0.7625924060713194
+      },
+      "max_numeric_failure": 0.0
+    }
+  },
+  "baseline_objective": 0.4182233673400203,
+  "baseline_rmse": {
+    "50": 0.12953219109721117,
+    "100": 0.36449268389300593,
+    "300": 0.6443242075534189
+  },
+  "note": "Family means average performance of3fixedtrained models, not prediction ensemble. SE over4actionseeds after averaging models, conditional on same3holdvideos; no12-independent-sample claim. Identical selectedparameters may occur acrossfamilies."
+}
