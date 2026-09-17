@@ -57,7 +57,7 @@ class AdaptiveBeam:
                  check_weight=0.08, contradiction_weight=0.35,
                  widen_on_empty=False, soft_check=False, value_model=None, value_weight=1.,
                  min_stop_support=1, search_interval=1, uncertainty_gap=0., rule_cache_size=0,
-                 depth_invariant_temperature=False, shared_writer=False, boundary_repair=False):
+                 depth_invariant_temperature=False, shared_writer=False, boundary_repair=False, policy_adapter=None):
         self.base = Dynamics()
         self.shared_writer = None
         self.boundary_repair = boundary_repair
@@ -66,6 +66,9 @@ class AdaptiveBeam:
             self.shared_writer = SharedCandidateWriter(self.base)
         self.machine = EventMachine(self.base, Path(__file__).resolve().parent /
                                     "v20_rnn_mixture" / "models" / checkpoint)
+        if policy_adapter:
+            from stateless_policy_adapter import StatelessPolicyAdapter
+            self.machine=StatelessPolicyAdapter(self.machine,policy_adapter)
         self.checker = MixtureChecker(checker, alpha)
         self.event_top = int(event_top)
         self.next_top = int(next_top)
@@ -368,7 +371,8 @@ def make_searcher(args):
                             search_interval=args.search_interval, uncertainty_gap=args.uncertainty_gap,
                             rule_cache_size=args.rule_cache_size,
                             depth_invariant_temperature=args.depth_invariant_temperature,
-                            shared_writer=args.shared_writer,boundary_repair=args.boundary_repair)
+                            shared_writer=args.shared_writer,boundary_repair=args.boundary_repair,
+                            policy_adapter=getattr(args,'policy_adapter',None))
 
 
 def run_window(task):
@@ -407,6 +411,8 @@ def run(args):
     pred=np.asarray(all_pred); failed=np.asarray(all_failed)
     score, arrays=metrics(pred,windows['truth'],failed)
     result=dict(config={k:v for k,v in vars(args).items()}, score=score,
+                terminal_right_generated=False,
+                completion_note='Legacy H-output runner: no committed extra right point certifies the endpoint. Use evaluate_adapted_checked.py for full-horizon central-check verification.',
                 tracking=tracking(arrays['angular_errors']), seconds=time.perf_counter()-start,
                 n_windows=len(windows['history']), particles=args.particles,
                 failed_fraction=float(failed.mean()), audit=audit,
@@ -440,6 +446,7 @@ def main():
     ap.add_argument('--depth-invariant-temperature',action='store_true')
     ap.add_argument('--shared-writer',action='store_true')
     ap.add_argument('--boundary-repair',action='store_true')
+    ap.add_argument('--policy-adapter')
     ap.add_argument('--seed',type=int,default=1729)
     ap.add_argument('--min-depth',type=int,default=2)
     ap.add_argument('--max-depth',type=int,default=4)

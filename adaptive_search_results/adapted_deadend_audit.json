@@ -1,0 +1,349 @@
+{
+  "cases": [
+    {
+      "model_seed": 2718,
+      "rollout_seed": 1729,
+      "window": 16,
+      "particle": 3,
+      "first_invalid_returned_step": 267,
+      "terminal_search_step": 268,
+      "source_q": 6,
+      "banned_q": [
+        3,
+        4,
+        6
+      ],
+      "boundary_repair_attempted": true,
+      "full_root_q": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "unbanned_root_q": [
+        1,
+        2,
+        5,
+        7
+      ],
+      "full_next_q_by_root": {
+        "5": [],
+        "1": [],
+        "2": [],
+        "7": []
+      },
+      "banned_root_full_next_q": {
+        "6": [
+          1,
+          2,
+          3,
+          6,
+          7
+        ],
+        "4": [],
+        "3": []
+      },
+      "diagnostic": {
+        "depth": 2,
+        "roots": 32,
+        "stable": false,
+        "root_gap": null,
+        "snapshot": 36,
+        "particle": 3,
+        "step": 268,
+        "rollback": false,
+        "rollback_distance": 0,
+        "rewritten": false,
+        "repair_attempted": true,
+        "repair_success": false
+      }
+    },
+    {
+      "model_seed": 3141,
+      "rollout_seed": 2718,
+      "window": 13,
+      "particle": 1,
+      "first_invalid_returned_step": 10,
+      "terminal_search_step": 11,
+      "source_q": 6,
+      "banned_q": [
+        3,
+        6
+      ],
+      "boundary_repair_attempted": true,
+      "full_root_q": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "unbanned_root_q": [
+        1,
+        2,
+        4,
+        5,
+        7
+      ],
+      "full_next_q_by_root": {
+        "7": [],
+        "2": [],
+        "5": [],
+        "1": [],
+        "4": []
+      },
+      "banned_root_full_next_q": {
+        "6": [
+          3
+        ],
+        "3": []
+      },
+      "diagnostic": {
+        "depth": 2,
+        "roots": 40,
+        "stable": false,
+        "root_gap": null,
+        "snapshot": 10,
+        "particle": 1,
+        "step": 11,
+        "rollback": false,
+        "rollback_distance": 0,
+        "rewritten": false,
+        "repair_attempted": true,
+        "repair_success": false
+      }
+    },
+    {
+      "model_seed": 3141,
+      "rollout_seed": 2718,
+      "window": 13,
+      "particle": 3,
+      "first_invalid_returned_step": 9,
+      "terminal_search_step": 10,
+      "source_q": 6,
+      "banned_q": [
+        6
+      ],
+      "boundary_repair_attempted": true,
+      "full_root_q": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "unbanned_root_q": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        7
+      ],
+      "full_next_q_by_root": {
+        "3": [],
+        "7": [],
+        "2": [],
+        "5": [],
+        "1": [],
+        "4": []
+      },
+      "banned_root_full_next_q": {
+        "6": [
+          3
+        ]
+      },
+      "diagnostic": {
+        "depth": 2,
+        "roots": 48,
+        "stable": false,
+        "root_gap": null,
+        "snapshot": 26,
+        "particle": 3,
+        "step": 10,
+        "rollback": false,
+        "rollback_distance": 0,
+        "rewritten": false,
+        "repair_attempted": true,
+        "repair_success": false
+      }
+    },
+    {
+      "model_seed": 3141,
+      "rollout_seed": 2718,
+      "window": 13,
+      "particle": 4,
+      "first_invalid_returned_step": 9,
+      "terminal_search_step": 10,
+      "source_q": 6,
+      "banned_q": [
+        6
+      ],
+      "boundary_repair_attempted": true,
+      "full_root_q": [
+        3,
+        6,
+        7
+      ],
+      "unbanned_root_q": [
+        3,
+        7
+      ],
+      "full_next_q_by_root": {
+        "3": [],
+        "7": []
+      },
+      "banned_root_full_next_q": {
+        "6": [
+          3
+        ]
+      },
+      "diagnostic": {
+        "depth": 2,
+        "roots": 16,
+        "stable": false,
+        "root_gap": null,
+        "snapshot": 30,
+        "particle": 4,
+        "step": 10,
+        "rollback": false,
+        "rollback_distance": 0,
+        "rewritten": false,
+        "repair_attempted": true,
+        "repair_success": false
+      }
+    },
+    {
+      "model_seed": 3141,
+      "rollout_seed": 2718,
+      "window": 13,
+      "particle": 7,
+      "first_invalid_returned_step": 9,
+      "terminal_search_step": 10,
+      "source_q": 6,
+      "banned_q": [
+        6
+      ],
+      "boundary_repair_attempted": true,
+      "full_root_q": [
+        3,
+        6
+      ],
+      "unbanned_root_q": [
+        3
+      ],
+      "full_next_q_by_root": {
+        "3": []
+      },
+      "banned_root_full_next_q": {
+        "6": [
+          3
+        ]
+      },
+      "diagnostic": {
+        "depth": 2,
+        "roots": 8,
+        "stable": false,
+        "root_gap": null,
+        "snapshot": 58,
+        "particle": 7,
+        "step": 10,
+        "rollback": false,
+        "rollback_distance": 0,
+        "rewritten": false,
+        "repair_attempted": true,
+        "repair_success": false
+      }
+    }
+  ],
+  "probes": [
+    {
+      "model": 2718,
+      "rollout_seed": 1729,
+      "window": 16,
+      "probe": "widen_empty",
+      "failed_particles": 1,
+      "max_rollback_distance": 2,
+      "expansions": 5557,
+      "cpu_seconds": 5.862643435
+    },
+    {
+      "model": 2718,
+      "rollout_seed": 1729,
+      "window": 16,
+      "probe": "full_root_before_backtrack",
+      "failed_particles": 1,
+      "max_rollback_distance": 2,
+      "expansions": 4637,
+      "cpu_seconds": 4.734078291000001
+    },
+    {
+      "model": 2718,
+      "rollout_seed": 1729,
+      "window": 16,
+      "probe": "every_step_depth2",
+      "failed_particles": 0,
+      "max_rollback_distance": 0,
+      "expansions": 12040,
+      "cpu_seconds": 11.489765921999998
+    },
+    {
+      "model": 2718,
+      "rollout_seed": 1729,
+      "window": 16,
+      "probe": "revision3",
+      "failed_particles": 0,
+      "max_rollback_distance": 3,
+      "expansions": 4498,
+      "cpu_seconds": 4.542404498
+    },
+    {
+      "model": 3141,
+      "rollout_seed": 2718,
+      "window": 13,
+      "probe": "widen_empty",
+      "failed_particles": 4,
+      "max_rollback_distance": 2,
+      "expansions": 3257,
+      "cpu_seconds": 3.4693031050000016
+    },
+    {
+      "model": 3141,
+      "rollout_seed": 2718,
+      "window": 13,
+      "probe": "full_root_before_backtrack",
+      "failed_particles": 4,
+      "max_rollback_distance": 2,
+      "expansions": 2769,
+      "cpu_seconds": 2.7986452669999977
+    },
+    {
+      "model": 3141,
+      "rollout_seed": 2718,
+      "window": 13,
+      "probe": "every_step_depth2",
+      "failed_particles": 0,
+      "max_rollback_distance": 2,
+      "expansions": 12137,
+      "cpu_seconds": 11.494504251999999
+    },
+    {
+      "model": 3141,
+      "rollout_seed": 2718,
+      "window": 13,
+      "probe": "revision3",
+      "failed_particles": 0,
+      "max_rollback_distance": 3,
+      "expansions": 4581,
+      "cpu_seconds": 4.662169152999994
+    }
+  ],
+  "note": "Exact replay of two representative failing windows, not all9 failed particles. Full two-edge support ignores ranking but retains F/checker; does not prove global feasibility or optimal recovery depth. Counterfactual probes are only on chosen failed windows, not full benchmark improvements."
+}

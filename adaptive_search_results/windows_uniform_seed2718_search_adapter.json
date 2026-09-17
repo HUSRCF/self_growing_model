@@ -1,0 +1,10 @@
+{
+  "type": "q_logit_residual_no_feedback_v1",
+  "model": "windows_uniform_seed2718_closed_loop.npz",
+  "model_sha256": "9687dac7493f2e5f5d282ea04eec42e38f20879d8509b33051758a498f17c136",
+  "head_fingerprint": "e436b966963cdac120f8c6cd76d61fd030547c2c98f6246519bcf15e9c9ea47a",
+  "training_summary": "windows_uniform_seed2718.json",
+  "training_summary_sha256": "ca9708f689550f76600013b30bada31f3a2b0bc7990d350feae5e5d769f7d5ea",
+  "training_arm": "closed_loop",
+  "selected_epoch": 25
+}
