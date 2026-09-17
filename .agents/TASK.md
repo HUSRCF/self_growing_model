@@ -4,6 +4,8 @@
 
 ## 已授权的研究扩展
 
+U-energy单粒子根动作标签审计：旧80拟合窗口/P4/300、新431017–431020，前2标签选择诊断oracle、后2独立评价。每r仅替换一个粒子的完整条件续跑，其余3保留原样本；平均四次独立干预，不同时改4粒子。每时距验证ΔU=(Δtruthdistance−Δmeanpairdistance+2Δfailed)/P与原energy_costs一致，匹配原根r的轨迹须逐位复现。报告U/MSE/attraction/spread排序重复性与不可部署oracle；不训练critic、不hold/DEV/TEST。
+
 小KL事件内评分倾斜：保留四个8/32覆盖×context/action-only交叉拟合critic，Tnew(r|e)∝Told(r|e)exp(-lambda*score(r))，p(e)不变。每折仅训练状态校准mean joint KL(new||old)=.01，固定lambda上限1e6，非逐状态保证；复现旧scores/零prior。全部概率在新421017–421020/P4/300续跑标签前冻结，原80窗口根边际精确求和评价单轨迹MSE，保留零与硬argmin。无调温度/选择/逐步反馈/hold/DEV/TEST。
 
 值函数上下文与覆盖对照：保持旧critic容量/正则/leave-one-video-out，加入仅按目的r平均代价的无上下文基线。TRAIN10视频每个原8窗口嵌套增加24起点(seed411017，排除旧完全相同起点，允许时间重叠)，新标签412017/18/P4/300，旧标签不变。比较8/32窗口×上下文/无上下文四组，在旧80窗口与旧403017/18评价标签上审计，明确是复用诊断非独立确认。先复现旧prior和scores，不调参/hold/DEV/TEST；4倍采样成本非等预算比较。
