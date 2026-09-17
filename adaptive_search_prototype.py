@@ -57,7 +57,7 @@ class AdaptiveBeam:
                  check_weight=0.08, contradiction_weight=0.35,
                  widen_on_empty=False, soft_check=False, value_model=None, value_weight=1.,
                  min_stop_support=1, search_interval=1, uncertainty_gap=0., rule_cache_size=0,
-                 depth_invariant_temperature=False, shared_writer=False, boundary_repair=False, policy_adapter=None, commit_probe=False, fast_probe=False):
+                 depth_invariant_temperature=False, shared_writer=False, boundary_repair=False, policy_adapter=None, commit_probe=False, fast_probe=False, read_cache_size=0):
         self.base = Dynamics()
         self.shared_writer = None
         self.boundary_repair = boundary_repair
@@ -90,6 +90,10 @@ class AdaptiveBeam:
         self.rule_cache_size = int(rule_cache_size)
         self.depth_invariant_temperature = depth_invariant_temperature
         self._rule_cache = OrderedDict()
+        self.read_cache_size = int(read_cache_size)
+        if self.read_cache_size < 0:
+            raise ValueError('read_cache_size must be nonnegative')
+        self._read_cache = OrderedDict()
         if self.search_interval < 1:
             raise ValueError('search_interval must be positive')
         self.value_model = None
@@ -98,7 +102,8 @@ class AdaptiveBeam:
             self.value_model = ValueModel(value_model)
         self.audit = dict(expansions=0, empty_narrow=0, rescued=0,
                           empty_full=0, rejected_edges=0, rule_cache_hits=0, rule_cache_misses=0,
-                          viability_probes=0,viability_full_probes=0,viability_rejected_roots=0)
+                          viability_probes=0,viability_full_probes=0,viability_rejected_roots=0,
+                          read_cache_hits=0,read_cache_misses=0)
         if self.min_depth < 1 or self.max_depth < self.min_depth:
             raise ValueError("Require 1 <= min_depth <= max_depth")
 
@@ -108,9 +113,37 @@ class AdaptiveBeam:
         return np.argsort(a)[-k:][::-1]
 
     def _read(self, node):
+        # Pure frozen-model reads only. Mutable/online-trained controllers
+        # must clear this cache after any parameter/configuration change.
+        # Hidden state is essential here, unlike in the numeric F cache.
+        key = None
+        if self.read_cache_size:
+            key = (self.machine, self._array_key(node.history), int(node.q),
+                   self._array_key(node.hidden))
+            if key in self._read_cache:
+                self.audit['read_cache_hits'] += 1
+                value = self._read_cache.pop(key)
+                self._read_cache[key] = value
+                return value
+        self.audit['read_cache_misses'] += 1
         pe, trans, read_result = self.machine.read(
             node.history, np.asarray([node.q]), {"hidden": node.hidden})
-        return pe[0], trans[0], read_result["read_hidden"]
+        value = (pe[0], trans[0], read_result["read_hidden"])
+        if key is not None:
+            value = tuple(np.array(a, copy=True) for a in value)
+            for a in value:a.setflags(write=False)
+            self._read_cache[key] = value
+            if len(self._read_cache) > self.read_cache_size:
+                self._read_cache.popitem(last=False)
+        return value
+
+    @staticmethod
+    def _array_key(a):
+        return (a.shape, a.dtype.str, a.tobytes())
+
+    def clear_read_cache(self):
+        """Required after in-place policy/base-feature parameter changes."""
+        self._read_cache.clear()
 
     def _child(self, parent, e, r, pe, trans, read_hidden):
         y = self.base.execute_rule(parent.history, np.asarray([parent.q]),
@@ -402,7 +435,7 @@ def make_searcher(args):
                             depth_invariant_temperature=args.depth_invariant_temperature,
                             shared_writer=args.shared_writer,boundary_repair=args.boundary_repair,
                             policy_adapter=getattr(args,'policy_adapter',None),commit_probe=getattr(args,'commit_probe',False),
-                            fast_probe=getattr(args,'fast_probe',False))
+                            fast_probe=getattr(args,'fast_probe',False),read_cache_size=getattr(args,'read_cache_size',0))
 
 
 def run_window(task):
@@ -479,6 +512,7 @@ def main():
     ap.add_argument('--policy-adapter')
     ap.add_argument('--commit-probe',action='store_true')
     ap.add_argument('--fast-probe',action='store_true',help='Skip unused child diagnostics and scoring in commit probes')
+    ap.add_argument('--read-cache-size',type=int,default=0,help='Exact frozen event-read LRU capacity; includes GRU hidden in key')
     ap.add_argument('--seed',type=int,default=1729)
     ap.add_argument('--min-depth',type=int,default=2)
     ap.add_argument('--max-depth',type=int,default=4)

@@ -1,0 +1,91 @@
+{
+  "rows": [
+    {
+      "repeat": 0,
+      "window": 0,
+      "order": [
+        "probe_fast",
+        "probe_read"
+      ],
+      "cache_cpu": 4.919117083000001,
+      "fast_cpu": 4.442188139
+    },
+    {
+      "repeat": 0,
+      "window": 8,
+      "order": [
+        "probe_read",
+        "probe_fast"
+      ],
+      "cache_cpu": 4.825067666000001,
+      "fast_cpu": 4.267227161000001
+    },
+    {
+      "repeat": 0,
+      "window": 16,
+      "order": [
+        "probe_fast",
+        "probe_read"
+      ],
+      "cache_cpu": 4.945013851999999,
+      "fast_cpu": 4.336758458000002
+    },
+    {
+      "repeat": 0,
+      "window": 24,
+      "order": [
+        "probe_read",
+        "probe_fast"
+      ],
+      "cache_cpu": 4.807092969999999,
+      "fast_cpu": 4.2709056730000015
+    },
+    {
+      "repeat": 1,
+      "window": 0,
+      "order": [
+        "probe_read",
+        "probe_fast"
+      ],
+      "cache_cpu": 4.8442273439999965,
+      "fast_cpu": 4.296269753000004
+    },
+    {
+      "repeat": 1,
+      "window": 8,
+      "order": [
+        "probe_fast",
+        "probe_read"
+      ],
+      "cache_cpu": 4.910893378999994,
+      "fast_cpu": 4.280707677000002
+    },
+    {
+      "repeat": 1,
+      "window": 16,
+      "order": [
+        "probe_read",
+        "probe_fast"
+      ],
+      "cache_cpu": 4.878812036999996,
+      "fast_cpu": 4.331979626000006
+    },
+    {
+      "repeat": 1,
+      "window": 24,
+      "order": [
+        "probe_fast",
+        "probe_read"
+      ],
+      "cache_cpu": 4.776027216999992,
+      "fast_cpu": 4.236686160999994
+    }
+  ],
+  "reference": "probe_fast",
+  "candidate": "probe_read",
+  "outputs_and_search_counters_exact": true,
+  "cache_cpu_sum": 38.90625154799998,
+  "fast_cpu_sum": 34.46272264800001,
+  "reduction_fraction": 0.11421118003408359,
+  "note": "Two alternating repeats of four fixed DEV windows, original policy, seed1729,8particles. CPU sums include unchanged independent checker verification. Paired speed diagnostic, not independent accuracy replication."
+}
