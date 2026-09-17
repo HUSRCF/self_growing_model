@@ -1,0 +1,135 @@
+{
+  "rows": [
+    {
+      "family": "constant",
+      "seed": 1901,
+      "original_epoch": 0,
+      "fresh_mean_best_epoch": 0,
+      "half_chosen_epochs": [
+        0,
+        0
+      ],
+      "original_delta": 0.0,
+      "cross_delta": 0.0,
+      "checkpoint_mean_deltas": [
+        0.0,
+        0.015061101574453672,
+        0.022497360185945288,
+        0.01574638871603408
+      ],
+      "nonzero_checkpoints_improving_both_halves": 0
+    },
+    {
+      "family": "constant",
+      "seed": 2718,
+      "original_epoch": 12,
+      "fresh_mean_best_epoch": 0,
+      "half_chosen_epochs": [
+        0,
+        0
+      ],
+      "original_delta": 0.0015412462932162252,
+      "cross_delta": 0.0,
+      "checkpoint_mean_deltas": [
+        0.0,
+        0.005251293160478475,
+        0.007204243471663881,
+        0.0015412462932162252
+      ],
+      "nonzero_checkpoints_improving_both_halves": 0
+    },
+    {
+      "family": "constant",
+      "seed": 3141,
+      "original_epoch": 0,
+      "fresh_mean_best_epoch": 0,
+      "half_chosen_epochs": [
+        0,
+        0
+      ],
+      "original_delta": 0.0,
+      "cross_delta": 0.0,
+      "checkpoint_mean_deltas": [
+        0.0,
+        0.0298927882238558,
+        0.022724618418739878,
+        0.020458894717924808
+      ],
+      "nonzero_checkpoints_improving_both_halves": 0
+    },
+    {
+      "family": "velocity",
+      "seed": 1901,
+      "original_epoch": 8,
+      "fresh_mean_best_epoch": 0,
+      "half_chosen_epochs": [
+        12,
+        0
+      ],
+      "original_delta": 0.013196751839285814,
+      "cross_delta": 0.005006723373830957,
+      "checkpoint_mean_deltas": [
+        0.0,
+        0.013717623065990052,
+        0.013196751839285814,
+        0.0035912793945172064
+      ],
+      "nonzero_checkpoints_improving_both_halves": 0
+    },
+    {
+      "family": "velocity",
+      "seed": 2718,
+      "original_epoch": 4,
+      "fresh_mean_best_epoch": 0,
+      "half_chosen_epochs": [
+        0,
+        12
+      ],
+      "original_delta": 0.00825184898418168,
+      "cross_delta": 0.00838293526782128,
+      "checkpoint_mean_deltas": [
+        0.0,
+        0.00825184898418168,
+        0.009414213555320565,
+        0.007117059459413502
+      ],
+      "nonzero_checkpoints_improving_both_halves": 0
+    },
+    {
+      "family": "velocity",
+      "seed": 3141,
+      "original_epoch": 8,
+      "fresh_mean_best_epoch": 0,
+      "half_chosen_epochs": [
+        0,
+        0
+      ],
+      "original_delta": 0.015693446547956694,
+      "cross_delta": 0.0,
+      "checkpoint_mean_deltas": [
+        0.0,
+        0.006435550540821872,
+        0.015693446547956694,
+        0.009977250900242839
+      ],
+      "nonzero_checkpoints_improving_both_halves": 0
+    }
+  ],
+  "families": {
+    "constant": {
+      "original_selected_mean_delta": 0.0005137487644054083,
+      "original_selected_conditional_rng_se": 0.001749895166002141,
+      "half_cross_selected_mean_delta": 0.0,
+      "optimistic_all8_selected_mean_delta": 0.0
+    },
+    "velocity": {
+      "original_selected_mean_delta": 0.012380682457141395,
+      "original_selected_conditional_rng_se": 0.0016945805566143377,
+      "half_cross_selected_mean_delta": 0.004463219547217412,
+      "optimistic_all8_selected_mean_delta": 0.0
+    }
+  },
+  "original_matches_all8_best": 2,
+  "half_winner_agreement": 4,
+  "note": "Originalselection uses prior2RNG,halfselection uses4RNG thenother4forassessment. All8min is optimistic diagnostic, not demonstrated achievable performance.6runs share videos and RNG; familySE averagesmodels first,not independentvideo inference. No model changes."
+}

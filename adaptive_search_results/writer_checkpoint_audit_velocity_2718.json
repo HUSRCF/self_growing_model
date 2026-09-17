@@ -1,0 +1,110 @@
+{
+  "family": "velocity",
+  "optimization_seed": 2718,
+  "epochs": [
+    0,
+    4,
+    8,
+    12
+  ],
+  "costs": [
+    [
+      0.4221924299277277,
+      0.43308310449538184,
+      0.4252602451194769,
+      0.4331378615010916
+    ],
+    [
+      0.4089154426783201,
+      0.41279295311522995,
+      0.4343958011812435,
+      0.42393093037280544
+    ],
+    [
+      0.43216189408056555,
+      0.4497866545341958,
+      0.4430875856922174,
+      0.45025498203777253
+    ],
+    [
+      0.40199301830019946,
+      0.4080080544570908,
+      0.42422358354661976,
+      0.42500249321771344
+    ],
+    [
+      0.4349414256716752,
+      0.42766149896405475,
+      0.44574448611079137,
+      0.4513353071768004
+    ],
+    [
+      0.4332810251208696,
+      0.4457501608635947,
+      0.45723163366045494,
+      0.4231785153024841
+    ],
+    [
+      0.4146742918369497,
+      0.42128799536529044,
+      0.419215403312051,
+      0.39600718222717024
+    ],
+    [
+      0.43777953823477783,
+      0.45358343592970024,
+      0.4120940356707948,
+      0.4400282696905553
+    ]
+  ],
+  "action_seeds": [
+    121017,
+    121018,
+    121019,
+    121020,
+    121021,
+    121022,
+    121023,
+    121024
+  ],
+  "summary": {
+    "mean_costs": [
+      0.4232423832313856,
+      0.4314942322155674,
+      0.4326565967867062,
+      0.4303594426907992
+    ],
+    "mean_deltas": [
+      0.0,
+      0.00825184898418168,
+      0.009414213555320565,
+      0.007117059459413502
+    ],
+    "conditional_rng_se": [
+      0.0,
+      0.002795696831205577,
+      0.005876578955900732,
+      0.005211903713453076
+    ],
+    "original_selected_index": 1,
+    "original_selected_delta": 0.00825184898418168,
+    "fresh_mean_best_index": 0,
+    "half_selected_indices": [
+      0,
+      3
+    ],
+    "half_cross_deltas": [
+      0.0,
+      0.01676587053564256
+    ],
+    "mean_cross_delta": 0.00838293526782128,
+    "original_selected_better_seeds": 1
+  },
+  "source_sha256": "e5d866ae7022626a9e08b20896b823759d853e1c6154664cf3257f7722d9fb44",
+  "model_sha256": "ec6682966307d2cce2cd7bfb3d60588baf88e92dc311ecd5e37e670741a62671",
+  "models_unchanged": true,
+  "original62017_exact_replay": true,
+  "selected_parameters_exact": true,
+  "unique_evaluations": 36,
+  "note": "Frozen4checkpoints,8freshRNG on same3TRAINholdvideos. Four-RNG half chooses,otherhalf evaluates; reverse too. All8best is optimistic diagnostic only, not deployment selection. No refit/DEV/TEST. Identical checkpoints reuse evaluation; not independent observations."
+}
