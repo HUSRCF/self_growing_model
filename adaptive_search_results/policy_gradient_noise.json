@@ -1,0 +1,33 @@
+{
+  "n_batches": 12,
+  "particles_per_window": 4,
+  "n_windows": 40,
+  "arms": {
+    "control": {
+      "mean_gradient_norm": 0.011597494916586614,
+      "batch_gradient_norm_mean": 0.028161263125036407,
+      "pairwise_cosine_mean": 0.0958788954274312,
+      "pairwise_cosine_median": 0.126274082139608,
+      "negative_cosine_fraction": 0.2878787878787879,
+      "estimated_gradient_noise_trace": 0.0007454650595626583,
+      "noise_corrected_signal_squared": 7.237980004336414e-05,
+      "estimated_single_batch_signal_to_noise": 0.31159827387505773,
+      "objective_mean": 0.16767811574232705,
+      "objective_std": 0.01150243148716497,
+      "note": "Finite12-batch estimate; dependent gradient-pair cosines are descriptive, not independent observations."
+    },
+    "feedback": {
+      "mean_gradient_norm": 0.011679490068788295,
+      "batch_gradient_norm_mean": 0.028154443942019564,
+      "pairwise_cosine_mean": 0.09779712639693462,
+      "pairwise_cosine_median": 0.12291459080420367,
+      "negative_cosine_fraction": 0.2878787878787879,
+      "estimated_gradient_noise_trace": 0.0007421746175743011,
+      "noise_corrected_signal_squared": 7.4562603469066e-05,
+      "estimated_single_batch_signal_to_noise": 0.3169622077076991,
+      "objective_mean": 0.16767811574232705,
+      "objective_std": 0.01150243148716497,
+      "note": "Finite12-batch estimate; dependent gradient-pair cosines are descriptive, not independent observations."
+    }
+  }
+}
