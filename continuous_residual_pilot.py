@@ -67,14 +67,19 @@ def observed_score(s,data,centers,model,mask):
                 correction_rms_rad=float(np.sqrt((p[:,:,None]*delta**2).sum((1,2)).mean()/2)))
 
 
-def rollout(s,w,model,seed,particles=8):
+def rollout(s,w,model,seed,particles=8,first_noise=None):
     h=np.repeat(w['history'],particles,axis=0);q,mem=s.machine.initialize(h);rng=np.random.default_rng(seed)
+    if first_noise is not None:
+        first_noise=np.asarray(first_noise)
+        if first_noise.shape!=(len(h),2) or not np.isfinite(first_noise).all():
+            raise ValueError('finite first_noise[window*particle,2] required')
     dead=np.zeros(len(h),bool);pred=[];failed=[];contradictions=0;rejections=0;count=0
     for t in range(w['truth'].shape[1]):
         pe,tr,read=s.machine.read(h,q,mem)
         e=sample(pe,rng.random(len(h)));r=sample(tr[np.arange(len(h)),e],rng.random(len(h)))
         y=s.base.execute_rule(h,q,r)
         if model is not None:y=y+correction(model,s.base,h,q,r)
+        if t==0 and first_noise is not None:y=y+first_noise
         dead|=(~np.isfinite(y)).any(1)|(np.abs(y-h[:,-1])>np.pi).any(1);y[dead]=h[dead,-1]
         nh=np.concatenate([h[:,1:],y[:,None]],1)
         diagnosed=s.base.state_from_history(nh)[0]
