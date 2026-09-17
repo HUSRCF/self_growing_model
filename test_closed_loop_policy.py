@@ -1,12 +1,40 @@
 import unittest
 import numpy as np
 import torch
+from types import SimpleNamespace
+from unittest.mock import patch
+import contextlib
+import io
 
 from adaptive_search_prototype import AdaptiveBeam
-from train_closed_loop_policy import Actor, leave_one_out, future_costs, run_policy, prefix_windows
+from train_closed_loop_policy import Actor, leave_one_out, future_costs, run_policy, prefix_windows, train_one
 
 
 class ClosedLoopTests(unittest.TestCase):
+    def test_accumulation_averages_before_update_and_preserves_budget(self):
+        torch.set_num_threads(1)
+        s=AdaptiveBeam();calls=[];validation=[]
+        args=SimpleNamespace(epochs=10,accumulate=3,train_seed=1901,kl_weight=.01)
+        def fake(s,windows,actor=None,training=False,seed=0,**kwargs):
+            if not training:
+                validation.append(seed)
+                return dict(objective=1.,score={'100':{'embedding_rmse':1.}}),None,None
+            calls.append((seed,actor.model[-1].bias.detach().clone()))
+            loss=actor.model[-1].bias.sum()*((seed-42000+1)*.001)
+            return loss,loss*0,dict(objective=1.,advantage_std=1.,failure=0.)
+        with patch('train_closed_loop_policy.run_policy',side_effect=fake),contextlib.redirect_stdout(io.StringIO()):
+            _,report=train_one(s,args,True)
+        self.assertEqual([s for s,_ in calls],list(range(42000,42030)))
+        self.assertEqual(len(validation),14)
+        self.assertEqual(len(report['trace']),7)
+        self.assertEqual(report['selected_epoch'],0)
+        for i in range(10):
+            for j in [1,2]:torch.testing.assert_close(calls[3*i][1],calls[3*i+j][1],rtol=0,atol=0)
+            expected=np.sqrt(8)*(3*i+2)*.001
+            self.assertAlmostEqual(report['train_trace'][i]['gradient_norm'],expected,places=6)
+        self.assertFalse(torch.equal(calls[0][1],calls[3][1]))
+        self.assertEqual(report['train_trace'][-1]['batches_seen'],30)
+
     def test_baseline_excludes_own_trajectory(self):
         a=np.array([1.,2.,3.,4.,8.,12.])
         np.testing.assert_allclose(leave_one_out(a,3),[2.5,2.,1.5,10.,8.,6.])

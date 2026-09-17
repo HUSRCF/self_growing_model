@@ -134,8 +134,9 @@ def train_one(s,args,use_feedback):
     fit=prefix_windows(SPLITS['train'][:-3],per_video=4)
     hold=prefix_windows(SPLITS['train'][-3:],per_video=8)
     best=float('inf');chosen=None;chosen_epoch=0;trace=[];train_trace=[];start=time.perf_counter()
+    checkpoints=set(np.linspace(0,args.epochs,7,dtype=int))
     for epoch in range(args.epochs+1):
-        if epoch%5==0:
+        if epoch in checkpoints:
             a=actor.arrays()
             checks=[run_policy(s,hold,arrays=a,use_feedback=use_feedback,seed=seed,particles=8)[0]
                     for seed in [12017,12019]]
@@ -145,11 +146,18 @@ def train_one(s,args,use_feedback):
             if objective<best:best=objective;chosen=a;chosen_epoch=epoch
             print('feedback',use_feedback,'epoch',epoch,'holdout',objective,'best',chosen_epoch,flush=True)
         if epoch==args.epochs:break
-        loss,kl,stats=run_policy(s,fit,actor=actor,training=True,seed=42000+epoch+args.train_seed-1901,particles=4)
-        total=loss+args.kl_weight*kl
-        optimizer.zero_grad();total.backward();torch.nn.utils.clip_grad_norm_(actor.model.parameters(),1.);optimizer.step()
-        train_trace.append(dict(epoch=epoch+1,loss=float(loss.detach()),kl=float(kl.detach()),**stats))
-        if epoch%5==0:print('train',dict(epoch=epoch+1,loss=float(loss.detach()),kl=float(kl.detach()),**stats),flush=True)
+        optimizer.zero_grad()
+        batch_stats=[]
+        for batch in range(args.accumulate):
+            seed=42000+epoch*args.accumulate+batch+args.train_seed-1901
+            loss,kl,stats=run_policy(s,fit,actor=actor,training=True,seed=seed,particles=4)
+            ((loss+args.kl_weight*kl)/args.accumulate).backward()
+            batch_stats.append(dict(loss=float(loss.detach()),kl=float(kl.detach()),**stats))
+        grad_norm=float(torch.nn.utils.clip_grad_norm_(actor.model.parameters(),1.))
+        optimizer.step()
+        averaged={k:float(np.mean([b[k] for b in batch_stats])) for k in batch_stats[0]}
+        train_trace.append(dict(epoch=epoch+1,batches_seen=(epoch+1)*args.accumulate,gradient_norm=grad_norm,**averaged))
+        if epoch%5==0:print('train',train_trace[-1],flush=True)
     return chosen,dict(selected_epoch=chosen_epoch,holdout_objective=best,trace=trace,train_trace=train_trace,seconds=time.perf_counter()-start)
 
 
@@ -157,8 +165,10 @@ def main():
     parser=argparse.ArgumentParser();parser.add_argument('--epochs',type=int,default=30)
     parser.add_argument('--kl-weight',type=float,default=.01)
     parser.add_argument('--train-seed',type=int,default=1901)
+    parser.add_argument('--accumulate',type=int,default=1)
     parser.add_argument('--output',default='adaptive_search_results/closed_loop_policy.json')
     args=parser.parse_args();torch.set_num_threads(1)
+    if args.accumulate<1 or args.epochs<1:raise ValueError('Positive accumulation and update counts required')
     s=AdaptiveBeam();out=Path(args.output);out.parent.mkdir(exist_ok=True);start=time.perf_counter()
     report=dict(config=vars(args),fit_videos=SPLITS['train'][:-3],selection_videos=SPLITS['train'][-3:],training={},arms={},
       limitations=['On-policy score-function estimator; F and GRU frozen. No checker/search/noise.',
