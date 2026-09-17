@@ -47,6 +47,10 @@ The prototype was then optimized by batching candidate F/checker/q operations pe
 
 ## Active queue
 
+Remote initialized: https://github.com/HUSRCF/self_growing_model, default branch master, research branch shuang; local tracks origin/shuang. GitHub connector provides writes; local CLI currently supports only public fetch (no HTTPS credentials / SSH auth). See notes/candidate_ranking.md.
+
+Follow-up pairwise ranker: 3744 train-prefix candidate states at rollout drift0/8/24, train-video holdout selection cost improves5.7%, but independent dev-tail candidate cost worsens3.2% (.004593 vs .004451). Do not enable it in search. No test-set ranker tuning/evaluation. Code train_search_ranker.py and results/ranker JSON summaries; full details notes/candidate_ranking.md.
+
 Critical follow-up diagnosis: prototype passes a history ending at the middle point to the checker's left_history argument, computing (right-middle)/(2dt), not the calibrated central velocity. Both scalar and batched prototype paths are affected. Existing prototype accuracy results do not establish whether adaptive depth works. Fix and rerun before judging constraints/value/search. Test failure 1.65625% was time-averaged; endpoint failure at 50 steps was 3.125% (2/64 windows).
 
 This interface bug is now fixed and covered by two prototype-specific tests. Corrected dev fixed2/adaptive2–3 RMSE at 0.5 s: .035752/.035754, zero failures. Corrected reused-test 64-window scores: .092618/.092649, zero failures (previous 2/64 failures gone). Full candidate widening rescued only 4/4875 dead internal nodes on dev and did not change predictions; soft-check dev RMSE worsened to .039288. A small train-prefix-only value regressor failed whole-training-video heldout MSE baseline (correlation .089), so was not enabled. Details and next research priorities: `notes/corrected_search_experiments.md`.

@@ -1,0 +1,46 @@
+{
+  "n_samples": 3744,
+  "drift_steps": [
+    0,
+    8,
+    24
+  ],
+  "selected_epoch": 70,
+  "training_videos": [
+    12,
+    20,
+    7,
+    19,
+    5,
+    1,
+    2,
+    4,
+    11,
+    15
+  ],
+  "validation_videos": [
+    18,
+    16,
+    13
+  ],
+  "validation_selected_cost": 0.030079173230015025,
+  "policy_cost": 0.03188787664556249,
+  "mean_candidate_cost": 0.03496101184516148,
+  "oracle_cost": 0.017356128537214258,
+  "target": "pairwise ranking of 10/25/50-step mean embedding MSE under fixed greedy continuation",
+  "note": "Checkpoint selected on these held-out TRAIN videos; not an independent test.",
+  "per_video": {
+    "18": {
+      "ranker": 0.015750159066975293,
+      "policy": 0.019842525582299445
+    },
+    "16": {
+      "ranker": 0.01073847289372629,
+      "policy": 0.008477679833960269
+    },
+    "13": {
+      "ranker": 0.06374888772934348,
+      "policy": 0.06734342452042776
+    }
+  }
+}

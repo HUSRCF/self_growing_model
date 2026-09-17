@@ -11,6 +11,8 @@
 - 首个小型价值回归模型泛化不足，未启用于正式搜索。
 - 下一步：增加生成状态覆盖，训练同前缀候选排序，按整视频验证选路收益。
 
+后续排序试验已完成：3,744个训练候选覆盖自由预测0/8/24步状态。训练视频留出选择代价改善约5.7%，但独立开发视频的1,152个候选上代价恶化约3.2%，因此尚未接入正式搜索。指标为候选续推平均MSE，不是完整搜索RMSE。见[排序实验记录](.agents/notes/candidate_ranking.md)。
+
 详细依据：[修正后实验记录](.agents/notes/corrected_search_experiments.md)。历史记录中的错误接口结果仅供追溯，不能视为当前模型效果。
 
 ## 本次提交范围与复现
@@ -23,6 +25,10 @@
 OPENBLAS_NUM_THREADS=1 python -m unittest -v test_adaptive_search
 OPENBLAS_NUM_THREADS=1 python adaptive_search_prototype.py --per-video 8 --particles 2 --steps 50 --min-depth 2 --max-depth 3 --output adaptive_search_results/reproduced_dev.json
 OPENBLAS_NUM_THREADS=1 python train_search_value.py
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 python train_search_ranker.py
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 python train_search_ranker.py --evaluate-dev
 ```
 
 当前温度0的重复粒子没有概率多样性；结果不应与原版8随机粒子、300步的窗口结果直接比较。数据划分与窗口限制见`.agents/`记录。
+
+排序模型训练另外需要PyTorch，当前实现使用CPU。

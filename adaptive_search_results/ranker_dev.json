@@ -1,0 +1,25 @@
+{
+  "n_samples": 1152,
+  "selected_cost": 0.004593273146217691,
+  "policy_cost": 0.004451267172896216,
+  "oracle_cost": 0.002933582619982577,
+  "note": "Frozen train-selected ranker on DEV-video tails; candidate ranking diagnostic, not search rollout RMSE.",
+  "per_video": {
+    "3": {
+      "ranker": 0.0026902520745874766,
+      "policy": 0.0030194431106163825
+    },
+    "9": {
+      "ranker": 0.0040104688507182394,
+      "policy": 0.003887923931596957
+    },
+    "6": {
+      "ranker": 0.007391711590953189,
+      "policy": 0.007663058426075138
+    },
+    "8": {
+      "ranker": 0.00428066006861186,
+      "policy": 0.003234643223296385
+    }
+  }
+}
