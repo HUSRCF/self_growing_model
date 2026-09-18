@@ -38,7 +38,7 @@ def spectral_cost(stats, kernel):
     return np.sum(stats['coeff']*(kernel*stats['attraction']-.5*kernel**2*stats['pair']), axis=(1, 2))+stats['penalty']
 
 
-def kernel_moments(modes, log_kappa):
+def moment_factors(modes, log_kappa):
     kappa = np.exp(np.asarray(log_kappa))
     if kappa.shape != (2,) or not np.isfinite(kappa).all() or (kappa <= 0).any():
         raise ValueError('Two finite log concentrations required')
@@ -48,6 +48,11 @@ def kernel_moments(modes, log_kappa):
         base = ive(0, k); ratio = ive(order, k)/base
         derivative = k*((ive(np.abs(order-1), k)+ive(order+1, k))/(2*base)-ratio*ive(1, k)/base)
         values.append(ratio); derivatives.append(derivative)
+    return values, derivatives
+
+
+def kernel_moments(modes, log_kappa):
+    values, derivatives = moment_factors(modes, log_kappa)
     kernel = values[0][:, None]*values[1][None, :]
     gradient = np.stack([derivatives[0][:, None]*values[1][None], values[0][:, None]*derivatives[1][None]])
     return kernel, gradient
@@ -62,3 +67,34 @@ def value_gradient(stats, log_kappa=None):
     integrand = stats['coeff']*(stats['attraction']-kernel*stats['pair'])
     gradient = np.einsum('nij,kij->nk', integrand, derivative)
     return stats['baseline']+change, gradient
+
+
+def blocked_value(centers, truth, failed, size, log_kappa, block=128):
+    """One window, row-blocked full spectrum; no frequency truncation."""
+    if centers.ndim != 2 or centers.shape[1] != 2 or len(centers) < 3:
+        raise ValueError('Expected centers[P>=3,2]')
+    if truth.shape != (2,) or failed.shape != (len(centers),) or block < 1:
+        raise ValueError('Invalid truth/failed/block')
+    baseline = float(energy_costs(embedding(centers[None]), embedding(truth[None]), failed[None])[0][0])
+    if log_kappa is None:
+        return dict(cost=baseline, gradient=np.zeros(2), baseline=baseline)
+    modes, coeff = distance_spectrum(size)
+    values, derivatives = moment_factors(modes, log_kappa)
+    a = np.exp(1j*centers[:, 0, None]*modes)
+    b = np.exp(1j*centers[:, 1, None]*modes)
+    target0, target1 = np.exp(-1j*truth[0]*modes), np.exp(-1j*truth[1]*modes)
+    raw, point, gradient = 0., 0., np.zeros(2)
+    for start in range(0, size, block):
+        sl = slice(start, min(start+block, size))
+        characteristic = a[:, sl].T@b/len(centers)
+        attraction = (characteristic*target0[sl, None]*target1[None]).real
+        pair = (len(centers)*np.abs(characteristic)**2-1)/(len(centers)-1)
+        kernel = values[0][sl, None]*values[1][None]
+        raw += np.sum(coeff[sl]*(kernel*attraction-.5*kernel**2*pair))
+        point += np.sum(coeff[sl]*(attraction-.5*pair))
+        integrand = coeff[sl]*(attraction-kernel*pair)
+        gradient[0] += np.sum(integrand*derivatives[0][sl, None]*values[1][None])
+        gradient[1] += np.sum(integrand*values[0][sl, None]*derivatives[1][None])
+    penalty = 2*failed.mean()
+    return dict(cost=float(baseline+raw-point), raw_cost=float(raw+penalty),
+                baseline_error=float(point+penalty-baseline), gradient=gradient, baseline=baseline)

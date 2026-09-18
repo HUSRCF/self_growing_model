@@ -1,9 +1,23 @@
 import unittest
 import numpy as np
-from spectral_kernel_energy import statistics, spectral_cost, value_gradient, kernel_moments
+from spectral_kernel_energy import statistics, spectral_cost, value_gradient, kernel_moments, blocked_value
 
 
 class SpectralKernelTests(unittest.TestCase):
+    def test_blocked_full_spectrum(self):
+        rng = np.random.default_rng(83)
+        x, y = rng.normal(size=(5, 2)), rng.normal(size=2)
+        failed = np.array([False, True, False, False, True])
+        stats = statistics(x[None], y[None], failed[None], 33)
+        theta = np.log([1319., 146.])
+        value, grad = value_gradient(stats, theta)
+        for block in [1, 7, 33, 80]:
+            result = blocked_value(x, y, failed, 33, theta, block)
+            np.testing.assert_allclose(result['cost'], value[0], atol=1e-14)
+            np.testing.assert_allclose(result['gradient'], grad[0], atol=1e-14)
+            np.testing.assert_allclose(result['raw_cost']-result['baseline_error'], value[0], atol=1e-14)
+        self.assertEqual(blocked_value(x, y, failed, 33, None)['cost'], stats['baseline'][0])
+
     def test_discrete_noise_direct_integration(self):
         size = 9; angle = 2*np.pi*np.arange(size)/size
         indices = np.array([[1, 3], [5, 2], [7, 8]])
