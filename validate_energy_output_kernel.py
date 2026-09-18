@@ -12,10 +12,10 @@ from v20_rnn_mixture.engine.common import SPLITS
 from spectral_kernel_energy import blocked_value
 
 
-def evaluate(seed, kernels):
+def evaluate(seed, kernels, particles=32):
     start = time.process_time()
     hold = prefix_windows(SPLITS['train'][-3:], steps=300, per_video=8)
-    p, f = continuation(AdaptiveBeam(), hold['history'], seed, particles=32)
+    p, f = continuation(AdaptiveBeam(), hold['history'], seed, particles=particles)
     results = {}
     for size in [2049, 4097]:
         data = {name: dict(cost=np.zeros((24, 3)), gradient=np.zeros((24, 3, 2))) for name in kernels}
