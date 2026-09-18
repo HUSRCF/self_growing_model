@@ -1,5 +1,6 @@
 """TRAIN-video-cross-fitted root action values under stochastic continuation."""
 import json
+import copy
 from pathlib import Path
 import numpy as np
 from adaptive_search_prototype import AdaptiveBeam
@@ -18,16 +19,21 @@ def trajectory_cost(prediction, truth, failed):
     return np.mean(costs, axis=0)
 
 
-def continuation(s, histories, seed, particles=4, root=None, forced_step=0):
+def continuation(s, histories, seed, particles=4, root=None, forced_step=0, snapshots=None):
     """Original sampler; optional one-time forced destination at zero-based step."""
     if not isinstance(forced_step,(int,np.integer)) or not 0<=forced_step<300:
         raise ValueError('forced_step must be an integer in [0,300)')
+    if snapshots is not None and any(not isinstance(t,(int,np.integer)) or not 0<=t<300 for t in snapshots):
+        raise ValueError('Snapshot steps must be integers in [0,300)')
     h = np.repeat(histories, particles, axis=0)
     q, mem = s.machine.initialize(h)
     rng = np.random.default_rng(seed)
     dead = np.zeros(len(h), bool)
     predictions, failures = [], []
     for t in range(300):
+        if snapshots is not None and t in snapshots:
+            snapshots[t]=dict(history=h.copy(),q=q.copy(),hidden=mem['hidden'].copy(),
+                              failed=dead.copy(),rng_state=copy.deepcopy(rng.bit_generator.state))
         pe, tr, read = s.machine.read(h, q, mem)
         e = sample(pe, rng.random(len(h)))
         r = sample(tr[np.arange(len(h)), e], rng.random(len(h)))
