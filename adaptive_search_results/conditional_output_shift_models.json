@@ -1,0 +1,1532 @@
+{
+  "models": {
+    "1": {
+      "common": [
+        {
+          "shift": [
+            0.0003698425399821609,
+            0.01074752027860689
+          ],
+          "candidate_shift": [
+            0.0003698425399821609,
+            0.01074752027860689
+          ],
+          "success": true,
+          "use_shift": true,
+          "message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+          "iterations": 5,
+          "penalized_delta": -0.0004993470226550255,
+          "at_boundary": [
+            false,
+            false
+          ],
+          "note": "Output only,perhorizon common2angle shift,bounds\u00b1.25rad,L2.001,zero start,TRAIN zero fallback."
+        },
+        {
+          "shift": [
+            0.002957840679540167,
+            0.029571532510753597
+          ],
+          "candidate_shift": [
+            0.002957840679540167,
+            0.029571532510753597
+          ],
+          "success": true,
+          "use_shift": true,
+          "message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+          "iterations": 6,
+          "penalized_delta": -0.0013133417505919336,
+          "at_boundary": [
+            false,
+            false
+          ],
+          "note": "Output only,perhorizon common2angle shift,bounds\u00b1.25rad,L2.001,zero start,TRAIN zero fallback."
+        },
+        {
+          "shift": [
+            -0.00841056469712318,
+            -0.13673684546774434
+          ],
+          "candidate_shift": [
+            -0.00841056469712318,
+            -0.13673684546774434
+          ],
+          "success": true,
+          "use_shift": true,
+          "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+          "iterations": 8,
+          "penalized_delta": -0.0020318946397115917,
+          "at_boundary": [
+            false,
+            false
+          ],
+          "note": "Output only,perhorizon common2angle shift,bounds\u00b1.25rad,L2.001,zero start,TRAIN zero fallback."
+        }
+      ],
+      "conditional": [
+        {
+          "mean": -1.9726818531928532,
+          "scale": 0.457604952826772,
+          "beta": [
+            [
+              0.000919850633902379,
+              0.011265303332584787
+            ],
+            [
+              0.0021207806767460525,
+              0.0016582154984509233
+            ]
+          ],
+          "success": true,
+          "message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+          "iterations": 8,
+          "penalized_delta": -0.0005346184480523974,
+          "use_shift": true,
+          "at_boundary": [
+            false,
+            false,
+            false,
+            false
+          ]
+        },
+        {
+          "mean": -1.9726818531928532,
+          "scale": 0.457604952826772,
+          "beta": [
+            [
+              0.0031427886237963827,
+              0.0345745485031396
+            ],
+            [
+              0.0013964220164099205,
+              0.010544699176469581
+            ]
+          ],
+          "success": true,
+          "message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+          "iterations": 8,
+          "penalized_delta": -0.001433145726030123,
+          "use_shift": true,
+          "at_boundary": [
+            false,
+            false,
+            false,
+            false
+          ]
+        },
+        {
+          "mean": -1.9726818531928532,
+          "scale": 0.457604952826772,
+          "beta": [
+            [
+              -0.006267182583378966,
+              -0.1650274393652339
+            ],
+            [
+              0.0009336160752058409,
+              -0.19540457443621082
+            ]
+          ],
+          "success": true,
+          "message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+          "iterations": 18,
+          "penalized_delta": -0.004691427027974137,
+          "use_shift": true,
+          "at_boundary": [
+            false,
+            false,
+            false,
+            false
+          ]
+        }
+      ],
+      "fit_videos": [
+        2,
+        4,
+        5,
+        7,
+        11,
+        12,
+        15,
+        19,
+        20
+      ]
+    },
+    "2": {
+      "common": [
+        {
+          "shift": [
+            0.0003687804558725829,
+            0.00727254619179212
+          ],
+          "candidate_shift": [
+            0.0003687804558725829,
+            0.00727254619179212
+          ],
+          "success": true,
+          "use_shift": true,
+          "message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+          "iterations": 5,
+          "penalized_delta": -0.00022094390314012855,
+          "at_boundary": [
+            false,
+            false
+          ],
+          "note": "Output only,perhorizon common2angle shift,bounds\u00b1.25rad,L2.001,zero start,TRAIN zero fallback."
+        },
+        {
+          "shift": [
+            0.003726092811856748,
+            0.03741287412340287
+          ],
+          "candidate_shift": [
+            0.003726092811856748,
+            0.03741287412340287
+          ],
+          "success": true,
+          "use_shift": true,
+          "message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+          "iterations": 6,
+          "penalized_delta": -0.0023192397910540745,
+          "at_boundary": [
+            false,
+            false
+          ],
+          "note": "Output only,perhorizon common2angle shift,bounds\u00b1.25rad,L2.001,zero start,TRAIN zero fallback."
+        },
+        {
+          "shift": [
+            0.003894668282329288,
+            -0.1770641675972726
+          ],
+          "candidate_shift": [
+            0.003894668282329288,
+            -0.1770641675972726
+          ],
+          "success": true,
+          "use_shift": true,
+          "message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+          "iterations": 7,
+          "penalized_delta": -0.003235451868678118,
+          "at_boundary": [
+            false,
+            false
+          ],
+          "note": "Output only,perhorizon common2angle shift,bounds\u00b1.25rad,L2.001,zero start,TRAIN zero fallback."
+        }
+      ],
+      "conditional": [
+        {
+          "mean": -1.9600474419389562,
+          "scale": 0.446592566396599,
+          "beta": [
+            [
+              0.0008590636726295363,
+              0.007453219755283586
+            ],
+            [
+              0.0018206850010739752,
+              0.0011591814451042363
+            ]
+          ],
+          "success": true,
+          "message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+          "iterations": 8,
+          "penalized_delta": -0.00024514756717862864,
+          "use_shift": true,
+          "at_boundary": [
+            false,
+            false,
+            false,
+            false
+          ]
+        },
+        {
+          "mean": -1.9600474419389562,
+          "scale": 0.446592566396599,
+          "beta": [
+            [
+              0.004129554972722204,
+              0.05381140104734918
+            ],
+            [
+              0.002504290158242947,
+              0.03871394259502302
+            ]
+          ],
+          "success": true,
+          "message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+          "iterations": 9,
+          "penalized_delta": -0.0036988547347224375,
+          "use_shift": true,
+          "at_boundary": [
+            false,
+            false,
+            false,
+            false
+          ]
+        },
+        {
+          "mean": -1.9600474419389562,
+          "scale": 0.446592566396599,
+          "beta": [
+            [
+              0.008371593418491188,
+              -0.17458903081992388
+            ],
+            [
+              0.018381158143046514,
+              -0.05633850453410541
+            ]
+          ],
+          "success": true,
+          "message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+          "iterations": 22,
+          "penalized_delta": -0.0037220200951999624,
+          "use_shift": true,
+          "at_boundary": [
+            false,
+            false,
+            false,
+            false
+          ]
+        }
+      ],
+      "fit_videos": [
+        1,
+        4,
+        5,
+        7,
+        11,
+        12,
+        15,
+        19,
+        20
+      ]
+    },
+    "4": {
+      "common": [
+        {
+          "shift": [
+            0.0006115039522507718,
+            0.0064066554210517246
+          ],
+          "candidate_shift": [
+            0.0006115039522507718,
+            0.0064066554210517246
+          ],
+          "success": true,
+          "use_shift": true,
+          "message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+          "iterations": 5,
+          "penalized_delta": -0.0001577483848193761,
+          "at_boundary": [
+            false,
+            false
+          ],
+          "note": "Output only,perhorizon common2angle shift,bounds\u00b1.25rad,L2.001,zero start,TRAIN zero fallback."
+        },
+        {
+          "shift": [
+            0.002693724323602078,
+            0.03227892772960003
+          ],
+          "candidate_shift": [
+            0.002693724323602078,
+            0.03227892772960003
+          ],
+          "success": true,
+          "use_shift": true,
+          "message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+          "iterations": 6,
+          "penalized_delta": -0.0015971720883922662,
+          "at_boundary": [
+            false,
+            false
+          ],
+          "note": "Output only,perhorizon common2angle shift,bounds\u00b1.25rad,L2.001,zero start,TRAIN zero fallback."
+        },
+        {
+          "shift": [
+            0.013569193264516713,
+            -0.25
+          ],
+          "candidate_shift": [
+            0.013569193264516713,
+            -0.25
+          ],
+          "success": true,
+          "use_shift": true,
+          "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+          "iterations": 6,
+          "penalized_delta": -0.003854653948315176,
+          "at_boundary": [
+            false,
+            true
+          ],
+          "note": "Output only,perhorizon common2angle shift,bounds\u00b1.25rad,L2.001,zero start,TRAIN zero fallback."
+        }
+      ],
+      "conditional": [
+        {
+          "mean": -1.9167439049164807,
+          "scale": 0.42964908994014595,
+          "beta": [
+            [
+              0.0012766374752341749,
+              0.007353900835444146
+            ],
+            [
+              0.0023382140740906545,
+              0.0041069340928043645
+            ]
+          ],
+          "success": true,
+          "message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+          "iterations": 8,
+          "penalized_delta": -0.0002426838299519676,
+          "use_shift": true,
+          "at_boundary": [
+            false,
+            false,
+            false,
+            false
+          ]
+        },
+        {
+          "mean": -1.9167439049164807,
+          "scale": 0.42964908994014595,
+          "beta": [
+            [
+              0.000794552887440581,
+              0.04846638727753012
+            ],
+            [
+              -0.0011786268403700848,
+              0.03432119000917654
+            ]
+          ],
+          "success": true,
+          "message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+          "iterations": 9,
+          "penalized_delta": -0.0028612270107764843,
+          "use_shift": true,
+          "at_boundary": [
+            false,
+            false,
+            false,
+            false
+          ]
+        },
+        {
+          "mean": -1.9167439049164807,
+          "scale": 0.42964908994014595,
+          "beta": [
+            [
+              -0.004383495810054823,
+              -0.21691913710210622
+            ],
+            [
+              -0.043378392665645985,
+              -0.0811403607270876
+            ]
+          ],
+          "success": true,
+          "message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+          "iterations": 17,
+          "penalized_delta": -0.004575454532975719,
+          "use_shift": true,
+          "at_boundary": [
+            false,
+            false,
+            false,
+            false
+          ]
+        }
+      ],
+      "fit_videos": [
+        1,
+        2,
+        5,
+        7,
+        11,
+        12,
+        15,
+        19,
+        20
+      ]
+    },
+    "5": {
+      "common": [
+        {
+          "shift": [
+            0.0007352432354362621,
+            0.01299013472520878
+          ],
+          "candidate_shift": [
+            0.0007352432354362621,
+            0.01299013472520878
+          ],
+          "success": true,
+          "use_shift": true,
+          "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+          "iterations": 6,
+          "penalized_delta": -0.0006360586881829011,
+          "at_boundary": [
+            false,
+            false
+          ],
+          "note": "Output only,perhorizon common2angle shift,bounds\u00b1.25rad,L2.001,zero start,TRAIN zero fallback."
+        },
+        {
+          "shift": [
+            -0.00032900365545507067,
+            0.04037125148102356
+          ],
+          "candidate_shift": [
+            -0.00032900365545507067,
+            0.04037125148102356
+          ],
+          "success": true,
+          "use_shift": true,
+          "message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+          "iterations": 5,
+          "penalized_delta": -0.0024390107493722185,
+          "at_boundary": [
+            false,
+            false
+          ],
+          "note": "Output only,perhorizon common2angle shift,bounds\u00b1.25rad,L2.001,zero start,TRAIN zero fallback."
+        },
+        {
+          "shift": [
+            -0.026383150401983385,
+            -0.10514073474855538
+          ],
+          "candidate_shift": [
+            -0.026383150401983385,
+            -0.10514073474855538
+          ],
+          "success": true,
+          "use_shift": true,
+          "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+          "iterations": 8,
+          "penalized_delta": -0.0010626149195016874,
+          "at_boundary": [
+            false,
+            false
+          ],
+          "note": "Output only,perhorizon common2angle shift,bounds\u00b1.25rad,L2.001,zero start,TRAIN zero fallback."
+        }
+      ],
+      "conditional": [
+        {
+          "mean": -1.9564209918345457,
+          "scale": 0.45194732570658996,
+          "beta": [
+            [
+              0.0009574750511417823,
+              0.010910359828533837
+            ],
+            [
+              0.0013449986697446974,
+              -0.007994532029792552
+            ]
+          ],
+          "success": true,
+          "message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+          "iterations": 8,
+          "penalized_delta": -0.0008925090822402076,
+          "use_shift": true,
+          "at_boundary": [
+            false,
+            false,
+            false,
+            false
+          ]
+        },
+        {
+          "mean": -1.9564209918345457,
+          "scale": 0.45194732570658996,
+          "beta": [
+            [
+              -0.0014156230103125745,
+              0.04807836241542444
+            ],
+            [
+              -0.00151301201581502,
+              0.016622229990738868
+            ]
+          ],
+          "success": true,
+          "message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+          "iterations": 8,
+          "penalized_delta": -0.0027268718929102168,
+          "use_shift": true,
+          "at_boundary": [
+            false,
+            false,
+            false,
+            false
+          ]
+        },
+        {
+          "mean": -1.9564209918345457,
+          "scale": 0.45194732570658996,
+          "beta": [
+            [
+              -0.027719148298355867,
+              -0.15669951087888545
+            ],
+            [
+              -0.005083502959189064,
+              -0.15940188545051975
+            ]
+          ],
+          "success": true,
+          "message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+          "iterations": 12,
+          "penalized_delta": -0.002343480329468874,
+          "use_shift": true,
+          "at_boundary": [
+            false,
+            false,
+            false,
+            false
+          ]
+        }
+      ],
+      "fit_videos": [
+        1,
+        2,
+        4,
+        7,
+        11,
+        12,
+        15,
+        19,
+        20
+      ]
+    },
+    "7": {
+      "common": [
+        {
+          "shift": [
+            -0.00044206500154889583,
+            0.01304171154355247
+          ],
+          "candidate_shift": [
+            -0.00044206500154889583,
+            0.01304171154355247
+          ],
+          "success": true,
+          "use_shift": true,
+          "message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+          "iterations": 6,
+          "penalized_delta": -0.0006693306927372724,
+          "at_boundary": [
+            false,
+            false
+          ],
+          "note": "Output only,perhorizon common2angle shift,bounds\u00b1.25rad,L2.001,zero start,TRAIN zero fallback."
+        },
+        {
+          "shift": [
+            0.0014941689309195237,
+            0.047013097578941516
+          ],
+          "candidate_shift": [
+            0.0014941689309195237,
+            0.047013097578941516
+          ],
+          "success": true,
+          "use_shift": true,
+          "message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+          "iterations": 5,
+          "penalized_delta": -0.0035968453308399895,
+          "at_boundary": [
+            false,
+            false
+          ],
+          "note": "Output only,perhorizon common2angle shift,bounds\u00b1.25rad,L2.001,zero start,TRAIN zero fallback."
+        },
+        {
+          "shift": [
+            0.009110125630027782,
+            -0.17655243714181074
+          ],
+          "candidate_shift": [
+            0.009110125630027782,
+            -0.17655243714181074
+          ],
+          "success": true,
+          "use_shift": true,
+          "message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+          "iterations": 11,
+          "penalized_delta": -0.0031035596994962475,
+          "at_boundary": [
+            false,
+            false
+          ],
+          "note": "Output only,perhorizon common2angle shift,bounds\u00b1.25rad,L2.001,zero start,TRAIN zero fallback."
+        }
+      ],
+      "conditional": [
+        {
+          "mean": -1.9722952527822146,
+          "scale": 0.459186138607952,
+          "beta": [
+            [
+              -0.00020024919038487366,
+              0.011610714795046885
+            ],
+            [
+              0.0009966553376958666,
+              -0.005163782439093016
+            ]
+          ],
+          "success": true,
+          "message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+          "iterations": 9,
+          "penalized_delta": -0.0007718496149202412,
+          "use_shift": true,
+          "at_boundary": [
+            false,
+            false,
+            false,
+            false
+          ]
+        },
+        {
+          "mean": -1.9722952527822146,
+          "scale": 0.459186138607952,
+          "beta": [
+            [
+              0.0009049176877819822,
+              0.057221588932012145
+            ],
+            [
+              -0.000792919799204108,
+              0.02669978877099811
+            ]
+          ],
+          "success": true,
+          "message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+          "iterations": 8,
+          "penalized_delta": -0.004416899728570439,
+          "use_shift": true,
+          "at_boundary": [
+            false,
+            false,
+            false,
+            false
+          ]
+        },
+        {
+          "mean": -1.9722952527822146,
+          "scale": 0.459186138607952,
+          "beta": [
+            [
+              0.004798797233322341,
+              -0.16351128402177437
+            ],
+            [
+              -0.008132158691033762,
+              -0.09073623124294333
+            ]
+          ],
+          "success": true,
+          "message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+          "iterations": 19,
+          "penalized_delta": -0.004049320320287884,
+          "use_shift": true,
+          "at_boundary": [
+            false,
+            false,
+            false,
+            false
+          ]
+        }
+      ],
+      "fit_videos": [
+        1,
+        2,
+        4,
+        5,
+        11,
+        12,
+        15,
+        19,
+        20
+      ]
+    },
+    "11": {
+      "common": [
+        {
+          "shift": [
+            0.0010505248319612954,
+            0.015733322333822256
+          ],
+          "candidate_shift": [
+            0.0010505248319612954,
+            0.015733322333822256
+          ],
+          "success": true,
+          "use_shift": true,
+          "message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+          "iterations": 6,
+          "penalized_delta": -0.000994180286274796,
+          "at_boundary": [
+            false,
+            false
+          ],
+          "note": "Output only,perhorizon common2angle shift,bounds\u00b1.25rad,L2.001,zero start,TRAIN zero fallback."
+        },
+        {
+          "shift": [
+            0.0013195020994804455,
+            0.027480960665423777
+          ],
+          "candidate_shift": [
+            0.0013195020994804455,
+            0.027480960665423777
+          ],
+          "success": true,
+          "use_shift": true,
+          "message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+          "iterations": 6,
+          "penalized_delta": -0.0012340711620787705,
+          "at_boundary": [
+            false,
+            false
+          ],
+          "note": "Output only,perhorizon common2angle shift,bounds\u00b1.25rad,L2.001,zero start,TRAIN zero fallback."
+        },
+        {
+          "shift": [
+            4.266493783262524e-05,
+            -0.17544128188255972
+          ],
+          "candidate_shift": [
+            4.266493783262524e-05,
+            -0.17544128188255972
+          ],
+          "success": true,
+          "use_shift": true,
+          "message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+          "iterations": 6,
+          "penalized_delta": -0.0031347152264755646,
+          "at_boundary": [
+            false,
+            false
+          ],
+          "note": "Output only,perhorizon common2angle shift,bounds\u00b1.25rad,L2.001,zero start,TRAIN zero fallback."
+        }
+      ],
+      "conditional": [
+        {
+          "mean": -1.971203560269478,
+          "scale": 0.4534031212484369,
+          "beta": [
+            [
+              0.0016418524919011334,
+              0.015459580223423586
+            ],
+            [
+              0.0019473716719586346,
+              -0.0011365720910890985
+            ]
+          ],
+          "success": true,
+          "message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+          "iterations": 8,
+          "penalized_delta": -0.0010252333541784665,
+          "use_shift": true,
+          "at_boundary": [
+            false,
+            false,
+            false,
+            false
+          ]
+        },
+        {
+          "mean": -1.971203560269478,
+          "scale": 0.4534031212484369,
+          "beta": [
+            [
+              0.0009215419296725433,
+              0.03439367195995974
+            ],
+            [
+              0.0007053081797952063,
+              0.01660463199714008
+            ]
+          ],
+          "success": true,
+          "message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+          "iterations": 8,
+          "penalized_delta": -0.001492248146611263,
+          "use_shift": true,
+          "at_boundary": [
+            false,
+            false,
+            false,
+            false
+          ]
+        },
+        {
+          "mean": -1.971203560269478,
+          "scale": 0.4534031212484369,
+          "beta": [
+            [
+              0.00035310730862318773,
+              -0.19310570817817485
+            ],
+            [
+              0.001977570176898878,
+              -0.11233879410291346
+            ]
+          ],
+          "success": true,
+          "message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+          "iterations": 16,
+          "penalized_delta": -0.003753291227823996,
+          "use_shift": true,
+          "at_boundary": [
+            false,
+            false,
+            false,
+            false
+          ]
+        }
+      ],
+      "fit_videos": [
+        1,
+        2,
+        4,
+        5,
+        7,
+        12,
+        15,
+        19,
+        20
+      ]
+    },
+    "12": {
+      "common": [
+        {
+          "shift": [
+            0.0005872327725236825,
+            0.011532872512612907
+          ],
+          "candidate_shift": [
+            0.0005872327725236825,
+            0.011532872512612907
+          ],
+          "success": true,
+          "use_shift": true,
+          "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+          "iterations": 6,
+          "penalized_delta": -0.0005083643348456919,
+          "at_boundary": [
+            false,
+            false
+          ],
+          "note": "Output only,perhorizon common2angle shift,bounds\u00b1.25rad,L2.001,zero start,TRAIN zero fallback."
+        },
+        {
+          "shift": [
+            0.001507140820924871,
+            0.037689419069079765
+          ],
+          "candidate_shift": [
+            0.001507140820924871,
+            0.037689419069079765
+          ],
+          "success": true,
+          "use_shift": true,
+          "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+          "iterations": 6,
+          "penalized_delta": -0.002417881845507959,
+          "at_boundary": [
+            false,
+            false
+          ],
+          "note": "Output only,perhorizon common2angle shift,bounds\u00b1.25rad,L2.001,zero start,TRAIN zero fallback."
+        },
+        {
+          "shift": [
+            0.006455546013418186,
+            -0.18306932051645433
+          ],
+          "candidate_shift": [
+            0.006455546013418186,
+            -0.18306932051645433
+          ],
+          "success": true,
+          "use_shift": true,
+          "message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+          "iterations": 8,
+          "penalized_delta": -0.0028358032891524906,
+          "at_boundary": [
+            false,
+            false
+          ],
+          "note": "Output only,perhorizon common2angle shift,bounds\u00b1.25rad,L2.001,zero start,TRAIN zero fallback."
+        }
+      ],
+      "conditional": [
+        {
+          "mean": -1.952704204025706,
+          "scale": 0.4271253155851826,
+          "beta": [
+            [
+              0.0012142638101236595,
+              0.008328623685824946
+            ],
+            [
+              0.0029623426334141893,
+              -0.01215973201376252
+            ]
+          ],
+          "success": true,
+          "message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+          "iterations": 10,
+          "penalized_delta": -0.0011974960843696607,
+          "use_shift": true,
+          "at_boundary": [
+            false,
+            false,
+            false,
+            false
+          ]
+        },
+        {
+          "mean": -1.952704204025706,
+          "scale": 0.4271253155851826,
+          "beta": [
+            [
+              -0.000829186614824713,
+              0.05068279585232894
+            ],
+            [
+              -0.005012584778484623,
+              0.025722495698710757
+            ]
+          ],
+          "success": true,
+          "message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+          "iterations": 8,
+          "penalized_delta": -0.0032495432998373196,
+          "use_shift": true,
+          "at_boundary": [
+            false,
+            false,
+            false,
+            false
+          ]
+        },
+        {
+          "mean": -1.952704204025706,
+          "scale": 0.4271253155851826,
+          "beta": [
+            [
+              -0.0019653174991501664,
+              -0.17951349463909053
+            ],
+            [
+              -0.019021936829700888,
+              -0.16818004603599385
+            ]
+          ],
+          "success": true,
+          "message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+          "iterations": 19,
+          "penalized_delta": -0.004606223355738839,
+          "use_shift": true,
+          "at_boundary": [
+            false,
+            false,
+            false,
+            false
+          ]
+        }
+      ],
+      "fit_videos": [
+        1,
+        2,
+        4,
+        5,
+        7,
+        11,
+        15,
+        19,
+        20
+      ]
+    },
+    "15": {
+      "common": [
+        {
+          "shift": [
+            -1.2322411472072506e-05,
+            0.007959259348666465
+          ],
+          "candidate_shift": [
+            -1.2322411472072506e-05,
+            0.007959259348666465
+          ],
+          "success": true,
+          "use_shift": true,
+          "message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+          "iterations": 6,
+          "penalized_delta": -0.0002470484018653714,
+          "at_boundary": [
+            false,
+            false
+          ],
+          "note": "Output only,perhorizon common2angle shift,bounds\u00b1.25rad,L2.001,zero start,TRAIN zero fallback."
+        },
+        {
+          "shift": [
+            0.0029025915353499895,
+            0.02916797439138895
+          ],
+          "candidate_shift": [
+            0.0029025915353499895,
+            0.02916797439138895
+          ],
+          "success": true,
+          "use_shift": true,
+          "message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+          "iterations": 6,
+          "penalized_delta": -0.0014766615808906765,
+          "at_boundary": [
+            false,
+            false
+          ],
+          "note": "Output only,perhorizon common2angle shift,bounds\u00b1.25rad,L2.001,zero start,TRAIN zero fallback."
+        },
+        {
+          "shift": [
+            0.0028890052801744987,
+            -0.1484494266098908
+          ],
+          "candidate_shift": [
+            0.0028890052801744987,
+            -0.1484494266098908
+          ],
+          "success": true,
+          "use_shift": true,
+          "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+          "iterations": 8,
+          "penalized_delta": -0.0023149907339816487,
+          "at_boundary": [
+            false,
+            false
+          ],
+          "note": "Output only,perhorizon common2angle shift,bounds\u00b1.25rad,L2.001,zero start,TRAIN zero fallback."
+        }
+      ],
+      "conditional": [
+        {
+          "mean": -1.977272763575886,
+          "scale": 0.45159868450839635,
+          "beta": [
+            [
+              0.00012537468486987458,
+              0.006949662180078914
+            ],
+            [
+              0.0005521275392948295,
+              -0.0030730963317344416
+            ]
+          ],
+          "success": true,
+          "message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+          "iterations": 8,
+          "penalized_delta": -0.0002817265647086085,
+          "use_shift": true,
+          "at_boundary": [
+            false,
+            false,
+            false,
+            false
+          ]
+        },
+        {
+          "mean": -1.977272763575886,
+          "scale": 0.45159868450839635,
+          "beta": [
+            [
+              0.0008100259451462625,
+              0.039883420153865805
+            ],
+            [
+              -0.0019103767772860236,
+              0.026415296584153352
+            ]
+          ],
+          "success": true,
+          "message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+          "iterations": 8,
+          "penalized_delta": -0.0021278973603278983,
+          "use_shift": true,
+          "at_boundary": [
+            false,
+            false,
+            false,
+            false
+          ]
+        },
+        {
+          "mean": -1.977272763575886,
+          "scale": 0.45159868450839635,
+          "beta": [
+            [
+              0.010478838815299816,
+              -0.1589411476988879
+            ],
+            [
+              0.022036563670076146,
+              -0.058854437470619816
+            ]
+          ],
+          "success": true,
+          "message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+          "iterations": 13,
+          "penalized_delta": -0.002796848394909322,
+          "use_shift": true,
+          "at_boundary": [
+            false,
+            false,
+            false,
+            false
+          ]
+        }
+      ],
+      "fit_videos": [
+        1,
+        2,
+        4,
+        5,
+        7,
+        11,
+        12,
+        19,
+        20
+      ]
+    },
+    "19": {
+      "common": [
+        {
+          "shift": [
+            0.00028884664556808493,
+            0.016453191380875597
+          ],
+          "candidate_shift": [
+            0.00028884664556808493,
+            0.016453191380875597
+          ],
+          "success": true,
+          "use_shift": true,
+          "message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+          "iterations": 5,
+          "penalized_delta": -0.0010422907771259087,
+          "at_boundary": [
+            false,
+            false
+          ],
+          "note": "Output only,perhorizon common2angle shift,bounds\u00b1.25rad,L2.001,zero start,TRAIN zero fallback."
+        },
+        {
+          "shift": [
+            0.002598143394954108,
+            0.02810233671852348
+          ],
+          "candidate_shift": [
+            0.002598143394954108,
+            0.02810233671852348
+          ],
+          "success": true,
+          "use_shift": true,
+          "message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+          "iterations": 5,
+          "penalized_delta": -0.00122250140740769,
+          "at_boundary": [
+            false,
+            false
+          ],
+          "note": "Output only,perhorizon common2angle shift,bounds\u00b1.25rad,L2.001,zero start,TRAIN zero fallback."
+        },
+        {
+          "shift": [
+            -0.0033440575091528424,
+            -0.2052643813656135
+          ],
+          "candidate_shift": [
+            -0.0033440575091528424,
+            -0.2052643813656135
+          ],
+          "success": true,
+          "use_shift": true,
+          "message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+          "iterations": 8,
+          "penalized_delta": -0.0036628946837536083,
+          "at_boundary": [
+            false,
+            false
+          ],
+          "note": "Output only,perhorizon common2angle shift,bounds\u00b1.25rad,L2.001,zero start,TRAIN zero fallback."
+        }
+      ],
+      "conditional": [
+        {
+          "mean": -1.977828622745946,
+          "scale": 0.4547169811933972,
+          "beta": [
+            [
+              0.000728833421758653,
+              0.015811710164893415
+            ],
+            [
+              0.0015103656456810263,
+              -0.002119051338362265
+            ]
+          ],
+          "success": true,
+          "message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+          "iterations": 9,
+          "penalized_delta": -0.0010758790330380181,
+          "use_shift": true,
+          "at_boundary": [
+            false,
+            false,
+            false,
+            false
+          ]
+        },
+        {
+          "mean": -1.977828622745946,
+          "scale": 0.4547169811933972,
+          "beta": [
+            [
+              -9.95142518631479e-05,
+              0.04213700787035284
+            ],
+            [
+              -0.0024374292405451576,
+              0.03919280790932296
+            ]
+          ],
+          "success": true,
+          "message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+          "iterations": 7,
+          "penalized_delta": -0.0025831904704051046,
+          "use_shift": true,
+          "at_boundary": [
+            false,
+            false,
+            false,
+            false
+          ]
+        },
+        {
+          "mean": -1.977828622745946,
+          "scale": 0.4547169811933972,
+          "beta": [
+            [
+              -0.012320548588814423,
+              -0.17177183376525929
+            ],
+            [
+              -0.023091492642032672,
+              -0.15056649594237081
+            ]
+          ],
+          "success": false,
+          "message": "ABNORMAL: ",
+          "iterations": 12,
+          "penalized_delta": -0.0054430704333971345,
+          "use_shift": false,
+          "at_boundary": [
+            false,
+            false,
+            false,
+            false
+          ]
+        }
+      ],
+      "fit_videos": [
+        1,
+        2,
+        4,
+        5,
+        7,
+        11,
+        12,
+        15,
+        20
+      ]
+    },
+    "20": {
+      "common": [
+        {
+          "shift": [
+            0.0006643595198034077,
+            0.011296327161340778
+          ],
+          "candidate_shift": [
+            0.0006643595198034077,
+            0.011296327161340778
+          ],
+          "success": true,
+          "use_shift": true,
+          "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+          "iterations": 5,
+          "penalized_delta": -0.0005252988332610195,
+          "at_boundary": [
+            false,
+            false
+          ],
+          "note": "Output only,perhorizon common2angle shift,bounds\u00b1.25rad,L2.001,zero start,TRAIN zero fallback."
+        },
+        {
+          "shift": [
+            0.0018104306538089625,
+            0.02946805154134549
+          ],
+          "candidate_shift": [
+            0.0018104306538089625,
+            0.02946805154134549
+          ],
+          "success": true,
+          "use_shift": true,
+          "message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+          "iterations": 3,
+          "penalized_delta": -0.0012983054710892456,
+          "at_boundary": [
+            false,
+            false
+          ],
+          "note": "Output only,perhorizon common2angle shift,bounds\u00b1.25rad,L2.001,zero start,TRAIN zero fallback."
+        },
+        {
+          "shift": [
+            0.010830061767199696,
+            -0.25
+          ],
+          "candidate_shift": [
+            0.010830061767199696,
+            -0.25
+          ],
+          "success": true,
+          "use_shift": true,
+          "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+          "iterations": 6,
+          "penalized_delta": -0.005656196886905011,
+          "at_boundary": [
+            false,
+            true
+          ],
+          "note": "Output only,perhorizon common2angle shift,bounds\u00b1.25rad,L2.001,zero start,TRAIN zero fallback."
+        }
+      ],
+      "conditional": [
+        {
+          "mean": -1.9644922925406954,
+          "scale": 0.44755216130510606,
+          "beta": [
+            [
+              0.0009734721712661556,
+              0.010565190960122418
+            ],
+            [
+              0.0011991421625359097,
+              -0.004109735296021312
+            ]
+          ],
+          "success": true,
+          "message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+          "iterations": 8,
+          "penalized_delta": -0.0005979533901565344,
+          "use_shift": true,
+          "at_boundary": [
+            false,
+            false,
+            false,
+            false
+          ]
+        },
+        {
+          "mean": -1.9644922925406954,
+          "scale": 0.44755216130510606,
+          "beta": [
+            [
+              0.0011736624509760024,
+              0.03929516275482789
+            ],
+            [
+              0.0012496239216928068,
+              0.03164819022204153
+            ]
+          ],
+          "success": true,
+          "message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+          "iterations": 9,
+          "penalized_delta": -0.002190064964531839,
+          "use_shift": true,
+          "at_boundary": [
+            false,
+            false,
+            false,
+            false
+          ]
+        },
+        {
+          "mean": -1.9644922925406954,
+          "scale": 0.44755216130510606,
+          "beta": [
+            [
+              0.015541639934335457,
+              -0.21844689267811787
+            ],
+            [
+              0.010627301598619673,
+              -0.07434629566459755
+            ]
+          ],
+          "success": true,
+          "message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+          "iterations": 15,
+          "penalized_delta": -0.005923443684465789,
+          "use_shift": true,
+          "at_boundary": [
+            false,
+            false,
+            false,
+            false
+          ]
+        }
+      ],
+      "fit_videos": [
+        1,
+        2,
+        4,
+        5,
+        7,
+        11,
+        12,
+        15,
+        19
+      ]
+    }
+  },
+  "source_hashes": {
+    "adaptive_search_results/output_shift_stability.json": "cebf41d713ed040698448da519ccc75fcf38c8d3f54f135b80e3b722a5ab9754",
+    "adaptive_search_results/full_soft_gate_training_terms.json": "df2ad823e2a7d2a9f5695242494bedf2e4387558288c7aa2aa7bcab29feb79a5",
+    "adaptive_search_results/temporal_residual_training.json": "2d48a4c5c321500d10a85aed8a060a575c78ccbfc26f1f1153c3079ef19e401e",
+    "v20_rnn_mixture/models/frozen_dynamics.json": "9ef425d170aba7883346e2e6c8314d0fc49beebdebe666a46981bb4ee47e9ab1",
+    "v20_rnn_mixture/models/gru_1901.npz": "ec772740c6814338a4eb68feff57c9a9bf7a3e83eb27999c61e2f3ae60dce17a"
+  },
+  "note": "Fold9 only norm and targets,108windows;4params/horizon clip-affine logmotion,\u00b1.25 outputs/coefs,.001allcoefL2,zero init,TRAIN zero fallback. No evaluation RNG generated before freeze."
+}
