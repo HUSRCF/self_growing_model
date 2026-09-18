@@ -9,8 +9,11 @@ def resume(s, state, steps=250, root=None, seed=None, branches=1):
         raise ValueError('steps must be positive integer')
     if not isinstance(branches, (int, np.integer)) or branches < 1:
         raise ValueError('branches must be positive integer')
-    if root is not None and (not isinstance(root, (int, np.integer)) or not 0 <= root < 8):
-        raise ValueError('root must be in [0,8)')
+    if root is not None:
+        root = np.asarray(root)
+        if (root.ndim > 1 or (root.ndim == 1 and root.shape != (len(state['q']),))
+                or not np.issubdtype(root.dtype, np.integer) or (root < 0).any() or (root >= 8).any()):
+            raise ValueError('root must be an integer in [0,8) or one per state')
     if seed is None and branches != 1:
         raise ValueError('Exact RNG replay requires branches=1')
     h, q, hidden, dead = [np.repeat(state[k], branches, axis=0)
@@ -25,7 +28,7 @@ def resume(s, state, steps=250, root=None, seed=None, branches=1):
         e = sample(pe, rng.random(len(h)))
         r = sample(tr[np.arange(len(h)), e], rng.random(len(h)))
         if t == 0 and root is not None:
-            r = np.full(len(h), root, dtype=int)
+            r = np.full(len(h), root, dtype=int) if root.ndim == 0 else np.repeat(root, branches)
         y = s.base.execute_rule(h, q, r)
         dead |= (~np.isfinite(y)).any(1) | (np.abs(y-h[:, -1]) > np.pi).any(1)
         y[dead] = h[dead, -1]
