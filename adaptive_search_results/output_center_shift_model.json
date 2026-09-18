@@ -1,0 +1,86 @@
+{
+  "fits": [
+    {
+      "shift": [
+        0.00041453238062809345,
+        0.01115383170869489
+      ],
+      "candidate_shift": [
+        0.00041453238062809345,
+        0.01115383170869489
+      ],
+      "success": true,
+      "use_shift": true,
+      "message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+      "iterations": 5,
+      "penalized_delta": -0.0005077898275905452,
+      "at_boundary": [
+        false,
+        false
+      ],
+      "note": "Output only,perhorizon common2angle shift,bounds\u00b1.25rad,L2.001,zero start,TRAIN zero fallback."
+    },
+    {
+      "shift": [
+        0.0021591622943091257,
+        0.03370535504702457
+      ],
+      "candidate_shift": [
+        0.0021591622943091257,
+        0.03370535504702457
+      ],
+      "success": true,
+      "use_shift": true,
+      "message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+      "iterations": 5,
+      "penalized_delta": -0.0018283383194382884,
+      "at_boundary": [
+        false,
+        false
+      ],
+      "note": "Output only,perhorizon common2angle shift,bounds\u00b1.25rad,L2.001,zero start,TRAIN zero fallback."
+    },
+    {
+      "shift": [
+        0.00129712849725923,
+        -0.179060078475195
+      ],
+      "candidate_shift": [
+        0.00129712849725923,
+        -0.179060078475195
+      ],
+      "success": true,
+      "use_shift": true,
+      "message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+      "iterations": 7,
+      "penalized_delta": -0.0029177724247866966,
+      "at_boundary": [
+        false,
+        false
+      ],
+      "note": "Output only,perhorizon common2angle shift,bounds\u00b1.25rad,L2.001,zero start,TRAIN zero fallback."
+    }
+  ],
+  "train_horizon_delta": [
+    -0.0005079144073894256,
+    -0.0018294790323789478,
+    -0.0029498366190325773
+  ],
+  "train_prefix_delta": [
+    -0.00031701032718749504,
+    -0.003071880567904524,
+    -0.003134995820278305
+  ],
+  "train_early_tail_delta": [
+    -0.0008897225677932868,
+    0.0006553240386722069,
+    -0.0025795182165411212
+  ],
+  "source_hashes": {
+    "adaptive_search_results/full_soft_gate_training_terms.json": "df2ad823e2a7d2a9f5695242494bedf2e4387558288c7aa2aa7bcab29feb79a5",
+    "adaptive_search_results/temporal_residual_training.json": "2d48a4c5c321500d10a85aed8a060a575c78ccbfc26f1f1153c3079ef19e401e",
+    "v20_rnn_mixture/models/frozen_dynamics.json": "9ef425d170aba7883346e2e6c8314d0fc49beebdebe666a46981bb4ee47e9ab1",
+    "v20_rnn_mixture/models/gru_1901.npz": "ec772740c6814338a4eb68feff57c9a9bf7a3e83eb27999c61e2f3ae60dce17a"
+  },
+  "note": "120equalwindows80prefix+40earlytail,P32 oldstreams exact. Six outputshiftparams,not feedback;no newkernel/no width/gate retuning."
+}
