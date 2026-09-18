@@ -1,0 +1,145 @@
+{
+  "model": {
+    "threshold": 0.17522343991002637,
+    "counts": [
+      76,
+      44
+    ],
+    "conditional": [
+      [
+        {
+          "kappa": [
+            4475.9817890394215,
+            248.64040012526263
+          ],
+          "train_cost": 0.08669023494044287,
+          "zero_cost": 0.09042848868749753,
+          "use_zero": false,
+          "success": true,
+          "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+          "gradient": [
+            -1.636200702963368e-09,
+            4.363894513827402e-09
+          ],
+          "iterations": 14,
+          "at_boundary": [
+            false,
+            false
+          ]
+        },
+        {
+          "kappa": [
+            1292.5849583426987,
+            65.77811193956943
+          ],
+          "train_cost": 0.3247547991826469,
+          "zero_cost": 0.32841913275174917,
+          "use_zero": false,
+          "success": true,
+          "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+          "gradient": [
+            -2.1328134807926628e-09,
+            4.284048197385414e-09
+          ],
+          "iterations": 13,
+          "at_boundary": [
+            false,
+            false
+          ]
+        },
+        {
+          "kappa": [
+            67.29086448151835,
+            4.1767046735154665
+          ],
+          "train_cost": 0.6973201320233464,
+          "zero_cost": 0.699756966205876,
+          "use_zero": false,
+          "success": true,
+          "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+          "gradient": [
+            -5.181887860268803e-09,
+            2.935566087902599e-09
+          ],
+          "iterations": 10,
+          "at_boundary": [
+            false,
+            false
+          ]
+        }
+      ],
+      [
+        {
+          "kappa": [
+            3207.6252085269903,
+            196.69230515044893
+          ],
+          "train_cost": 0.1653876911685599,
+          "zero_cost": 0.16756893917351876,
+          "use_zero": false,
+          "success": true,
+          "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+          "gradient": [
+            -3.177683954040946e-08,
+            -6.738207800313019e-08
+          ],
+          "iterations": 13,
+          "at_boundary": [
+            false,
+            false
+          ]
+        },
+        {
+          "kappa": [
+            797.3122278046242,
+            10.952292261846198
+          ],
+          "train_cost": 0.4465016597673312,
+          "zero_cost": 0.45191712034629744,
+          "use_zero": false,
+          "success": true,
+          "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+          "gradient": [
+            -4.8848116082969325e-09,
+            -9.838906416446914e-08
+          ],
+          "iterations": 14,
+          "at_boundary": [
+            false,
+            false
+          ]
+        },
+        {
+          "kappa": [
+            8.53220003487161,
+            0.7453323275150302
+          ],
+          "train_cost": 0.8754675896216896,
+          "zero_cost": 0.889378655949063,
+          "use_zero": false,
+          "success": true,
+          "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+          "gradient": [
+            -2.130501640856602e-10,
+            -4.954173291439948e-09
+          ],
+          "iterations": 9,
+          "at_boundary": [
+            false,
+            false
+          ]
+        }
+      ]
+    ]
+  },
+  "source_hashes": {
+    "adaptive_search_results/full_soft_gate_model.json": "e834533b566e46451af2e15835654530917b883d4e479582af668ab705197b36",
+    "adaptive_search_results/full_soft_gate_training_terms.json": "df2ad823e2a7d2a9f5695242494bedf2e4387558288c7aa2aa7bcab29feb79a5",
+    "adaptive_search_results/temporal_residual_training.json": "2d48a4c5c321500d10a85aed8a060a575c78ccbfc26f1f1153c3079ef19e401e",
+    "adaptive_search_results/temporal_residual_model.json": "315e32f1086f7980b4607f8889c4b8c5f6e3b3c5a159ca6d26df02eaaf529371",
+    "v20_rnn_mixture/models/frozen_dynamics.json": "9ef425d170aba7883346e2e6c8314d0fc49beebdebe666a46981bb4ee47e9ab1",
+    "v20_rnn_mixture/models/gru_1901.npz": "ec772740c6814338a4eb68feff57c9a9bf7a3e83eb27999c61e2f3ae60dce17a"
+  },
+  "all_converged": true,
+  "note": "120sameTRAIN windows/trajectories as temporal gate pilot. Threshold fixed from original80,ONLY six2D widths refit. 1025 RAW smoothed U objective,exact point fallback,one log10start,bounds1e-4..1e6,maxiter200. Raw versus anchored differs by theta-independent offset; unchanged gradient. No late evaluation loaded."
+}
