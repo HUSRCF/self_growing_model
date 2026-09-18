@@ -4,6 +4,14 @@ from periodic_output_kernel import nll_gradient, fit_kernel, convolve
 
 
 class PeriodicKernelTests(unittest.TestCase):
+    def test_duplicate_centers_preserve_density_normalization(self):
+        rng = np.random.default_rng(821)
+        c = rng.normal(size=(7, 5, 2)); y = rng.normal(size=(7, 2)); theta = np.log([3., 10.])
+        loss, gradient = nll_gradient(theta, c, y)
+        copied_loss, copied_gradient = nll_gradient(theta, np.concatenate([c]*4, axis=1), y)
+        self.assertAlmostEqual(loss, copied_loss, places=12)
+        np.testing.assert_allclose(gradient, copied_gradient, atol=1e-12)
+
     def test_gradient_and_periodicity(self):
         rng = np.random.default_rng(92)
         c = rng.normal(size=(7, 5, 2)); y = rng.normal(size=(7, 2)); theta = np.log([3., 10.])
