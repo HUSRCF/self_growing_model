@@ -69,7 +69,7 @@ def value_gradient(stats, log_kappa=None):
     return stats['baseline']+change, gradient
 
 
-def blocked_value(centers, truth, failed, size, log_kappa, block=128):
+def blocked_value(centers, truth, failed, size, log_kappa, block=128, mixture=False):
     """One window, row-blocked full spectrum; no frequency truncation."""
     if centers.ndim != 2 or centers.shape[1] != 2 or len(centers) < 3:
         raise ValueError('Expected centers[P>=3,2]')
@@ -77,13 +77,18 @@ def blocked_value(centers, truth, failed, size, log_kappa, block=128):
         raise ValueError('Invalid truth/failed/block')
     baseline = float(energy_costs(embedding(centers[None]), embedding(truth[None]), failed[None])[0][0])
     if log_kappa is None:
-        return dict(cost=baseline, gradient=np.zeros(2), baseline=baseline)
+        result = dict(cost=baseline, gradient=np.zeros(2), baseline=baseline)
+        if mixture:
+            result.update(linear=0., quadratic=0., exact_linear=0., exact_quadratic=0.)
+        return result
     modes, coeff = distance_spectrum(size)
     values, derivatives = moment_factors(modes, log_kappa)
     a = np.exp(1j*centers[:, 0, None]*modes)
     b = np.exp(1j*centers[:, 1, None]*modes)
     target0, target1 = np.exp(-1j*truth[0]*modes), np.exp(-1j*truth[1]*modes)
     raw, point, gradient = 0., 0., np.zeros(2)
+    linear, quadratic = 0., 0.
+    point_attraction, point_pair = 0., 0.
     for start in range(0, size, block):
         sl = slice(start, min(start+block, size))
         characteristic = a[:, sl].T@b/len(centers)
@@ -95,6 +100,20 @@ def blocked_value(centers, truth, failed, size, log_kappa, block=128):
         integrand = coeff[sl]*(attraction-kernel*pair)
         gradient[0] += np.sum(integrand*derivatives[0][sl, None]*values[1][None])
         gradient[1] += np.sum(integrand*values[0][sl, None]*derivatives[1][None])
+        if mixture:
+            change = kernel-1
+            linear += np.sum(coeff[sl]*change*(attraction-pair))
+            quadratic -= .5*np.sum(coeff[sl]*change**2*pair)
+            point_attraction += np.sum(coeff[sl]*attraction)
+            point_pair += np.sum(coeff[sl]*pair)
     penalty = 2*failed.mean()
-    return dict(cost=float(baseline+raw-point), raw_cost=float(raw+penalty),
-                baseline_error=float(point+penalty-baseline), gradient=gradient, baseline=baseline)
+    result = dict(cost=float(baseline+raw-point), raw_cost=float(raw+penalty),
+                  baseline_error=float(point+penalty-baseline), gradient=gradient, baseline=baseline)
+    if mixture:
+        result.update(linear=float(linear), quadratic=float(quadratic))
+        exact_attraction = float(np.linalg.norm(embedding(centers)-embedding(truth), axis=-1).mean())
+        exact_pair = 2*(exact_attraction+penalty-baseline)
+        attraction_error, pair_error = point_attraction-exact_attraction, point_pair-exact_pair
+        result.update(exact_linear=float(linear+attraction_error-pair_error),
+                      exact_quadratic=float(quadratic+.5*pair_error))
+    return result
