@@ -23,8 +23,9 @@ def policies_for(engine,w,models):
 
 
 def worker(args):
-    region,w,seed,prior,policies=args
-    a,b,terms,guards=collect_moments(AdaptiveBeam(),w,seed,16)
+    region,w,seed,prior,policies,*options=args
+    particles=options[0] if options else 16
+    a,b,terms,guards=collect_moments(AdaptiveBeam(),w,seed,particles)
     baseline=mixture_score(a,b,prior); results={}
     for name,p in policies.items():
         results[name]=dict(delta=(mixture_score(a,b,p)-baseline).tolist(),
@@ -44,12 +45,17 @@ def summarize(rows,video):
     return out
 
 
-def main():
+def main(confirmation=False):
     root=Path('adaptive_search_results')
     paths=[root/'temporal_root_critic_model.json',root/'temporal_root_critic_evaluation.json',
            Path('v20_rnn_mixture/models/frozen_dynamics.json'),Path('v20_rnn_mixture/models/gru_1901.npz')]
     hashes={str(p):hashlib.sha256(p.read_bytes()).hexdigest() for p in paths}
     frozen=json.loads(paths[0].read_text()); old=json.loads(paths[1].read_text())
+    reference=None
+    if confirmation:
+        path=root/'root_critic_regions.json'
+        hashes[str(path)]=hashlib.sha256(path.read_bytes()).hexdigest()
+        reference=json.loads(path.read_text())
     for p,h in frozen['source_hashes'].items():
         assert hashlib.sha256(Path(p).read_bytes()).hexdigest()==h
     models=frozen['models']; engine=AdaptiveBeam(); late=windows('evaluation')
@@ -72,9 +78,20 @@ def main():
         prior,scores,policies=policies_for(engine,w,models)
         metadata[region]=dict(video=w['video'].tolist(),start=w['start'].tolist(),prior=prior.tolist(),
                               scores={k:v.tolist() for k,v in scores.items()},policies={k:v.tolist() for k,v in policies.items()})
-        jobs.extend((region,w,seed,prior,policies) for seed in range(711017,711021))
+        if reference is not None:
+            assert metadata[region]==reference['metadata'][region]
+            for row in reference['runs']:
+                if row['region']!=region:continue
+                a,b=np.asarray(row['attraction']),np.asarray(row['pair_distance'])
+                base=mixture_score(a,b,prior)
+                np.testing.assert_array_equal(base,row['baseline'])
+                for name,p in policies.items():
+                    np.testing.assert_array_equal(mixture_score(a,b,p)-base,row['results'][name]['delta'])
+        seeds=range(721017,721025) if confirmation else range(711017,711021)
+        jobs.extend((region,w,seed,prior,policies,32 if confirmation else 16) for seed in seeds)
+    print('All frozen policies checked; fixed budget',len(jobs),'region/seed jobs',flush=True)
     runs=[]
-    with ProcessPoolExecutor(max_workers=4) as pool:
+    with ProcessPoolExecutor(max_workers=8 if confirmation else 4) as pool:
         for row in pool.map(worker,jobs):
             runs.append(row)
             print(row['region'],row['seed'],{k:float(np.mean(v['delta'])) for k,v in row['results'].items()},'guards',sum(row['guards']),flush=True)
@@ -82,7 +99,10 @@ def main():
     assert all(hashlib.sha256(Path(p).read_bytes()).hexdigest()==h for p,h in hashes.items())
     report=dict(summary=summary,runs=runs,metadata=metadata,source_hashes=hashes,
                 note='Frozen4 root critics, no fits/tuning. Historical adapter hold18/16/13 prefix/tail24each, fixed711017-20/P16 perroot/300. All policies share root-integrated moments; crosscomponent same particle indices excluded. No DEV/TEST or promotion. Backbone TRAIN and historically reused hold NOT project blind. Tail first history can cross midpoint; targets secondhalf, withinregion overlap. SE conditional on fixed windows, NOT independent videos. Old late policies and all cached scores exact.')
-    (root/'root_critic_regions.json').write_text(json.dumps(report,indent=2))
+    if confirmation:
+        report['note']=report['note'].replace('fixed711017-20/P16','fixed721017-24/P32')+' Old four-seed report preserved; metadata/policies/all cached old scores exact. Increased sampling budget, NOT new video evidence. No sequential seed extension.'
+    output='root_critic_regions_confirmation.json' if confirmation else 'root_critic_regions.json'
+    (root/output).write_text(json.dumps(report,indent=2))
     print(json.dumps(summary,indent=2),flush=True)
 
 
