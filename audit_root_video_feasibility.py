@@ -19,10 +19,10 @@ def positive_interval(linear,quadratic,limit=.25):
     return [lo,hi] if hi>0 and lo<=hi else None
 
 
-def fit_robust(linear,quadratic):
+def fit_robust(linear,quadratic,limit=.25):
     """[videos,3 horizons]; equal video objective, every video short constraint."""
     l,q=np.asarray(linear),np.asarray(quadratic)
-    interval=positive_interval(l[:,0],q[:,0]);candidates=[0.]
+    interval=positive_interval(l[:,0],q[:,0],limit);candidates=[0.]
     ml,mq=l.mean(0),q.mean(0)
     if interval is not None:
         candidates+=interval
