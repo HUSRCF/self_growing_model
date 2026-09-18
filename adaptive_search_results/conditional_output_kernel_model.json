@@ -1,0 +1,218 @@
+{
+  "model": {
+    "held_video": -1,
+    "threshold": 0.17522343991002637,
+    "counts": [
+      40,
+      40
+    ],
+    "constant": [
+      {
+        "kappa": [
+          1319.601647143674,
+          146.4374430058825
+        ],
+        "success": true,
+        "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+        "iterations": 13,
+        "gradient": [
+          -1.1534228613167411e-09,
+          -4.878787809702692e-09
+        ],
+        "train_cost": 0.1429930455979172,
+        "zero_cost": 0.14681063077554318,
+        "at_boundary": [
+          false,
+          false
+        ],
+        "use_zero": false
+      },
+      {
+        "kappa": [
+          258.1304967810893,
+          17.617162114841236
+        ],
+        "success": true,
+        "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+        "iterations": 12,
+        "gradient": [
+          5.736935993844558e-10,
+          7.895995854450774e-09
+        ],
+        "train_cost": 0.4081488936951948,
+        "zero_cost": 0.41448694168194067,
+        "at_boundary": [
+          false,
+          false
+        ],
+        "use_zero": false
+      },
+      {
+        "kappa": [
+          9.39562513886446,
+          2.0568229754109733
+        ],
+        "success": true,
+        "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+        "iterations": 8,
+        "gradient": [
+          2.8748157650802016e-10,
+          -1.2374052270032812e-09
+        ],
+        "train_cost": 0.8350488752341568,
+        "zero_cost": 0.8405469924014222,
+        "at_boundary": [
+          false,
+          false
+        ],
+        "use_zero": false
+      }
+    ],
+    "conditional": [
+      [
+        {
+          "kappa": [
+            846.6550524213104,
+            146.35669175762112
+          ],
+          "train_cost": 0.11160089169312046,
+          "zero_cost": 0.11655301267087873,
+          "use_zero": false,
+          "success": true,
+          "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+          "iterations": 12,
+          "gradient": [
+            -2.8379277929921955e-08,
+            -5.348696779166203e-08
+          ],
+          "at_boundary": [
+            false,
+            false
+          ]
+        },
+        {
+          "kappa": [
+            238.08547296738595,
+            24.562978944205433
+          ],
+          "train_cost": 0.3718799144344637,
+          "zero_cost": 0.37905069138405384,
+          "use_zero": false,
+          "success": true,
+          "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+          "iterations": 11,
+          "gradient": [
+            -1.855316149136079e-09,
+            -2.526806891449255e-09
+          ],
+          "at_boundary": [
+            false,
+            false
+          ]
+        },
+        {
+          "kappa": [
+            12.716722830898005,
+            13.04720656691968
+          ],
+          "train_cost": 0.7627840319472573,
+          "zero_cost": 0.7641557857259303,
+          "use_zero": false,
+          "success": true,
+          "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+          "iterations": 6,
+          "gradient": [
+            4.877361922769641e-08,
+            -2.7318207708655097e-08
+          ],
+          "at_boundary": [
+            false,
+            false
+          ]
+        }
+      ],
+      [
+        {
+          "kappa": [
+            2496.0224409353173,
+            149.17076830064335
+          ],
+          "train_cost": 0.1743348751780477,
+          "zero_cost": 0.17706824888020772,
+          "use_zero": false,
+          "success": true,
+          "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+          "iterations": 13,
+          "gradient": [
+            -4.4419887424658245e-08,
+            -7.59349300719464e-08
+          ],
+          "at_boundary": [
+            false,
+            false
+          ]
+        },
+        {
+          "kappa": [
+            477.3794143979939,
+            10.772098389927342
+          ],
+          "train_cost": 0.44382143176381444,
+          "zero_cost": 0.44992319197982766,
+          "use_zero": false,
+          "success": true,
+          "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+          "iterations": 13,
+          "gradient": [
+            -2.5515886815438233e-08,
+            -3.877045760223305e-08
+          ],
+          "at_boundary": [
+            false,
+            false
+          ]
+        },
+        {
+          "kappa": [
+            4.596207401540511,
+            0.3944296068874429
+          ],
+          "train_cost": 0.8969400705155832,
+          "zero_cost": 0.9169381990769132,
+          "use_zero": false,
+          "success": true,
+          "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+          "iterations": 10,
+          "gradient": [
+            -6.097055231066187e-09,
+            6.029115922658035e-09
+          ],
+          "at_boundary": [
+            false,
+            false
+          ]
+        }
+      ]
+    ],
+    "fit_videos": [
+      1,
+      2,
+      4,
+      5,
+      7,
+      11,
+      12,
+      15,
+      19,
+      20
+    ]
+  },
+  "source_hashes": {
+    "adaptive_search_results/energy_output_kernel_fit.json": "674d8bd77b25d7bf8823996ed824bcc3afaa475104b32a9ad0a1401ff0ed4815",
+    "adaptive_search_results/crossfit_output_kernel_models.json": "41a8d471d64892428f276c960fef3c647218fab4a8f9340390b86d169fb3f940",
+    "v20_rnn_mixture/models/frozen_dynamics.json": "9ef425d170aba7883346e2e6c8314d0fc49beebdebe666a46981bb4ee47e9ab1",
+    "v20_rnn_mixture/models/gru_1901.npz": "ec772740c6814338a4eb68feff57c9a9bf7a3e83eb27999c61e2f3ae60dce17a"
+  },
+  "all_converged": true,
+  "note": "Same fixed CV specification fullTRAIN10/80/P32,trainmedian threshold;constant original allTRAIN Ufit. held_video=-1 is evaluator interface sentinel,not a fold. Frozen before loading holdout regions."
+}
