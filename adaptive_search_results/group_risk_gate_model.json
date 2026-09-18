@@ -1,0 +1,250 @@
+{
+  "models": {
+    "mean": [
+      {
+        "mean": -1.9621690887822762,
+        "scale": 0.4483904668962014,
+        "scalar": 0.9112551602768408,
+        "scalar_loss": -0.003196289051176095,
+        "beta": [
+          0.9177412892969802,
+          0.061483528529823715
+        ],
+        "success": true,
+        "message": "Optimization terminated successfully",
+        "iterations": 25,
+        "use_affine": true,
+        "candidate_loss": -0.0032157322388629036,
+        "constraint_violation": 8.822369917949047e-15,
+        "mode": "mean",
+        "note": "SLSQP epigraph,one[.5,0]start,bounds[-2,3]/[-2,2],.001slopeL2;exact scalar fallback. Local motion optimum only."
+      },
+      {
+        "mean": -1.9621690887822762,
+        "scale": 0.4483904668962014,
+        "scalar": 0.803468953554472,
+        "scalar_loss": -0.004580200481074308,
+        "beta": [
+          0.8016085991559389,
+          0.009648864810195645
+        ],
+        "success": true,
+        "message": "Optimization terminated successfully",
+        "iterations": 11,
+        "use_affine": true,
+        "candidate_loss": -0.004580821068737362,
+        "constraint_violation": 8.439429710627167e-16,
+        "mode": "mean",
+        "note": "SLSQP epigraph,one[.5,0]start,bounds[-2,3]/[-2,2],.001slopeL2;exact scalar fallback. Local motion optimum only."
+      },
+      {
+        "mean": -1.9621690887822762,
+        "scale": 0.4483904668962014,
+        "scalar": 0.8791103123451539,
+        "scalar_loss": -0.006772106494377676,
+        "beta": [
+          0.892089506952157,
+          -0.05935242491236677
+        ],
+        "success": true,
+        "message": "Optimization terminated successfully",
+        "iterations": 26,
+        "use_affine": true,
+        "candidate_loss": -0.006802065370629643,
+        "constraint_violation": 2.9216212782401385e-14,
+        "mode": "mean",
+        "note": "SLSQP epigraph,one[.5,0]start,bounds[-2,3]/[-2,2],.001slopeL2;exact scalar fallback. Local motion optimum only."
+      }
+    ],
+    "worst": [
+      {
+        "mean": -1.9621690887822762,
+        "scale": 0.4483904668962014,
+        "scalar": 0.7059871532491323,
+        "scalar_loss": -0.002952052274589315,
+        "beta": [
+          0.6924019900245192,
+          -0.026704615563691848
+        ],
+        "success": true,
+        "message": "Optimization terminated successfully",
+        "iterations": 13,
+        "use_affine": true,
+        "candidate_loss": -0.0029548362815687715,
+        "constraint_violation": 5.6408870630075825e-15,
+        "mode": "worst",
+        "note": "SLSQP epigraph,one[.5,0]start,bounds[-2,3]/[-2,2],.001slopeL2;exact scalar fallback. Local motion optimum only."
+      },
+      {
+        "mean": -1.9621690887822762,
+        "scale": 0.4483904668962014,
+        "scalar": 0.5751844777379581,
+        "scalar_loss": -0.002606614921328624,
+        "beta": [
+          0.49463207293307626,
+          -0.19683346601233345
+        ],
+        "success": true,
+        "message": "Optimization terminated successfully",
+        "iterations": 10,
+        "use_affine": true,
+        "candidate_loss": -0.0027990723717634955,
+        "constraint_violation": 2.998087889061196e-13,
+        "mode": "worst",
+        "note": "SLSQP epigraph,one[.5,0]start,bounds[-2,3]/[-2,2],.001slopeL2;exact scalar fallback. Local motion optimum only."
+      },
+      {
+        "mean": -1.9621690887822762,
+        "scale": 0.4483904668962014,
+        "scalar": 0.5364108845646688,
+        "scalar_loss": -0.002353078884680321,
+        "beta": [
+          0.6161082642077954,
+          -0.3583060154992148
+        ],
+        "success": true,
+        "message": "Optimization terminated successfully",
+        "iterations": 49,
+        "use_affine": true,
+        "candidate_loss": -0.005122899522316877,
+        "constraint_violation": 0.0,
+        "mode": "worst",
+        "note": "SLSQP epigraph,one[.5,0]start,bounds[-2,3]/[-2,2],.001slopeL2;exact scalar fallback. Local motion optimum only."
+      }
+    ]
+  },
+  "reference": [
+    {
+      "mean": -1.9621690887822762,
+      "scale": 0.4483904668962014,
+      "scalar": 0.9112551602768408,
+      "scalar_loss": -0.003196289051176095,
+      "beta": [
+        0.9178953691977391,
+        0.0613683786541458
+      ],
+      "candidate_loss": -0.0032157320643469004,
+      "use_affine": true,
+      "success": true,
+      "message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+      "iterations": 10,
+      "note": "alpha=clip(b0+b1*clip(z,-3,3),0,1),penalty .001*b1\u00b2;fit-only scalar fallback"
+    },
+    {
+      "mean": -1.9621690887822762,
+      "scale": 0.4483904668962014,
+      "scalar": 0.803468953554472,
+      "scalar_loss": -0.004580200481074308,
+      "beta": [
+        0.8016086201370919,
+        0.00964882769438383
+      ],
+      "candidate_loss": -0.004580821068737372,
+      "use_affine": true,
+      "success": true,
+      "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+      "iterations": 5,
+      "note": "alpha=clip(b0+b1*clip(z,-3,3),0,1),penalty .001*b1\u00b2;fit-only scalar fallback"
+    },
+    {
+      "mean": -1.9621690887822762,
+      "scale": 0.4483904668962014,
+      "scalar": 0.8791103123451539,
+      "scalar_loss": -0.006772106494377676,
+      "beta": [
+        0.8959211492835312,
+        -0.0572449633711191
+      ],
+      "candidate_loss": -0.006801866469177985,
+      "use_affine": true,
+      "success": true,
+      "message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+      "iterations": 8,
+      "note": "alpha=clip(b0+b1*clip(z,-3,3),0,1),penalty .001*b1\u00b2;fit-only scalar fallback"
+    }
+  ],
+  "train": {
+    "mean_scalar": {
+      "mean_delta": -0.004849532008876027,
+      "group_horizon_delta": [
+        [
+          -0.0034431868652617706,
+          -0.005772291547294535,
+          -0.00946183791380678
+        ],
+        [
+          -0.002702493423004747,
+          -0.0021960183486338545,
+          -0.0013926436555194738
+        ]
+      ]
+    },
+    "mean_lbfgs_motion": {
+      "mean_delta": -0.0048685185886227075,
+      "group_horizon_delta": [
+        [
+          -0.0034617729581155844,
+          -0.005772665724292008,
+          -0.009323715633500436
+        ],
+        [
+          -0.002734948510505452,
+          -0.0021974110572557165,
+          -0.0017679990980271495
+        ]
+      ]
+    },
+    "mean_slsqp_motion": {
+      "mean_delta": -0.004868671571148497,
+      "group_horizon_delta": [
+        [
+          -0.003461599531760738,
+          -0.005772665699676239,
+          -0.009304073859560103
+        ],
+        [
+          -0.0027353383259086715,
+          -0.0021974111086359833,
+          -0.0018086165237976598
+        ]
+      ]
+    },
+    "worst_slsqp_motion": {
+      "mean_delta": -0.003912051756910518,
+      "group_horizon_delta": [
+        [
+          -0.0030263464128085357,
+          -0.0038042798071154433,
+          -0.005251282723059901
+        ],
+        [
+          -0.002955549418061176,
+          -0.0028378157851059334,
+          -0.005251282723059807
+        ]
+      ]
+    },
+    "worst_scalar": {
+      "mean_delta": -0.004329184959020367,
+      "group_horizon_delta": [
+        [
+          -0.003075131120252775,
+          -0.005012379929455456,
+          -0.007437948225584294
+        ],
+        [
+          -0.0029520522745893145,
+          -0.002606614921328621,
+          -0.0023530788846803166
+        ]
+      ]
+    }
+  },
+  "source_hashes": {
+    "adaptive_search_results/temporal_kernel_training_audit.json": "8c079642c278070d15ef4b4e8a56a5e242f35ff2ce91dfa20f52b64b8a0ed125",
+    "adaptive_search_results/matched_kernel_gate_model.json": "e1f37462c6cc07ec712bf39e2db5629b426b86111b624a48fc265620026145d0",
+    "adaptive_search_results/full_soft_gate_training_terms.json": "df2ad823e2a7d2a9f5695242494bedf2e4387558288c7aa2aa7bcab29feb79a5",
+    "adaptive_search_results/temporal_residual_training.json": "2d48a4c5c321500d10a85aed8a060a575c78ccbfc26f1f1153c3079ef19e401e"
+  },
+  "note": "Same120TRAIN/newkernel/causal logmotion;two region risks measured RELATIVE exactpoint. Mean and worst both SLSQP samebounds/start/L2;original LBFGSmean also retained. Exact global scalar minimax inclnegativecurvature/crossings;motion local,scalarfallback. Frozen before evaluation read."
+}
