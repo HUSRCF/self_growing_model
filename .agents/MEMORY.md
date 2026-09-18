@@ -1,8 +1,10 @@
 # Self-growing algorithm: durable memory
 
-Last updated: 2026-09-17 UTC.
+Last updated: 2026-09-18 UTC.
 
 User preference: always respond in Chinese. The active scope and working contract are in `TASK.md`.
+
+Latest matched-target causal critics: same80fitTRAINroots/LOVO/128random/ridge .01*N,train431017/18 targets U/MSE/attraction onlydifference;allhard/soft frozen before reused431019/20 and new441017–20. FreshsingleparticleU baseline .450581;hard U .440536Δ−.010045(SE.001068,4/4RNG,8/10videos),MSEΔ−.002613,attraction−.004723 (both4/4RNG). SoftU+.0000548/MSE+.0000113/attraction−.0000437,no stronggain. Uglobalcenteredpredictioncorr .001407 despitechosenbenefit. HeldU KLmean.01457,max.562;notperstatebound. 148tests,allguards0,source/F/GRUhashunchanged,nohold/DEV/TEST/promotion. CRITICAL:singlechangedparticle+3baseline is non-iid ensemble;localU gain not proper-score gain of fullnewdistribution. Next fullrootmixture J(w)=wA−.5wBw with independently indexed conditionaltrajectory pairs (exclude i=j crosscomponent too),prior/all3hard+soft/fixed25%mixture,freshRNG;notimplemented. See notes/matched_value_targets.md.
 
 Latest true U single-particle action labels:old80fitTRAINwindows/P4/300/new431017–20,onlyoneparticle rootr changed,other3 original paths;average4separateinterventions. ΔU=(Δtruthdist−Δmeanotherdist+2Δfailure)/P verifieddirect1e-14 eachcandidate/horizon/particle;1280matching-root fullpaths bitwise exact;146tests,allguards0,F/GRUSHAunchanged,nohold/DEV/TEST/newcritic. First2labeloracle independentlast2 Ubaseline .443644;Uoracle .427508 Δ−.016136(twoevalbetter,8/10videosbetter),MSEoracle .429106 Δ−.014538,attractionoracle .428717 Δ−.014927;alloracles usefuturetruth,undeployable,notmodelgain. Repeatcorr U .44707/MSE .55422/attraction .64867/spread .74936;U-vsMSEcorr .46832,fitchoicesdifferent44/80. Singleparticle!=allparticle intervention verifiedcounterexample. Next matched video-crossfit critic changingonlytarget U/MSE/attraction on same labels/features,retainprior and clarify reused evaluation diagnostic;notimplemented. See notes/energy_action_value_audit.md.
 
