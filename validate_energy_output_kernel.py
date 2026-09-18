@@ -10,11 +10,19 @@ from audit_crossfit_value import continuation
 from train_closed_loop_policy import prefix_windows
 from v20_rnn_mixture.engine.common import SPLITS
 from spectral_kernel_energy import blocked_value
+from v20_rnn_mixture.engine.data import tail_windows
 
 
-def evaluate(seed, kernels, particles=32):
+def evaluate(seed, kernels, particles=32, region='prefix'):
     start = time.process_time()
-    hold = prefix_windows(SPLITS['train'][-3:], steps=300, per_video=8)
+    if region == 'prefix':
+        hold = prefix_windows(SPLITS['train'][-3:], steps=300, per_video=8)
+    elif region == 'tail':
+        all_tail = tail_windows('train', 300, 8)
+        mask = np.isin(all_tail['video'], SPLITS['train'][-3:])
+        hold = {key: value[mask] for key, value in all_tail.items()}
+    else:
+        raise ValueError('Unknown temporal region')
     p, f = continuation(AdaptiveBeam(), hold['history'], seed, particles=particles)
     results = {}
     for size in [2049, 4097]:
