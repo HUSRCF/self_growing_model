@@ -4,6 +4,8 @@
 
 ## 已授权的研究扩展
 
+完整iid根分布审计：冻结三个匹配目标critic，保留prior、各hard/soft及固定25%hard+75%prior（共10策略），新451017–451020/P4每分量/300、旧80拟合窗口。枚举8根条件分量，J(w)=wA−.5wBw；跨分量B也排除共用随机流i=j，只用独立粒子索引。先toy穷举独立根分配验证、one-hot还原原U、线性+二次变化恒等式。禁止把固定一个新粒子和三个旧粒子当iid分布，不扫混合比例/hold/DEV/TEST/逐步接管。
+
 匹配目标critic对照：仅TRAIN10视频80根窗口，旧431017/18标签分别拟合U/MSE/attraction，保持原候选因果特征、128随机特征、ridge .01*N、LOVO和每折meanKL .01软调整。旧431019/20仅复用诊断，所有三模型及硬/软选择先冻结，再新441017–441020/P4/300做单粒子U动作标签确认；不按旧诊断筛选模型或调温度。只一粒子根干预，不推广到全粒子/每步反馈，不hold/DEV/TEST。
 
 U-energy单粒子根动作标签审计：旧80拟合窗口/P4/300、新431017–431020，前2标签选择诊断oracle、后2独立评价。每r仅替换一个粒子的完整条件续跑，其余3保留原样本；平均四次独立干预，不同时改4粒子。每时距验证ΔU=(Δtruthdistance−Δmeanpairdistance+2Δfailed)/P与原energy_costs一致，匹配原根r的轨迹须逐位复现。报告U/MSE/attraction/spread排序重复性与不可部署oracle；不训练critic、不hold/DEV/TEST。
