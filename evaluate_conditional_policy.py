@@ -61,7 +61,7 @@ def evaluate(args):
                 choice_counts={k:np.bincount(v,minlength=8).tolist() for k,v in choices.items()},coefficients=coefficients)
 
 
-def summarize(rows,video):
+def summarize(rows,video,comparison=('context','action')):
     result={};deltas={}
     for name in rows[0]['mixed']:
         d=np.asarray([np.asarray(r['mixed'][name])-r['baseline'] for r in rows]);assert (d[:,:,0]==0).all()
@@ -75,7 +75,7 @@ def summarize(rows,video):
                             seed_linear_contribution=(.25*l).mean((1,2)).tolist(),
                             horizon_linear_contribution=(.25*l).mean((0,1)).tolist(),
                             horizon_quadratic_contribution=(.25**2*q).mean((0,1)).tolist())
-    diff=deltas['context']-deltas['action']
+    diff=deltas[comparison[0]]-deltas[comparison[1]]
     return dict(baseline=float(np.mean([r['baseline'] for r in rows])),policies=result,
                 context_minus_action=float(diff.mean()),context_minus_action_seed=diff.mean((1,2)).tolist())
 
