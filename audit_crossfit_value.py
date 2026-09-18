@@ -18,8 +18,10 @@ def trajectory_cost(prediction, truth, failed):
     return np.mean(costs, axis=0)
 
 
-def continuation(s, histories, seed, particles=4, root=None):
-    """Original two-uniform sampler; optional forced first destination only."""
+def continuation(s, histories, seed, particles=4, root=None, forced_step=0):
+    """Original sampler; optional one-time forced destination at zero-based step."""
+    if not isinstance(forced_step,(int,np.integer)) or not 0<=forced_step<300:
+        raise ValueError('forced_step must be an integer in [0,300)')
     h = np.repeat(histories, particles, axis=0)
     q, mem = s.machine.initialize(h)
     rng = np.random.default_rng(seed)
@@ -29,7 +31,7 @@ def continuation(s, histories, seed, particles=4, root=None):
         pe, tr, read = s.machine.read(h, q, mem)
         e = sample(pe, rng.random(len(h)))
         r = sample(tr[np.arange(len(h)), e], rng.random(len(h)))
-        if t == 0 and root is not None:
+        if t == forced_step and root is not None:
             r = np.full(len(h), root, dtype=int)
         y = s.base.execute_rule(h, q, r)
         dead |= (~np.isfinite(y)).any(1) | (np.abs(y-h[:, -1]) > np.pi).any(1)
